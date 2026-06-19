@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="Relic" format=3 uid="uid://hc4o4o06fqjl"]
+
+[ext_resource type="Script" uid="uid://by7ii3s63tkag" path="res://resources/effects/stat_modifier_effect.gd" id="1_stat_modifier"]
+[ext_resource type="Script" uid="uid://b7jgpjwtngjqc" path="res://resources/relic.gd" id="2_relic"]
+
+[sub_resource type="Resource" id="Resource_damage"]
+script = ExtResource("1_stat_modifier")
+stat_name = "damage"
+value = 8.0
+
+[sub_resource type="Resource" id="Resource_size"]
+script = ExtResource("1_stat_modifier")
+stat_name = "bullet_size"
+value = 0.5
+
+[resource]
+script = ExtResource("2_relic")
+name = "Cricket's Head"
+description = "Increases damage and bullet size."
+effects = Array[Resource]([SubResource("Resource_damage"), SubResource("Resource_size")])

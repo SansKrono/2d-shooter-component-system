@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="Relic" format=3 uid="uid://b80mi0pmu3yaf"]
+
+[ext_resource type="Script" uid="uid://by7ii3s63tkag" path="res://resources/effects/stat_modifier_effect.gd" id="1_stat_modifier_effect"]
+[ext_resource type="Script" uid="uid://dqxkp6a8wvb4m" path="res://resources/effects/bullet_split_effect.gd" id="2_bullet_split_effect"]
+[ext_resource type="Script" uid="uid://b7jgpjwtngjqc" path="res://resources/relic.gd" id="3_relic"]
+
+[sub_resource type="Resource" id="Resource_crit"]
+script = ExtResource("1_stat_modifier_effect")
+stat_name = "crit_chance"
+value = 0.1
+
+[sub_resource type="Resource" id="Resource_split"]
+script = ExtResource("2_bullet_split_effect")
+
+[resource]
+script = ExtResource("3_relic")
+name = "Ghost Pepper"
+description = "Gives a chance to split bullets on hit and increases crit chance."
+effects = Array[Resource]([SubResource("Resource_crit"), SubResource("Resource_split")])

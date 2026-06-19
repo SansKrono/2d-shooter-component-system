@@ -1,0 +1,20 @@
+[gd_scene format=3 uid="uid://8p55ux065wv"]
+
+[ext_resource type="Script" uid="uid://c88yrd32iix70" path="res://entities/environmental/e_relic.gd" id="1_relic"]
+[ext_resource type="Texture2D" uid="uid://3wrwva3m3skb" path="res://icon.svg" id="2_icon"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_relic"]
+size = Vector2(64, 64)
+
+[node name="ERelic" type="Node2D" unique_id=1320595175]
+script = ExtResource("1_relic")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1503930285]
+self_modulate = Color(1, 0.84, 0, 1)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("2_icon")
+
+[node name="Area2D" type="Area2D" parent="." unique_id=449104272]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=1617702386]
+shape = SubResource("RectangleShape2D_relic")
