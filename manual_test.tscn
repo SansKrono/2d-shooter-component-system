@@ -4,30 +4,22 @@
 [ext_resource type="PackedScene" uid="uid://ci0rexrdr26fu" path="res://entities/player/e_player.tscn" id="1_mhltj"]
 [ext_resource type="PackedScene" path="res://entities/enemies/e_enemy.tscn" id="2_g8duj"]
 [ext_resource type="PackedScene" path="res://entities/environmental/e_button.tscn" id="3_5enfc"]
+[ext_resource type="Script" uid="uid://b6k13gc2m4e5s" path="res://addons/gecs/ecs/component.gd" id="3_texou"]
 
 [node name="ManualTest" type="Node2D" unique_id=382348489]
 script = ExtResource("1_g8duj")
 
 [node name="EPlayer" parent="." unique_id=1715616292 instance=ExtResource("1_mhltj")]
 position = Vector2(214, 368)
+id = ""
+enabled = true
+component_resources = Array[ExtResource("3_texou")]([])
 
 [node name="EEnemy" parent="." unique_id=674448638 instance=ExtResource("2_g8duj")]
 position = Vector2(906, 270)
-id = null
-enabled = null
-component_resources = null
-serialize_config = null
 
 [node name="EEnemy2" parent="." unique_id=150603234 instance=ExtResource("2_g8duj")]
 position = Vector2(902, 479)
-id = null
-enabled = null
-component_resources = null
-serialize_config = null
 
 [node name="EButton" parent="." unique_id=626543724 instance=ExtResource("3_5enfc")]
 position = Vector2(454, 219)
-id = null
-enabled = null
-component_resources = null
-serialize_config = null

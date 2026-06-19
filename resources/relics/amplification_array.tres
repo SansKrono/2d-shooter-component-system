@@ -15,6 +15,6 @@ value = 0.5
 
 [resource]
 script = ExtResource("2_relic")
-name = "Cricket's Head"
+name = "Amplification Array"
 description = "Increases damage and bullet size."
 effects = Array[Resource]([SubResource("Resource_damage"), SubResource("Resource_size")])

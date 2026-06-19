@@ -1,18 +1,19 @@
-[gd_resource type="Resource" script_class="Relic" format=3 uid="uid://cywhwmv6o01mx"]
+[gd_resource type="Resource" script_class="Relic" format=3 uid="uid://lqxun6i4iyrm"]
 
-[ext_resource type="Script" uid="uid://by7di1fqetiw3" path="res://resources/effects/spiral_path_modifier.gd" id="1_spiral_mod"]
+[ext_resource type="Script" uid="uid://dxs8a8p6fr1su" path="res://resources/effects/orbit_path_modifier.gd" id="1_orbit_mod"]
 [ext_resource type="Script" uid="uid://d2pana653movq" path="res://resources/effects/apply_bullet_path_effect.gd" id="2_apply_path_effect"]
 [ext_resource type="Script" uid="uid://b7jgpjwtngjqc" path="res://resources/relic.gd" id="3_relic"]
 
-[sub_resource type="Resource" id="Resource_spiral"]
-script = ExtResource("1_spiral_mod")
+[sub_resource type="Resource" id="Resource_orbit"]
+script = ExtResource("1_orbit_mod")
+orbit_radius = 80.0
 
 [sub_resource type="Resource" id="Resource_apply_path"]
 script = ExtResource("2_apply_path_effect")
-path_modifier = SubResource("Resource_spiral")
+path_modifier = SubResource("Resource_orbit")
 
 [resource]
 script = ExtResource("3_relic")
-name = "Spiral Worm"
-description = "Projectiles spiral outward."
+name = "Orbital Attractor"
+description = "Projectiles orbit around you."
 effects = Array[Resource]([SubResource("Resource_apply_path")])

@@ -15,6 +15,6 @@ value = 1.0
 
 [resource]
 script = ExtResource("2_relic")
-name = "Sacred Heart"
+name = "Aetheric Kernel"
 description = "Increases damage and luck."
 effects = Array[Resource]([SubResource("Resource_dmg"), SubResource("Resource_luck")])

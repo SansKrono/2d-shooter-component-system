@@ -70,7 +70,7 @@ static func apply_hit(bullet: Entity, target: Entity) -> void:
 				var split_chance = clamp(base_chance * luck_val, 0.0, 1.0)
 				
 				if randf() < split_chance:
-					print("[Combat] Ghost Pepper split passive triggered! (Chance: %.2f)" % split_chance)
+					print("[Combat] Plasma Splitter split passive triggered! (Chance: %.2f)" % split_chance)
 					_spawn_split_bullets(bullet, target, split_effect)
 
 	# 10. Destroy Bullet via ECS World

@@ -1,19 +1,18 @@
-[gd_resource type="Resource" script_class="Relic" format=3 uid="uid://lqxun6i4iyrm"]
+[gd_resource type="Resource" script_class="Relic" format=3 uid="uid://o06tqhve0bes"]
 
-[ext_resource type="Script" uid="uid://dxs8a8p6fr1su" path="res://resources/effects/orbit_path_modifier.gd" id="1_orbit_mod"]
+[ext_resource type="Script" uid="uid://bf5sqko2vanoo" path="res://resources/effects/zigzag_path_modifier.gd" id="1_zigzag_mod"]
 [ext_resource type="Script" uid="uid://d2pana653movq" path="res://resources/effects/apply_bullet_path_effect.gd" id="2_apply_path_effect"]
 [ext_resource type="Script" uid="uid://b7jgpjwtngjqc" path="res://resources/relic.gd" id="3_relic"]
 
-[sub_resource type="Resource" id="Resource_orbit"]
-script = ExtResource("1_orbit_mod")
-orbit_radius = 80.0
+[sub_resource type="Resource" id="Resource_zigzag"]
+script = ExtResource("1_zigzag_mod")
 
 [sub_resource type="Resource" id="Resource_apply_path"]
 script = ExtResource("2_apply_path_effect")
-path_modifier = SubResource("Resource_orbit")
+path_modifier = SubResource("Resource_zigzag")
 
 [resource]
 script = ExtResource("3_relic")
-name = "Tiny Planet"
-description = "Projectiles orbit around you."
+name = "Sine Wave Modulator"
+description = "Makes projectiles zig-zag left and right."
 effects = Array[Resource]([SubResource("Resource_apply_path")])

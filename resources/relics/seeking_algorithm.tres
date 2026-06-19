@@ -15,6 +15,6 @@ value = 0.05
 
 [resource]
 script = ExtResource("2_relic")
-name = "Homing Pigeon"
+name = "Seeking Algorithm"
 description = "Gives projectiles homing capabilities and increases fire rate."
 effects = Array[Resource]([SubResource("Resource_homing"), SubResource("Resource_firerate")])

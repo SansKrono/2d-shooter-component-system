@@ -1,17 +1,18 @@
 extends Node
 
+const NodeFX = preload("res://addons/node_fx/node_fx.gd")
 const PLAYER_SCENE = preload("res://entities/player/e_player.tscn")
 const ENEMY_SCENE = preload("res://entities/enemies/e_enemy.tscn")
 const BUTTON_SCENE = preload("res://entities/environmental/e_button.tscn")
 const RELIC_PICKUP_SCENE = preload("res://entities/environmental/e_relic.tscn")
-const SACRED_HEART = preload("res://resources/relics/sacred_heart.tres")
-const GHOST_PEPPER = preload("res://resources/relics/ghost_pepper.tres")
-const HOMING_PIGEON = preload("res://resources/relics/homing_pigeon.tres")
-const RAW_LIVER = preload("res://resources/relics/raw_liver.tres")
-const CRICKETS_HEAD = preload("res://resources/relics/crickets_head.tres")
-const WIGGLE_WORM = preload("res://resources/relics/wiggle_worm.tres")
-const TINY_PLANET = preload("res://resources/relics/tiny_planet.tres")
-const SPIRAL_WORM = preload("res://resources/relics/spiral_worm.tres")
+const AETHERIC_KERNEL = preload("res://resources/relics/aetheric_kernel.tres")
+const PLASMA_SPLITTER = preload("res://resources/relics/plasma_splitter.tres")
+const SEEKING_ALGORITHM = preload("res://resources/relics/seeking_algorithm.tres")
+const BIOTIC_CAPACITOR = preload("res://resources/relics/biotic_capacitor.tres")
+const AMPLIFICATION_ARRAY = preload("res://resources/relics/amplification_array.tres")
+const SINE_WAVE_MODULATOR = preload("res://resources/relics/sine_wave_modulator.tres")
+const ORBITAL_ATTRACTOR = preload("res://resources/relics/orbital_attractor.tres")
+const VORTEX_ACCELERATOR = preload("res://resources/relics/vortex_accelerator.tres")
 const C_BulletPath = preload("res://components/character/c_bullet_path.gd")
 
 var player: Player
@@ -21,11 +22,11 @@ var print_timer: float = 0.0
 var sim_timer: float = 0.0
 var button_interacted: bool = false
 var relic_interacted: bool = false
-var added_raw_liver: bool = false
-var added_crickets_head: bool = false
-var added_wiggle_worm: bool = false
-var added_tiny_planet: bool = false
-var added_spiral_worm: bool = false
+var added_biotic_capacitor: bool = false
+var added_amplification_array: bool = false
+var added_sine_wave_modulator: bool = false
+var added_orbital_attractor: bool = false
+var added_vortex_accelerator: bool = false
 
 @onready var world: World = $World
 
@@ -60,13 +61,13 @@ func _ready():
 	# Apply starting relics
 	var c_inv = player.get_component(C_RelicInventory) as C_RelicInventory
 	if c_inv:
-		c_inv.add_relic(player, SACRED_HEART)
-		c_inv.add_relic(player, GHOST_PEPPER)
-		print("[Main] Loaded and applied relics to player! Sacred Heart and Ghost Pepper added.")
+		c_inv.add_relic(player, AETHERIC_KERNEL)
+		c_inv.add_relic(player, PLASMA_SPLITTER)
+		print("[Main] Loaded and applied relics to player! Aetheric Kernel and Plasma Splitter added.")
 
 	# Spawn the test enemy
 	enemy = ENEMY_SCENE.instantiate() as Enemy
-	enemy.position = Vector2(250, 60) # Spawn to the right, slightly offset on Y to test homing
+	enemy.position = Vector2(850, 150) # Spawn to the right, slightly offset on Y to test homing
 	add_child(enemy)
 	world.add_entity(enemy)
 
@@ -82,47 +83,52 @@ func _ready():
 
 	# Spawn a relic pickup in the world
 	var relic_pickup = RELIC_PICKUP_SCENE.instantiate() as Node2D
-	relic_pickup.relic_resource = HOMING_PIGEON
+	relic_pickup.relic_resource = SEEKING_ALGORITHM
 	relic_pickup.position = Vector2(350, 450)
-	relic_pickup.name = "HomingPigeonPickup"
+	relic_pickup.name = "SeekingAlgorithmPickup"
 	add_child(relic_pickup)
 	world.add_entity(relic_pickup)
+	NodeFX.hover(relic_pickup.get_node("Sprite2D"))
 	
 	
 	# Spawn a relic pickup in the world
 	var relic_ghost_pepper = RELIC_PICKUP_SCENE.instantiate() as Node2D
-	relic_ghost_pepper.relic_resource = GHOST_PEPPER
+	relic_ghost_pepper.relic_resource = PLASMA_SPLITTER
 	relic_ghost_pepper.position = Vector2(450, 450)
-	relic_ghost_pepper.name = "GhostPepperPickup"
+	relic_ghost_pepper.name = "PlasmaSplitterPickup"
 	add_child(relic_ghost_pepper)
 	world.add_entity(relic_ghost_pepper)
+	NodeFX.hover(relic_ghost_pepper.get_node("Sprite2D"))
 
 	
 	# Spawn a relic pickup in the world
 	var relic_crickets_head = RELIC_PICKUP_SCENE.instantiate() as Node2D
-	relic_crickets_head.relic_resource = CRICKETS_HEAD
+	relic_crickets_head.relic_resource = AMPLIFICATION_ARRAY
 	relic_crickets_head.position = Vector2(550, 450)
-	relic_crickets_head.name = "CricketsHeadPickup"
+	relic_crickets_head.name = "AmplificationArrayPickup"
 	add_child(relic_crickets_head)
 	world.add_entity(relic_crickets_head)
+	NodeFX.hover(relic_crickets_head.get_node("Sprite2D"))
 	
 	
 	# Spawn a relic pickup in the world
 	var relic_tiny_planet = RELIC_PICKUP_SCENE.instantiate() as Node2D
-	relic_tiny_planet.relic_resource = TINY_PLANET
+	relic_tiny_planet.relic_resource = ORBITAL_ATTRACTOR
 	relic_tiny_planet.position = Vector2(650, 450)
-	relic_tiny_planet.name = "TinyPlanetPickup"
+	relic_tiny_planet.name = "OrbitalAttractorPickup"
 	add_child(relic_tiny_planet)
 	world.add_entity(relic_tiny_planet)
+	NodeFX.hover(relic_tiny_planet.get_node("Sprite2D"))
 	
 	
 	# Spawn a relic pickup in the world
 	var relic_wiggle_worm = RELIC_PICKUP_SCENE.instantiate() as Node2D
-	relic_wiggle_worm.relic_resource = WIGGLE_WORM
+	relic_wiggle_worm.relic_resource = SINE_WAVE_MODULATOR
 	relic_wiggle_worm.position = Vector2(750, 450)
-	relic_wiggle_worm.name = "WiggleWormRelic"
+	relic_wiggle_worm.name = "SineWaveModulatorRelic"
 	add_child(relic_wiggle_worm)
 	world.add_entity(relic_wiggle_worm)
+	NodeFX.hover(relic_wiggle_worm.get_node("Sprite2D"))
 
 func _process(delta):
 	ECS.process(delta)
@@ -139,21 +145,21 @@ func _process(delta):
 				else:
 					input.shoot_vector = Vector2.ZERO
 
-				# Apply Raw Liver at 1.2s
-				if sim_timer >= 1.2 and not added_raw_liver:
-					added_raw_liver = true
+				# Apply Biotic Capacitor at 1.2s
+				if sim_timer >= 1.2 and not added_biotic_capacitor:
+					added_biotic_capacitor = true
 					var c_inv = player.get_component(C_RelicInventory) as C_RelicInventory
 					if c_inv:
-						c_inv.add_relic(player, RAW_LIVER)
-						print("[Simulation] Added RAW LIVER relic directly to player!")
+						c_inv.add_relic(player, BIOTIC_CAPACITOR)
+						print("[Simulation] Added BIOTIC CAPACITOR relic directly to player!")
 
-				# Apply Cricket's Head at 1.6s
-				if sim_timer >= 1.6 and not added_crickets_head:
-					added_crickets_head = true
+				# Apply Amplification Array at 1.6s
+				if sim_timer >= 1.6 and not added_amplification_array:
+					added_amplification_array = true
 					var c_inv = player.get_component(C_RelicInventory) as C_RelicInventory
 					if c_inv:
-						c_inv.add_relic(player, CRICKETS_HEAD)
-						print("[Simulation] Added CRICKET'S HEAD relic directly to player!")
+						c_inv.add_relic(player, AMPLIFICATION_ARRAY)
+						print("[Simulation] Added AMPLIFICATION ARRAY relic directly to player!")
 
 				# Teleport close to button at 2.0s
 				if sim_timer >= 2.0 and sim_timer < 2.1:
@@ -168,13 +174,13 @@ func _process(delta):
 					input.interact_just_pressed = true
 					print("[Simulation] Player pressed button interaction key")
 
-				# Apply Wiggle Worm at 2.8s and shoot right briefly
-				if sim_timer >= 2.8 and not added_wiggle_worm:
-					added_wiggle_worm = true
+				# Apply Sine Wave Modulator at 2.8s and shoot right briefly
+				if sim_timer >= 2.8 and not added_sine_wave_modulator:
+					added_sine_wave_modulator = true
 					var c_inv = player.get_component(C_RelicInventory) as C_RelicInventory
 					if c_inv:
-						c_inv.add_relic(player, WIGGLE_WORM)
-						print("[Simulation] Added WIGGLE WORM relic directly to player!")
+						c_inv.add_relic(player, SINE_WAVE_MODULATOR)
+						print("[Simulation] Added SINE WAVE MODULATOR relic directly to player!")
 				if sim_timer >= 2.8 and sim_timer < 3.1:
 					input.shoot_vector = Vector2.RIGHT
 
@@ -186,13 +192,13 @@ func _process(delta):
 						print("[Simulation] Teleported player to (50, 50) to test CHASE: ",
 							player.global_position)
 
-				# Apply Tiny Planet at 3.4s and shoot right briefly
-				if sim_timer >= 3.4 and not added_tiny_planet:
-					added_tiny_planet = true
+				# Apply Orbital Attractor at 3.4s and shoot right briefly
+				if sim_timer >= 3.4 and not added_orbital_attractor:
+					added_orbital_attractor = true
 					var c_inv = player.get_component(C_RelicInventory) as C_RelicInventory
 					if c_inv:
-						c_inv.add_relic(player, TINY_PLANET)
-						print("[Simulation] Added TINY PLANET relic directly to player!")
+						c_inv.add_relic(player, ORBITAL_ATTRACTOR)
+						print("[Simulation] Added ORBITAL ATTRACTOR relic directly to player!")
 				if sim_timer >= 3.4 and sim_timer < 3.7:
 					input.shoot_vector = Vector2.RIGHT
 
@@ -203,7 +209,7 @@ func _process(delta):
 						player.global_position = Vector2(250, 150)
 						print("[Simulation] Teleported player on top of enemy to test contact")
 
-				# Teleport player close to Homing Pigeon pickup at 4.2s
+				# Teleport player close to Seeking Algorithm pickup at 4.2s
 				if sim_timer >= 4.2 and sim_timer < 4.3:
 					if player.global_position != Vector2(350, 300):
 						player.global_position = Vector2(350, 300)
@@ -216,13 +222,13 @@ func _process(delta):
 					input.interact_just_pressed = true
 					print("[Simulation] Player pressed relic pickup interaction key")
 
-				# Apply Spiral Worm at 4.8s and shoot right briefly
-				if sim_timer >= 4.8 and not added_spiral_worm:
-					added_spiral_worm = true
+				# Apply Vortex Accelerator at 4.8s and shoot right briefly
+				if sim_timer >= 4.8 and not added_vortex_accelerator:
+					added_vortex_accelerator = true
 					var c_inv = player.get_component(C_RelicInventory) as C_RelicInventory
 					if c_inv:
-						c_inv.add_relic(player, SPIRAL_WORM)
-						print("[Simulation] Added SPIRAL WORM relic directly to player!")
+						c_inv.add_relic(player, VORTEX_ACCELERATOR)
+						print("[Simulation] Added VORTEX ACCELERATOR relic directly to player!")
 				if sim_timer >= 4.8 and sim_timer < 5.1:
 					input.shoot_vector = Vector2.RIGHT
 
@@ -234,17 +240,17 @@ func _process(delta):
 						print("[Simulation] Teleported player to (500, 500) to test IDLE: ",
 							player.global_position)
 
-				# Test Combined Tiny Planet + Wiggle Worm at 6.0s
+				# Test Combined Orbital Attractor + Sine Wave Modulator at 6.0s
 				if sim_timer >= 6.0 and sim_timer < 6.1:
 					if player.global_position != Vector2(50, 50):
 						player.global_position = Vector2(50, 50)
 						var c_path = player.get_component(C_BulletPath) as C_BulletPath
 						if c_path:
 							c_path.path_modifiers.clear()
-							# Apply Tiny Planet and Wiggle Worm together
-							TINY_PLANET.effects[0].apply(player)
-							WIGGLE_WORM.effects[0].apply(player)
-						print("[Simulation] Applied Tiny Planet + Wiggle Worm combination!")
+							# Apply Orbital Attractor and Sine Wave Modulator together
+							ORBITAL_ATTRACTOR.effects[0].apply(player)
+							SINE_WAVE_MODULATOR.effects[0].apply(player)
+						print("[Simulation] Applied Orbital Attractor + Sine Wave Modulator combination!")
 				if sim_timer >= 6.0 and sim_timer < 6.8:
 					input.shoot_vector = Vector2.RIGHT
 
