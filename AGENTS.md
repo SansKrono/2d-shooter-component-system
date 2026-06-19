@@ -57,27 +57,27 @@ components.
 **System Execution & Data Flow:**
 ```mermaid
 graph TD
-    subgraph Input & AI Phase
-        PI[PlayerInputSystem] -->|Populates C_Input| AI[AISystem]
-        AI -->|Sets movement/shoot vectors| MovePhase[MovementPhase]
-    end
+	subgraph Input & AI Phase
+		PI[PlayerInputSystem] -->|Populates C_Input| AI[AISystem]
+		AI -->|Sets movement/shoot vectors| MovePhase[MovementPhase]
+	end
 
-    subgraph Movement Phase
-        MovePhase --> MS[MovementSystem]
-        MS -->|Updates global_position| Traj[TrajectorySystem]
-        Traj -->|Applies path modifiers & homing| Shoot[ShootingSystem]
-    end
+	subgraph Movement Phase
+		MovePhase --> MS[MovementSystem]
+		MS -->|Updates global_position| Traj[TrajectorySystem]
+		Traj -->|Applies path modifiers & homing| Shoot[ShootingSystem]
+	end
 
-    subgraph Action & Combat Phase
-        Shoot -->|Spawns bullet entities| Combat[CombatSystem]
-        Combat -->|Applies damage to C_Health| Health[HealthSystem]
-        Combat -->|Triggers i-frames on C_Resilience| Invul[InvulnerabilitySystem]
-    end
+	subgraph Action & Combat Phase
+		Shoot -->|Spawns bullet entities| Combat[CombatSystem]
+		Combat -->|Applies damage to C_Health| Health[HealthSystem]
+		Combat -->|Triggers i-frames on C_Resilience| Invul[InvulnerabilitySystem]
+	end
 
-    subgraph Lifecycle Phase
-        Health -->|Removes entities with current <= 0| Life[LifetimeSystem]
-        Life -->|Cleans up expired lifetime| Interact[InteractionSystem]
-    end
+	subgraph Lifecycle Phase
+		Health -->|Removes entities with current <= 0| Life[LifetimeSystem]
+		Life -->|Cleans up expired lifetime| Interact[InteractionSystem]
+	end
 ```
 
 **Linking Standard Godot Nodes to GECS Entities**:
