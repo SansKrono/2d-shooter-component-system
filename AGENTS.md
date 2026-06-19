@@ -129,7 +129,7 @@ Execute the following commands in the root of the project repository.
   ```
 - **Headless Release Export**:
   ```bash
-  godot --headless --path . --export-release "Mac OSX" build/mac/rpg-component-system.zip
+  godot --headless --path . --export-release "Mac OSX" build/mac/gecs-2d-shooter-relic-system.zip
   ```
 
 ## Asset Pipeline & 2D Import Settings

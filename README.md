@@ -1,11 +1,14 @@
-# RPG Component System
+![banner](./media/banner.jpg)
+
+# GECS 2D Shooter & Relic System
 
 [![Godot Engine](https://img.shields.io/badge/Godot_Engine-v4.7+-478cbf?logo=godot-engine&logoColor=white)](https://godotengine.org)
 [![GDScript](https://img.shields.io/badge/Language-GDScript-blue?logo=godot-engine&logoColor=white)](https://docs.godotengine.org/en/stable/tutorials/scripting/gdscript/gdscript_basics.html)
 [![License](https://img.shields.io/badge/License-MIT-green)](LICENSE)
 [![Architecture](https://img.shields.io/badge/Architecture-ECS-orange)](addons/gecs/README.md)
 
-A production-grade, highly modular 2D RPG/Shooter prototype showcasing a clean **Entity Component System (ECS)** architecture in Godot 4.x. Powered by the **GECS (Godot ECS)** addon, the project decouples state (Components) from logic (Systems) to enable extensible gameplay features, such as bullet path modifiers, data-driven relics, and a state-machine AI.
+A production-grade, highly modular 2D shooter and relic prototype showcasing a clean **Entity Component System (ECS)** architecture in Godot 4.x. Powered by the **GECS (Godot ECS)** addon, the project decouples state (Components) from logic (Systems) to enable extensible gameplay features, such as bullet path modifiers, data-driven relics, and a state-machine AI.
+
 
 ---
 

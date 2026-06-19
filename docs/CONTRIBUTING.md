@@ -1,4 +1,4 @@
-# Contributing to RPG Component System
+# Contributing to GECS 2D Shooter & Relic System
 
 Thank you for your interest in contributing! This project is built using a clean Entity Component System (ECS) architecture powered by the GECS addon. Following these guidelines ensures that codebase modularity, performance, and readability remain high.
 
