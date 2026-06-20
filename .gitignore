@@ -1,3 +1,11 @@
 # Godot 4+ specific ignores
 .godot/
 /android/
+
+# AI Stuff
+.agents
+
+# IDE Config
+.idea/
+.junie/
+.vscode/
