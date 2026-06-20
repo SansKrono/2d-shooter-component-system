@@ -1,0 +1,115 @@
+[gd_scene format=3 uid="uid://c5wlkhpmwm3p3"]
+
+[ext_resource type="Script" uid="uid://dgggbuyfewdpl" path="res://scripts/gui_world_runner.gd" id="1_runner"]
+[ext_resource type="Script" uid="uid://cdu5tlyk72uu4" path="res://addons/gecs/ecs/world.gd" id="2_world"]
+[ext_resource type="PackedScene" uid="uid://ci0rexrdr26fu" path="res://entities/player/e_player.tscn" id="3_player"]
+[ext_resource type="PackedScene" uid="uid://bd42nhu37qn8l" path="res://entities/enemies/e_enemy.tscn" id="4_enemy"]
+[ext_resource type="PackedScene" path="res://entities/environmental/e_button.tscn" id="5_button"]
+[ext_resource type="PackedScene" uid="uid://8p55ux065wv" path="res://entities/environmental/e_relic.tscn" id="6_relic"]
+[ext_resource type="Resource" uid="uid://c80okw0toeixe" path="res://resources/relics/seeking_algorithm.tres" id="7_seeking"]
+[ext_resource type="Script" uid="uid://b6k13gc2m4e5s" path="res://addons/gecs/ecs/component.gd" id="8_component"]
+[ext_resource type="Script" uid="uid://cnp6j2x6cj7xl" path="res://components/character/c_mana.gd" id="9_mana"]
+[ext_resource type="Script" uid="uid://db14owjqim1u3" path="res://systems/PlayerInputSystem.gd" id="10_input_sys"]
+[ext_resource type="Script" uid="uid://bgplo7waub0wt" path="res://systems/MovementSystem.gd" id="11_move_sys"]
+[ext_resource type="Script" uid="uid://0byv16e73r2u" path="res://systems/ShootingSystem.gd" id="12_shoot_sys"]
+[ext_resource type="Script" uid="uid://b8lft6266wtxw" path="res://systems/TrajectorySystem.gd" id="13_traj_sys"]
+[ext_resource type="Script" uid="uid://s7j6nvpj6nq1" path="res://systems/InvulnerabilitySystem.gd" id="14_inv_sys"]
+[ext_resource type="Script" uid="uid://dp2ipvnx4hdsv" path="res://systems/LifetimeSystem.gd" id="15_life_sys"]
+[ext_resource type="Script" uid="uid://xegd7se40w64" path="res://systems/ManaSystem.gd" id="16_mana_sys"]
+[ext_resource type="Script" uid="uid://bukutmbowhe3n" path="res://systems/HealthSystem.gd" id="17_health_sys"]
+[ext_resource type="Script" uid="uid://cuuf2ni4i7twu" path="res://systems/InteractionSystem.gd" id="18_inter_sys"]
+[ext_resource type="Script" uid="uid://din8hgvecqlsp" path="res://systems/InteractableDebugSystem.gd" id="19_debug_sys"]
+[ext_resource type="Script" uid="uid://d11wtvd0mbl2b" path="res://systems/AISystem.gd" id="20_ai_sys"]
+[ext_resource type="Script" uid="uid://bvqdjj3b44r2w" path="res://systems/TriggerSystem.gd" id="21_trigger_sys"]
+[ext_resource type="Script" uid="uid://bewjufp40v14k" path="res://systems/SpawnerSystem.gd" id="22_spawner_sys"]
+[ext_resource type="PackedScene" uid="uid://dii35rsgqqyxt" path="res://entities/environmental/e_trigger.tscn" id="23_trigger_scene"]
+[ext_resource type="PackedScene" uid="uid://bpa7dmllxdnxi" path="res://entities/environmental/e_spawner.tscn" id="24_spawner_scene"]
+[ext_resource type="Script" uid="uid://ubs7h7j62dde" path="res://components/character/c_spawner.gd" id="25_spawner_comp"]
+[ext_resource type="Script" uid="uid://cw6o33x04m8qn" path="res://components/character/c_trigger.gd" id="26_trigger_comp"]
+
+[sub_resource type="Resource" id="Resource_mana"]
+script = ExtResource("9_mana")
+current = 50.0
+
+[sub_resource type="Resource" id="Resource_trigger"]
+script = ExtResource("26_trigger_comp")
+trigger_range = 100.0
+
+[sub_resource type="Resource" id="Resource_spawner"]
+script = ExtResource("25_spawner_comp")
+scene_to_spawn = ExtResource("4_enemy")
+max_spawn_count = 3
+spawn_offset = Vector2(100, 50)
+
+[node name="GUITestScene" type="Node2D" unique_id=1618185300]
+script = ExtResource("1_runner")
+
+[node name="World" type="Node" parent="." unique_id=2138636499]
+script = ExtResource("2_world")
+entity_nodes_root = NodePath("../Entities")
+system_nodes_root = NodePath("../Systems")
+
+[node name="Systems" type="Node" parent="." unique_id=114483452]
+
+[node name="PlayerInputSystem" type="Node" parent="Systems" unique_id=1582926221]
+script = ExtResource("10_input_sys")
+
+[node name="MovementSystem" type="Node" parent="Systems" unique_id=1528788303]
+script = ExtResource("11_move_sys")
+
+[node name="ShootingSystem" type="Node" parent="Systems" unique_id=492869402]
+script = ExtResource("12_shoot_sys")
+
+[node name="TrajectorySystem" type="Node" parent="Systems" unique_id=2055828102]
+script = ExtResource("13_traj_sys")
+
+[node name="InvulnerabilitySystem" type="Node" parent="Systems" unique_id=904009059]
+script = ExtResource("14_inv_sys")
+
+[node name="LifetimeSystem" type="Node" parent="Systems" unique_id=604090696]
+script = ExtResource("15_life_sys")
+
+[node name="ManaSystem" type="Node" parent="Systems" unique_id=736783364]
+script = ExtResource("16_mana_sys")
+
+[node name="HealthSystem" type="Node" parent="Systems" unique_id=1850988298]
+script = ExtResource("17_health_sys")
+
+[node name="InteractionSystem" type="Node" parent="Systems" unique_id=1350878473]
+script = ExtResource("18_inter_sys")
+
+[node name="InteractableDebugSystem" type="Node" parent="Systems" unique_id=1378572099]
+script = ExtResource("19_debug_sys")
+
+[node name="AISystem" type="Node" parent="Systems" unique_id=525990638]
+script = ExtResource("20_ai_sys")
+
+[node name="TriggerSystem" type="Node" parent="Systems" unique_id=572986927]
+script = ExtResource("21_trigger_sys")
+
+[node name="SpawnerSystem" type="Node" parent="Systems" unique_id=747781673]
+script = ExtResource("22_spawner_sys")
+
+[node name="Entities" type="Node2D" parent="." unique_id=1811939191]
+
+[node name="EPlayer" parent="Entities" unique_id=699745871 instance=ExtResource("3_player")]
+position = Vector2(155, 169)
+component_resources = Array[ExtResource("8_component")]([SubResource("Resource_mana")])
+
+[node name="EEnemy" parent="Entities" unique_id=1205496858 instance=ExtResource("4_enemy")]
+position = Vector2(1049, 83)
+
+[node name="EButton" parent="Entities" unique_id=2109198142 instance=ExtResource("5_button")]
+position = Vector2(204, 409)
+
+[node name="SeekingAlgorithmPickup" parent="Entities" unique_id=552155116 instance=ExtResource("6_relic")]
+position = Vector2(470, 520)
+relic_resource = ExtResource("7_seeking")
+
+[node name="ETrigger" parent="Entities" unique_id=149337781 instance=ExtResource("23_trigger_scene")]
+position = Vector2(486, 273)
+component_resources = Array[ExtResource("8_component")]([SubResource("Resource_trigger")])
+
+[node name="ESpawner" parent="Entities" unique_id=1430191068 instance=ExtResource("24_spawner_scene")]
+position = Vector2(880, 311)
+component_resources = Array[ExtResource("8_component")]([SubResource("Resource_spawner")])
