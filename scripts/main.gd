@@ -14,6 +14,8 @@ const SINE_WAVE_MODULATOR = preload("res://resources/relics/sine_wave_modulator.
 const ORBITAL_ATTRACTOR = preload("res://resources/relics/orbital_attractor.tres")
 const VORTEX_ACCELERATOR = preload("res://resources/relics/vortex_accelerator.tres")
 const C_BulletPath = preload("res://components/character/c_bullet_path.gd")
+const COIN_SCENE = preload("res://entities/collectibles/e_coin.tscn")
+const CHANNEL_SPAWNER_SYSTEM = preload("res://systems/ChannelSpawnerSystem.gd")
 
 var player: Player
 var enemy: Enemy
@@ -27,6 +29,7 @@ var added_amplification_array: bool = false
 var added_sine_wave_modulator: bool = false
 var added_orbital_attractor: bool = false
 var added_vortex_accelerator: bool = false
+var coin_collected_verified: bool = false
 
 @onready var world: World = $World
 
@@ -45,6 +48,8 @@ func _ready():
 	world.add_system(InteractionSystem.new())
 	world.add_system(InteractableDebugSystem.new())
 	world.add_system(AISystem.new())
+	world.add_system(CollectibleSystem.new())
+	world.add_system(CHANNEL_SPAWNER_SYSTEM.new())
 
 	# Spawn the player entity scene
 	player = PLAYER_SCENE.instantiate() as Player
@@ -129,6 +134,13 @@ func _ready():
 	add_child(relic_wiggle_worm)
 	world.add_entity(relic_wiggle_worm)
 	NodeFX.hover(relic_wiggle_worm.get_node("Sprite2D"))
+
+	# Spawn a coin in the world
+	var test_coin = COIN_SCENE.instantiate() as Node2D
+	test_coin.position = Vector2(200, 300)
+	test_coin.name = "TestCoin"
+	add_child(test_coin)
+	world.add_entity(test_coin)
 
 func _process(delta):
 	ECS.process(delta)
@@ -239,6 +251,23 @@ func _process(delta):
 						player.global_position = Vector2(500, 500)
 						print("[Simulation] Teleported player to (500, 500) to test IDLE: ",
 							player.global_position)
+
+				# Teleport player near the coin at 5.4s to test magnetization and collection
+				if sim_timer >= 5.4 and sim_timer < 5.5:
+					if player.global_position != Vector2(200, 320):
+						player.global_position = Vector2(200, 320)
+						print("[Simulation] Teleported player near coin to test magnet & collect: ",
+							player.global_position)
+
+				# Verify coin collection at 5.8s
+				if sim_timer >= 5.8 and not coin_collected_verified:
+					coin_collected_verified = true
+					var currency = player.get_component(C_Currency) as C_Currency
+					if currency and currency.amount == 105:
+						print("[Simulation] Success: Coin collected! Currency amount: ", currency.amount)
+					else:
+						var amt = currency.amount if currency else -1
+						print("[Simulation] Error: Coin collection failed! Currency: ", amt)
 
 				# Test Combined Orbital Attractor + Sine Wave Modulator at 6.0s
 				if sim_timer >= 6.0 and sim_timer < 6.1:

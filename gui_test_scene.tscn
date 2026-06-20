@@ -15,7 +15,9 @@
 [ext_resource type="Script" uid="uid://b8lft6266wtxw" path="res://systems/TrajectorySystem.gd" id="13_traj_sys"]
 [ext_resource type="Script" uid="uid://s7j6nvpj6nq1" path="res://systems/InvulnerabilitySystem.gd" id="14_inv_sys"]
 [ext_resource type="Script" uid="uid://dp2ipvnx4hdsv" path="res://systems/LifetimeSystem.gd" id="15_life_sys"]
+[ext_resource type="Script" uid="uid://c3r3u2st6m5w3" path="res://systems/CollectibleSystem.gd" id="16_asgwg"]
 [ext_resource type="Script" uid="uid://xegd7se40w64" path="res://systems/ManaSystem.gd" id="16_mana_sys"]
+[ext_resource type="Script" uid="uid://b8jwk5p82042g" path="res://systems/ChannelSpawnerSystem.gd" id="17_a6kv5"]
 [ext_resource type="Script" uid="uid://bukutmbowhe3n" path="res://systems/HealthSystem.gd" id="17_health_sys"]
 [ext_resource type="Script" uid="uid://cuuf2ni4i7twu" path="res://systems/InteractionSystem.gd" id="18_inter_sys"]
 [ext_resource type="Script" uid="uid://din8hgvecqlsp" path="res://systems/InteractableDebugSystem.gd" id="19_debug_sys"]
@@ -26,6 +28,8 @@
 [ext_resource type="PackedScene" uid="uid://bpa7dmllxdnxi" path="res://entities/environmental/e_spawner.tscn" id="24_spawner_scene"]
 [ext_resource type="Script" uid="uid://ubs7h7j62dde" path="res://components/character/c_spawner.gd" id="25_spawner_comp"]
 [ext_resource type="Script" uid="uid://cw6o33x04m8qn" path="res://components/character/c_trigger.gd" id="26_trigger_comp"]
+[ext_resource type="PackedScene" path="res://entities/environmental/e_channel_spawner.tscn" id="29_6pc8c"]
+[ext_resource type="PackedScene" path="res://entities/collectibles/e_coin.tscn" id="30_emcr8"]
 
 [sub_resource type="Resource" id="Resource_mana"]
 script = ExtResource("9_mana")
@@ -90,26 +94,51 @@ script = ExtResource("21_trigger_sys")
 [node name="SpawnerSystem" type="Node" parent="Systems" unique_id=747781673]
 script = ExtResource("22_spawner_sys")
 
+[node name="CollectibleSystem" type="Node" parent="Systems" unique_id=187842572]
+script = ExtResource("16_asgwg")
+
+[node name="ChannelSpawnerSystem" type="Node" parent="Systems" unique_id=1718288406]
+script = ExtResource("17_a6kv5")
+
 [node name="Entities" type="Node2D" parent="." unique_id=1811939191]
 
 [node name="EPlayer" parent="Entities" unique_id=699745871 instance=ExtResource("3_player")]
-position = Vector2(155, 169)
+position = Vector2(174, 95)
 component_resources = Array[ExtResource("8_component")]([SubResource("Resource_mana")])
 
 [node name="EEnemy" parent="Entities" unique_id=1205496858 instance=ExtResource("4_enemy")]
 position = Vector2(1049, 83)
 
 [node name="EButton" parent="Entities" unique_id=2109198142 instance=ExtResource("5_button")]
-position = Vector2(204, 409)
+position = Vector2(502, 124)
+channel = null
+interaction_range = null
+interaction_text = null
 
 [node name="SeekingAlgorithmPickup" parent="Entities" unique_id=552155116 instance=ExtResource("6_relic")]
-position = Vector2(470, 520)
+position = Vector2(1031, 558)
 relic_resource = ExtResource("7_seeking")
 
 [node name="ETrigger" parent="Entities" unique_id=149337781 instance=ExtResource("23_trigger_scene")]
-position = Vector2(486, 273)
+position = Vector2(109, 325)
+channel = 3
+trigger_range = null
 component_resources = Array[ExtResource("8_component")]([SubResource("Resource_trigger")])
 
 [node name="ESpawner" parent="Entities" unique_id=1430191068 instance=ExtResource("24_spawner_scene")]
-position = Vector2(880, 311)
+position = Vector2(895, 271)
 component_resources = Array[ExtResource("8_component")]([SubResource("Resource_spawner")])
+
+[node name="EButton2" parent="Entities" unique_id=1499190651 instance=ExtResource("5_button")]
+position = Vector2(284, 324)
+channel = 2
+
+[node name="EChannelSpawner" parent="Entities" unique_id=554801312 instance=ExtResource("29_6pc8c")]
+position = Vector2(289, 548)
+channel = 2
+scene_to_spawn = ExtResource("30_emcr8")
+
+[node name="EChannelSpawner2" parent="Entities" unique_id=1766747726 instance=ExtResource("29_6pc8c")]
+position = Vector2(103, 555)
+channel = 3
+scene_to_spawn = ExtResource("30_emcr8")

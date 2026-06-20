@@ -1,6 +1,8 @@
 class_name InteractionSystem
 extends System
 
+var last_reset_frame: int = -1
+
 func query() -> QueryBuilder:
 	return q.with_all([C_Input])
 
@@ -9,6 +11,17 @@ func process(entities: Array[Entity], _components: Array, _delta: float) -> void
 	var interactables = q.with_all([C_Interactable]).execute()
 	if interactables.is_empty():
 		return
+
+	# Reset triggered state from previous frame (only once per frame)
+	var current_frame = Engine.get_process_frames()
+	if current_frame != last_reset_frame:
+		last_reset_frame = current_frame
+		for obj in interactables:
+			if is_instance_valid(obj):
+				var c_inter = obj.get_component(C_Interactable) as C_Interactable
+				if c_inter:
+					c_inter.triggered = false
+
 
 	# Track the closest interactable in range for each actor
 	var closest_per_actor = {}
@@ -42,10 +55,13 @@ func process(entities: Array[Entity], _components: Array, _delta: float) -> void
 			c_input.interact_just_pressed = false
 			if closest:
 				var c_inter = closest.get_component(C_Interactable) as C_Interactable
-				print("[Interaction] %s interacted with %s!" % [actor.name, closest.name])
+				print("[Interaction] %s interacted with %s! ID: %d" % [
+					actor.name, closest.name, c_inter.get_instance_id()
+				])
+				c_inter.triggered = true
 				if c_inter.interaction_action.is_valid():
 					c_inter.interaction_action.call()
-				else:
+				elif c_inter.channel < 0:
 					print("[Interaction] Interaction action is NOT valid!")
 
 	# Update the UI prompts for all interactable entities
