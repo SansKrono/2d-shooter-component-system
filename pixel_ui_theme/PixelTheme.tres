@@ -2445,6 +2445,21 @@ cache/0/15/0/kerning_overrides/12/0 = Vector2(0, 0)
 cache/0/15/0/kerning_overrides/13/0 = Vector2(0, 0)
 cache/0/15/0/kerning_overrides/14/0 = Vector2(0, 0)
 cache/0/15/0/kerning_overrides/15/0 = Vector2(0, 0)
+cache/0/26/0/ascent = 0.0
+cache/0/26/0/descent = 0.0
+cache/0/26/0/underline_position = 0.0
+cache/0/26/0/underline_thickness = 0.0
+cache/0/26/0/scale = 1.0
+cache/0/19/0/ascent = 0.0
+cache/0/19/0/descent = 0.0
+cache/0/19/0/underline_position = 0.0
+cache/0/19/0/underline_thickness = 0.0
+cache/0/19/0/scale = 1.0
+cache/0/17/0/ascent = 0.0
+cache/0/17/0/descent = 0.0
+cache/0/17/0/underline_position = 0.0
+cache/0/17/0/underline_thickness = 0.0
+cache/0/17/0/scale = 1.0
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_7xr53"]
 atlas = ExtResource("2")
@@ -2541,7 +2556,7 @@ region = Rect2(0, 64, 8, 8)
 atlas = ExtResource("2")
 region = Rect2(56, 48, 8, 8)
 
-[sub_resource type="Image" id="Image_wgofs"]
+[sub_resource type="Image" id="Image_tcqv3"]
 data = {
 "data": PackedByteArray("FxYabx0cIe8gHiT3IR8l9yEfJfchHyX3IR8l9yAeJPcdHCHvFxYabx0cIfAkIin/KCYt/ygmLv8oJi7/KCYu/ygmLv8oJi3/JCIp/x0cIfAgHiT5KCYt/ysqMf8sKjL/LCoy/ywqMv8sKjL/Kyox/ygmLf8gHiT5IR8l9ygmLv8sKjL/LCoy/ywqMv8sKjL/LCoy/ywqMv8oJi7/IR8l9yEfJfcoJi7/LCoy/ywqMv8sKjL/LCoy/ywqMv8sKjL/KCYu/yEfJfchHyX3KCYu/ywqMv8sKjL/LCoy/ywqMv8sKjL/LCoy/ygmLv8hHyX3IR8l9ygmLv8sKjL/LCoy/ywqMv8sKjL/LCoy/ywqMv8oJi7/IR8l9yAeJPkoJi3/Kyox/ywqMv8sKjL/LCoy/ywqMv8rKjH/KCYt/yAeJPkdHCHwJCIp/ygmLf8oJi7/KCYu/ygmLv8oJi7/KCYt/yQiKf8dHCHxFxYabx0cIfAgHiT3IR8l9yEfJfchHyX3IR8l9yAeJPcdHCHuFxYabw=="),
 "format": "RGBA8",
@@ -2551,7 +2566,7 @@ data = {
 }
 
 [sub_resource type="ImageTexture" id="39"]
-image = SubResource("Image_wgofs")
+image = SubResource("Image_tcqv3")
 
 [sub_resource type="StyleBoxTexture" id="272"]
 content_margin_left = 0.0
@@ -2708,7 +2723,7 @@ border_width_left = 1
 border_color = Color(0.2, 0.2, 0.2, 1)
 anti_aliasing = false
 
-[sub_resource type="Image" id="Image_tbt7u"]
+[sub_resource type="Image" id="Image_x65po"]
 data = {
 "data": PackedByteArray("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIKCgnmNjY15mJiYeYGirQCMrLgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAOFVfAE5OTjGCgoJ5jY2NeZiYmHlOTk4xTk5OMU5OTjE4VV8AOFVfAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADhVXwBOTk4cTk5OMU5OTjFOTk4xAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=="),
 "format": "RGBA8",
@@ -2718,7 +2733,7 @@ data = {
 }
 
 [sub_resource type="ImageTexture" id="111"]
-image = SubResource("Image_tbt7u")
+image = SubResource("Image_x65po")
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_a1be5"]
 content_margin_left = 6.0

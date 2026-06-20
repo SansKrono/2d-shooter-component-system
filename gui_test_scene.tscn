@@ -4,7 +4,7 @@
 [ext_resource type="Script" uid="uid://cdu5tlyk72uu4" path="res://addons/gecs/ecs/world.gd" id="2_world"]
 [ext_resource type="PackedScene" uid="uid://ci0rexrdr26fu" path="res://entities/player/e_player.tscn" id="3_player"]
 [ext_resource type="PackedScene" uid="uid://bd42nhu37qn8l" path="res://entities/enemies/e_enemy.tscn" id="4_enemy"]
-[ext_resource type="PackedScene" path="res://entities/environmental/e_button.tscn" id="5_button"]
+[ext_resource type="PackedScene" uid="uid://iupf6udnc75r" path="res://entities/environmental/e_button.tscn" id="5_button"]
 [ext_resource type="PackedScene" uid="uid://8p55ux065wv" path="res://entities/environmental/e_relic.tscn" id="6_relic"]
 [ext_resource type="Resource" uid="uid://c80okw0toeixe" path="res://resources/relics/seeking_algorithm.tres" id="7_seeking"]
 [ext_resource type="Script" uid="uid://b6k13gc2m4e5s" path="res://addons/gecs/ecs/component.gd" id="8_component"]

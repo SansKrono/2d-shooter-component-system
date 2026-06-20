@@ -43,4 +43,3 @@ func process(entities: Array[Entity], _components: Array, _delta: float) -> void
 			# Reset triggered state if player walked out of range and not one-shot
 			if c_trig.triggered and not c_trig.one_shot:
 				c_trig.triggered = false
-
