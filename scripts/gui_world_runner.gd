@@ -30,14 +30,46 @@ func _process(delta: float) -> void:
 	# Automatically test and verify headlessly
 	if DisplayServer.get_name() == "headless":
 		sim_timer += delta
-		
-		# Teleport player onto ETrigger at 2.0s
+
+		# 1. Teleport player onto ETrigger at 1.0s (ETrigger is at 486, 273)
+		if sim_timer >= 1.0 and sim_timer < 1.1:
+			var player = get_node_or_null("Entities/EPlayer")
+			if player and player.global_position != Vector2(486, 273):
+				player.global_position = Vector2(486, 273)
+				print("[GUI Runner] Teleported player onto ETrigger (486, 273).")
+
+		# 2. Teleport player onto SeekingAlgorithmPickup at 2.0s (relic spawned at 350, 450)
 		if sim_timer >= 2.0 and sim_timer < 2.1:
 			var player = get_node_or_null("Entities/EPlayer")
-			if player and player.global_position != Vector2(250, 300):
-				player.global_position = Vector2(250, 300)
-				print("[GUI Runner] Teleported player onto ETrigger to verify collision trigger.")
-		
+			if player and player.global_position != Vector2(350, 450):
+				player.global_position = Vector2(350, 450)
+				print("[GUI Runner] Teleported player onto spawned Relic Pickup (350, 450).")
+
+		# 3. Simulate interact press on player at 2.3s to pick up the relic
+		if sim_timer >= 2.3 and sim_timer < 2.4:
+			var player = get_node_or_null("Entities/EPlayer")
+			if player:
+				var c_input = player.get_component(C_Input) as C_Input
+				if c_input and not c_input.interact_just_pressed:
+					c_input.interact_just_pressed = true
+					print("[GUI Runner] Simulating interact input to pick up relic.")
+
+		# 4. Teleport player onto EButton at 3.0s (EButton is at 204, 409)
+		if sim_timer >= 3.0 and sim_timer < 3.1:
+			var player = get_node_or_null("Entities/EPlayer")
+			if player and player.global_position != Vector2(204, 409):
+				player.global_position = Vector2(204, 409)
+				print("[GUI Runner] Teleported player onto Spawner Button EButton (204, 409).")
+
+		# 5. Simulate interact press on player at 3.3s to press the button
+		if sim_timer >= 3.3 and sim_timer < 3.4:
+			var player = get_node_or_null("Entities/EPlayer")
+			if player:
+				var c_input = player.get_component(C_Input) as C_Input
+				if c_input and not c_input.interact_just_pressed:
+					c_input.interact_just_pressed = true
+					print("[GUI Runner] Simulating interact input to activate Spawner Button.")
+
 		# Automatically quit after 5 seconds
 		if sim_timer >= 5.0:
 			print("[GUI Runner] Headless execution completed. Quitting.")
