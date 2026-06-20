@@ -25,26 +25,30 @@ var player: Player = null
 @onready var canvas_layer: CanvasLayer = $CanvasLayer
 
 # UI Screen References
-@onready var main_menu_ui: Control = $CanvasLayer/MainMenuUI
-@onready var hud_ui: Control = $CanvasLayer/HUDUI
-@onready var pause_menu_ui: Control = $CanvasLayer/PauseMenuUI
-@onready var game_over_ui: Control = $CanvasLayer/GameOverUI
-@onready var victory_ui: Control = $CanvasLayer/VictoryUI
-
-# HUD Node References
-@onready var hp_label: Label = $CanvasLayer/HUDUI/StatsPanel/VBox/HPLabel
-@onready var mp_label: Label = $CanvasLayer/HUDUI/StatsPanel/VBox/MPLabel
-@onready var timer_label: Label = $CanvasLayer/HUDUI/StatsPanel/VBox/TimerLabel
-@onready var kills_label: Label = $CanvasLayer/HUDUI/StatsPanel/VBox/KillsLabel
-@onready var relics_label: Label = $CanvasLayer/HUDUI/StatsPanel/VBox/RelicsLabel
-
-# Game Over / Victory Display stats
-@onready var go_stats_label: Label = $CanvasLayer/GameOverUI/Panel/VBoxContainer/StatsText
-@onready var vic_stats_label: Label = $CanvasLayer/VictoryUI/Panel/VBoxContainer/StatsText
+@onready var main_menu_ui: Control = $CanvasLayer/MainMenu
+@onready var hud_ui: Control = $CanvasLayer/HUD
+@onready var pause_menu_ui: Control = $CanvasLayer/PauseMenu
+@onready var game_over_ui: Control = $CanvasLayer/GameOver
+@onready var victory_ui: Control = $CanvasLayer/Victory
 
 func _ready() -> void:
 	process_mode = PROCESS_MODE_ALWAYS # Let Manager process inputs even during scene pause
 	change_state(initial_state)
+
+	# Connect UI custom signals
+	if main_menu_ui:
+		main_menu_ui.start_run_pressed.connect(_on_start_pressed)
+		main_menu_ui.quit_game_pressed.connect(_on_quit_pressed)
+	if pause_menu_ui:
+		pause_menu_ui.resume_pressed.connect(_on_resume_pressed)
+		pause_menu_ui.restart_pressed.connect(_on_restart_pressed)
+		pause_menu_ui.main_menu_pressed.connect(_on_menu_pressed)
+	if game_over_ui:
+		game_over_ui.retry_pressed.connect(_on_restart_pressed)
+		game_over_ui.main_menu_pressed.connect(_on_menu_pressed)
+	if victory_ui:
+		victory_ui.play_again_pressed.connect(_on_restart_pressed)
+		victory_ui.main_menu_pressed.connect(_on_menu_pressed)
 
 	# Auto-start run when running headlessly for verification
 	if DisplayServer.get_name() == "headless":
@@ -77,9 +81,9 @@ func change_state(new_state: GameState) -> void:
 	get_tree().paused = (new_state == GameState.PAUSED)
 
 	if new_state == GameState.GAME_OVER:
-		_populate_end_stats(go_stats_label)
+		_populate_end_stats(game_over_ui)
 	elif new_state == GameState.VICTORY:
-		_populate_end_stats(vic_stats_label)
+		_populate_end_stats(victory_ui)
 
 func start_run() -> void:
 	unload_level()
@@ -186,33 +190,28 @@ func check_victory_condition() -> void:
 			trigger_victory()
 
 func _update_hud() -> void:
-	if not is_instance_valid(player):
+	if not is_instance_valid(player) or not hud_ui:
 		return
 
 	var health = player.get_component(C_Health) as C_Health
 	var mana = player.get_component(C_Mana) as C_Mana
 
 	if health:
-		hp_label.text = "HP: %.1f / %.1f" % [health.current, health.maximum]
+		hud_ui.update_health(health.current, health.maximum)
 	else:
-		hp_label.text = "HP: N/A"
+		hud_ui.set_health_na()
 
 	if mana:
-		mp_label.text = "Mana: %.1f" % mana.current
+		hud_ui.update_mana(mana.current)
 	else:
-		mp_label.text = "Mana: N/A"
+		hud_ui.set_mana_na()
 
-	# Timer format MM:SS
-	var mins = int(run_time / 60.0)
-	var secs = int(run_time) % 60
-	timer_label.text = "Time: %02d:%02d" % [mins, secs]
-	kills_label.text = "Kills: %d" % enemies_killed
-	var r_list = relics_collected
-	var r_str = ", ".join(r_list) if not r_list.is_empty() else "None"
-	relics_label.text = "Relics: %s" % r_str
+	hud_ui.update_run_time(run_time)
+	hud_ui.update_kills(enemies_killed)
+	hud_ui.update_relics(relics_collected)
 
-func _populate_end_stats(label: Label) -> void:
-	if not label:
+func _populate_end_stats(ui: Control) -> void:
+	if not ui:
 		return
 	var mins = int(run_time / 60.0)
 	var secs = int(run_time) % 60
@@ -220,9 +219,7 @@ func _populate_end_stats(label: Label) -> void:
 	var r_list = relics_collected
 	var relics_str = ", ".join(r_list) if not r_list.is_empty() else "None"
 
-	label.text = "Time Survived: %s\nEnemies Defeated: %d\nRelics Collected: %s" % [
-		time_str, enemies_killed, relics_str
-	]
+	ui.set_stats(time_str, enemies_killed, relics_str)
 
 # UI Button Callbacks
 func _on_start_pressed() -> void:
