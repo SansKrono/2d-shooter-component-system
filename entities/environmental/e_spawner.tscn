@@ -1,0 +1,18 @@
+[gd_scene format=3 uid="uid://bpa7dmllxdnxi"]
+
+[ext_resource type="Script" uid="uid://mbsgvd6f56fm" path="res://entities/environmental/e_spawner.gd" id="1_spawner"]
+[ext_resource type="Texture2D" uid="uid://b1cnkx5vw4r2r" path="res://assets/portal.png" id="2_2iuc3"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_spawner"]
+size = Vector2(64, 64)
+
+[node name="ESpawner" type="Node2D" unique_id=1966897146]
+script = ExtResource("1_spawner")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=700438018]
+texture = ExtResource("2_2iuc3")
+
+[node name="Area2D" type="Area2D" parent="." unique_id=1162114489]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=1111712333]
+shape = SubResource("RectangleShape2D_spawner")

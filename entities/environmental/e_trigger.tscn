@@ -1,0 +1,20 @@
+[gd_scene format=3 uid="uid://dii35rsgqqyxt"]
+
+[ext_resource type="Script" uid="uid://ukh6jayigpde" path="res://entities/environmental/e_trigger.gd" id="1_trigger"]
+[ext_resource type="Texture2D" uid="uid://by1gbaxkkvu5g" path="res://assets/pressure-plate.png" id="2_mtsq7"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_trigger"]
+size = Vector2(64, 64)
+
+[node name="ETrigger" type="Node2D" unique_id=1483937734]
+script = ExtResource("1_trigger")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=365623116]
+self_modulate = Color(0, 0.5, 1, 0.8)
+scale = Vector2(2, 2)
+texture = ExtResource("2_mtsq7")
+
+[node name="Area2D" type="Area2D" parent="." unique_id=963322031]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=1434543209]
+shape = SubResource("RectangleShape2D_trigger")

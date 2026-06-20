@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="gecs-2d-shooter-relic-system"
-run/main_scene="res://test_scene.tscn"
+run/main_scene="uid://c5wlkhpmwm3p3"
 config/features=PackedStringArray("4.7", "Forward Plus")
 config/icon="res://icon.svg"
 
@@ -35,6 +35,7 @@ enabled=PackedStringArray("res://addons/gecs/plugin.cfg")
 [file_customization]
 
 folder_colors={
+"res://assets/": "pink",
 "res://components/": "purple",
 "res://entities/": "teal",
 "res://scripts/": "orange",

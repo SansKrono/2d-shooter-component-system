@@ -156,9 +156,18 @@ func process(entities: Array[Entity], _components: Array, delta: float) -> void:
 		var c_mana = entity.get_component(C_Mana) as C_Mana
 		if c_mana and c_mana.current < c_mana.maximum:
 			c_mana.current = min(c_mana.maximum, c_mana.current + c_mana.regeneration_rate * delta)
-```
+### 4. Declarative Scene-Tree Composition
+
+Instead of declaring and registering all entities and systems programmatically, developers can build the entire ECS structure visually in the Godot scene tree. 
+
+1. **System Nodes**: Systems can be created as standard nodes under a parent node in the scene tree (e.g., `/root/GUITestScene/Systems`). The `World` node queries them using `@export var system_nodes_root: NodePath`.
+2. **Entity Nodes**: Composed entities can be instantiated directly in the scene tree under a parent node (e.g., `/root/GUITestScene/Entities`). The `World` node queries them using `@export var entity_nodes_root: NodePath`.
+3. **Component Inspector Configuration**: Override or add extra components by modifying the entity's `component_resources` property directly in the Godot Inspector (e.g. adding a custom `C_Mana` component).
+
+See the example configuration in [gui_test_scene.tscn](file:///Users/aaronlozenkovski/Desktop/2d-roguelike-component-system/gui_test_scene.tscn) and its runner script [gui_world_runner.gd](file:///Users/aaronlozenkovski/Desktop/2d-roguelike-component-system/scripts/gui_world_runner.gd) for a visual-first setup.
 
 ---
+
 
 ## 🔍 Where Users Can Get Help
 

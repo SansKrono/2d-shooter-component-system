@@ -1,20 +1,18 @@
-[gd_scene load_steps=4 format=3]
+[gd_scene format=3 uid="uid://iupf6udnc75r"]
 
-[ext_resource type="Script" path="res://entities/environmental/e_button.gd" id="1_button"]
-[ext_resource type="Texture2D" path="res://icon.svg" id="2_icon"]
+[ext_resource type="Script" uid="uid://w20ki4g4rs6d" path="res://entities/environmental/e_button.gd" id="1_button"]
+[ext_resource type="Texture2D" uid="uid://dt300ef6g6uhb" path="res://assets/button.png" id="2_qbcyp"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_button"]
 size = Vector2(64, 64)
 
-[node name="EButton" type="Node2D"]
+[node name="EButton" type="Node2D" unique_id=1499190651]
 script = ExtResource("1_button")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
-self_modulate = Color(0.2, 0.8, 0.2, 1)
-scale = Vector2(0.5, 0.5)
-texture = ExtResource("2_icon")
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1299014695]
+texture = ExtResource("2_qbcyp")
 
-[node name="Area2D" type="Area2D" parent="."]
+[node name="Area2D" type="Area2D" parent="." unique_id=1994451169]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=330861916]
 shape = SubResource("RectangleShape2D_button")
