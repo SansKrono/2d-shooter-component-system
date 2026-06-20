@@ -25,7 +25,8 @@ func _ready() -> void:
 			print("[GUI Runner] Proximity trigger callback registered successfully.")
 
 func _process(delta: float) -> void:
-	ECS.process(delta)
+	if ECS.world == world:
+		ECS.process(delta)
 
 	# Automatically test and verify headlessly
 	if DisplayServer.get_name() == "headless":
