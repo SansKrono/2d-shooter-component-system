@@ -1,7 +1,26 @@
-[gd_scene load_steps=3 format=3]
+[gd_scene load_steps=7 format=3]
 
 [ext_resource type="Script" path="res://ui/hud.gd" id="1_hud"]
-[ext_resource type="StyleBox" path="res://ui/style_glass.tres" id="2_glass"]
+[ext_resource type="Theme" uid="uid://4r6b2cnujbph" path="res://gui_assets/waste_no_space.theme" id="2_theme"]
+[ext_resource type="Texture2D" uid="uid://s45in7acrvv0" path="res://gui_assets/art/GuiTexture.tres" id="3_gui_texture"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_hp"]
+texture = ExtResource("3_gui_texture")
+margin_left = 2.0
+margin_top = 2.0
+margin_right = 2.0
+margin_bottom = 2.0
+region_rect = Rect2(13, 31, 5, 5)
+modulate_color = Color(0.9, 0.25, 0.25, 0.85)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_mp"]
+texture = ExtResource("3_gui_texture")
+margin_left = 2.0
+margin_top = 2.0
+margin_right = 2.0
+margin_bottom = 2.0
+region_rect = Rect2(13, 31, 5, 5)
+modulate_color = Color(0.2, 0.55, 0.9, 0.85)
 
 [node name="HUD" type="Control"]
 layout_mode = 3
@@ -11,15 +30,15 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
+theme = ExtResource("2_theme")
 script = ExtResource("1_hud")
 
 [node name="StatsPanel" type="Panel" parent="."]
 layout_mode = 0
 offset_left = 20.0
 offset_top = 20.0
-offset_right = 260.0
-offset_bottom = 180.0
-theme_override_styles/panel = ExtResource("2_glass")
+offset_right = 280.0
+offset_bottom = 200.0
 
 [node name="VBox" type="VBoxContainer" parent="StatsPanel"]
 layout_mode = 1
@@ -32,19 +51,34 @@ offset_right = -15.0
 offset_bottom = -10.0
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_constants/separation = 5
 alignment = 1
 
 [node name="HPLabel" type="Label" parent="StatsPanel/VBox"]
 layout_mode = 2
-theme_override_colors/font_color = Color(1, 0.3, 0.3, 1)
+theme_override_colors/font_color = Color(1, 0.35, 0.35, 1)
 theme_override_font_sizes/font_size = 14
 text = "HP: 100 / 100"
 
+[node name="HPBar" type="ProgressBar" parent="StatsPanel/VBox"]
+custom_minimum_size = Vector2(0, 10)
+layout_mode = 2
+theme_override_styles/fill = SubResource("StyleBoxTexture_hp")
+value = 100.0
+show_percentage = false
+
 [node name="MPLabel" type="Label" parent="StatsPanel/VBox"]
 layout_mode = 2
-theme_override_colors/font_color = Color(0.2, 0.6, 1, 1)
+theme_override_colors/font_color = Color(0.3, 0.65, 1, 1)
 theme_override_font_sizes/font_size = 14
-text = "Mana: 50.0"
+text = "Mana: 100.0"
+
+[node name="MPBar" type="ProgressBar" parent="StatsPanel/VBox"]
+custom_minimum_size = Vector2(0, 10)
+layout_mode = 2
+theme_override_styles/fill = SubResource("StyleBoxTexture_mp")
+value = 100.0
+show_percentage = false
 
 [node name="TimerLabel" type="Label" parent="StatsPanel/VBox"]
 layout_mode = 2

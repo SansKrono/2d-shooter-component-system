@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3]
 
 [ext_resource type="Script" path="res://ui/game_over.gd" id="1_go"]
-[ext_resource type="StyleBox" path="res://ui/style_glass.tres" id="2_glass"]
+[ext_resource type="Theme" uid="uid://4r6b2cnujbph" path="res://gui_assets/waste_no_space.theme" id="2_theme"]
 
 [node name="GameOver" type="Control"]
 layout_mode = 3
@@ -10,6 +10,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme = ExtResource("2_theme")
 script = ExtResource("1_go")
 
 [node name="Backdrop" type="ColorRect" parent="."]
@@ -34,7 +35,6 @@ offset_right = 200.0
 offset_bottom = 200.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_styles/panel = ExtResource("2_glass")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Panel"]
 layout_mode = 1

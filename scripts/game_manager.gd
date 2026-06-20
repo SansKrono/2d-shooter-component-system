@@ -206,7 +206,7 @@ func _update_hud() -> void:
 		hud_ui.set_health_na()
 
 	if mana:
-		hud_ui.update_mana(mana.current)
+		hud_ui.update_mana(mana.current, mana.maximum)
 	else:
 		hud_ui.set_mana_na()
 
