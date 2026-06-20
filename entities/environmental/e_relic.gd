@@ -21,6 +21,7 @@ func on_ready() -> void:
 	var c_inter = get_component(C_Interactable) as C_Interactable
 	if c_inter:
 		c_inter.interaction_action = Callable(self, "_on_interacted")
+	NodeFX.hover(self)
 	_update_interaction_text()
 
 func _update_interaction_text() -> void:
@@ -44,5 +45,7 @@ func _on_interacted() -> void:
 			var c_inv = player.get_component(C_RelicInventory) as C_RelicInventory
 			if c_inv:
 				c_inv.add_relic(player, relic_resource)
+				NodeFX.fade(self, 1.0, false, true)
 				print("[Pickup] Picked up relic: %s" % relic_resource.name)
+				await get_tree().create_timer(1.0).timeout
 				ECS.world.remove_entity(self)

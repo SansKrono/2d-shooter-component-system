@@ -2,6 +2,8 @@ extends Object
 
 
 static func fade(node: Node, duration := 1.0, fade_in := false, fade_out := false):
+	if not fade_in and not fade_out:
+		return
 
 	var fade_tween = node.create_tween()
 	NodeFX.CURRENTLY_RUNNING_TWEENS.append(fade_tween)
