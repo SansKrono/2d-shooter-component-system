@@ -1,99 +1,114 @@
-[gd_scene load_steps=7 format=3]
+[gd_scene format=3 uid="uid://d01yyqggg0ptu"]
 
-[ext_resource type="Script" path="res://ui/hud.gd" id="1_hud"]
-[ext_resource type="Theme" uid="uid://4r6b2cnujbph" path="res://gui_assets/waste_no_space.theme" id="2_theme"]
-[ext_resource type="Texture2D" uid="uid://s45in7acrvv0" path="res://gui_assets/art/GuiTexture.tres" id="3_gui_texture"]
+[ext_resource type="Script" uid="uid://c7yfaxb8cxrxk" path="res://ui/hud.gd" id="1_hud"]
+[ext_resource type="Theme" uid="uid://yqkvsb5q7pab" path="res://pixel_ui_theme/PixelTheme.tres" id="2_theme"]
+[ext_resource type="Texture2D" uid="uid://dx0u5hiwxfgu5" path="res://pixel_ui_theme/8x8_ui_elements.png" id="3_gui_texture"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_hp"]
 texture = ExtResource("3_gui_texture")
-margin_left = 2.0
-margin_top = 2.0
-margin_right = 2.0
-margin_bottom = 2.0
-region_rect = Rect2(13, 31, 5, 5)
+texture_margin_left = 3.0
+texture_margin_top = 3.0
+texture_margin_right = 3.0
+texture_margin_bottom = 3.0
+axis_stretch_horizontal = 2
+axis_stretch_vertical = 2
+region_rect = Rect2(24, 24, 8, 8)
 modulate_color = Color(0.9, 0.25, 0.25, 0.85)
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_mp"]
 texture = ExtResource("3_gui_texture")
-margin_left = 2.0
-margin_top = 2.0
-margin_right = 2.0
-margin_bottom = 2.0
-region_rect = Rect2(13, 31, 5, 5)
+texture_margin_left = 3.0
+texture_margin_top = 3.0
+texture_margin_right = 3.0
+texture_margin_bottom = 3.0
+axis_stretch_horizontal = 2
+axis_stretch_vertical = 2
+region_rect = Rect2(24, 24, 8, 8)
 modulate_color = Color(0.2, 0.55, 0.9, 0.85)
 
-[node name="HUD" type="Control"]
+[node name="HUD" type="Control" unique_id=968639838]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_left = 69.0
+offset_top = 69.0
+offset_right = 69.0
+offset_bottom = 69.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 theme = ExtResource("2_theme")
 script = ExtResource("1_hud")
 
-[node name="StatsPanel" type="Panel" parent="."]
-layout_mode = 0
-offset_left = 20.0
-offset_top = 20.0
-offset_right = 280.0
-offset_bottom = 200.0
-
-[node name="VBox" type="VBoxContainer" parent="StatsPanel"]
+[node name="StatBox" type="VBoxContainer" parent="." unique_id=463097894]
+custom_minimum_size = Vector2(200, 0)
 layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = 15.0
-offset_top = 10.0
-offset_right = -15.0
-offset_bottom = -10.0
-grow_horizontal = 2
-grow_vertical = 2
+offset_left = -57.0
+offset_top = -56.0
+offset_right = 143.0
+offset_bottom = 57.0
 theme_override_constants/separation = 5
 alignment = 1
 
-[node name="HPLabel" type="Label" parent="StatsPanel/VBox"]
+[node name="TimerLabel" type="Label" parent="StatBox" unique_id=1901934278]
+layout_mode = 2
+theme_override_font_sizes/font_size = 19
+text = "Time: 00:00"
+
+[node name="KillsLabel" type="Label" parent="StatBox" unique_id=222337872]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.8, 0.2, 1)
+theme_override_font_sizes/font_size = 19
+text = "Kills: 0"
+
+[node name="RelicsLabel" type="Label" parent="StatBox" unique_id=879064729]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.7, 0.9, 0.7, 1)
+theme_override_font_sizes/font_size = 17
+text = "Relics: None"
+autowrap_mode = 2
+
+[node name="ResourceBox" type="HBoxContainer" parent="." unique_id=1371270918]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = -0.060000002
+anchor_top = 0.89400005
+anchor_right = -0.060000002
+anchor_bottom = 0.89400005
+offset_left = 13.120003
+offset_top = -107.31201
+offset_right = 213.12
+offset_bottom = -6.3120117
+
+[node name="VBox" type="VBoxContainer" parent="ResourceBox" unique_id=869536282]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+theme_override_constants/separation = 5
+alignment = 1
+
+[node name="HPLabel" type="Label" parent="ResourceBox/VBox" unique_id=29176439]
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 0.35, 0.35, 1)
-theme_override_font_sizes/font_size = 14
+theme_override_font_sizes/font_size = 19
 text = "HP: 100 / 100"
 
-[node name="HPBar" type="ProgressBar" parent="StatsPanel/VBox"]
+[node name="HPBar" type="ProgressBar" parent="ResourceBox/VBox" unique_id=230522763]
 custom_minimum_size = Vector2(0, 10)
 layout_mode = 2
 theme_override_styles/fill = SubResource("StyleBoxTexture_hp")
 value = 100.0
 show_percentage = false
 
-[node name="MPLabel" type="Label" parent="StatsPanel/VBox"]
+[node name="MPLabel" type="Label" parent="ResourceBox/VBox" unique_id=1382624540]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.3, 0.65, 1, 1)
-theme_override_font_sizes/font_size = 14
+theme_override_font_sizes/font_size = 19
 text = "Mana: 100.0"
 
-[node name="MPBar" type="ProgressBar" parent="StatsPanel/VBox"]
+[node name="MPBar" type="ProgressBar" parent="ResourceBox/VBox" unique_id=507124469]
 custom_minimum_size = Vector2(0, 10)
 layout_mode = 2
 theme_override_styles/fill = SubResource("StyleBoxTexture_mp")
 value = 100.0
 show_percentage = false
-
-[node name="TimerLabel" type="Label" parent="StatsPanel/VBox"]
-layout_mode = 2
-theme_override_font_sizes/font_size = 14
-text = "Time: 00:00"
-
-[node name="KillsLabel" type="Label" parent="StatsPanel/VBox"]
-layout_mode = 2
-theme_override_colors/font_color = Color(1, 0.8, 0.2, 1)
-theme_override_font_sizes/font_size = 14
-text = "Kills: 0"
-
-[node name="RelicsLabel" type="Label" parent="StatsPanel/VBox"]
-layout_mode = 2
-theme_override_colors/font_color = Color(0.7, 0.9, 0.7, 1)
-theme_override_font_sizes/font_size = 12
-text = "Relics: None"
-autowrap_mode = 2

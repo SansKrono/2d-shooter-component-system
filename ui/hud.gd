@@ -1,12 +1,12 @@
 extends Control
 
-@onready var hp_label: Label = $StatsPanel/VBox/HPLabel
-@onready var hp_bar: ProgressBar = $StatsPanel/VBox/HPBar
-@onready var mp_label: Label = $StatsPanel/VBox/MPLabel
-@onready var mp_bar: ProgressBar = $StatsPanel/VBox/MPBar
-@onready var timer_label: Label = $StatsPanel/VBox/TimerLabel
-@onready var kills_label: Label = $StatsPanel/VBox/KillsLabel
-@onready var relics_label: Label = $StatsPanel/VBox/RelicsLabel
+@onready var hp_label: Label = $ResourceBox/VBox/HPLabel
+@onready var hp_bar: ProgressBar = $ResourceBox/VBox/HPBar
+@onready var mp_label: Label = $ResourceBox/VBox/MPLabel
+@onready var mp_bar: ProgressBar = $ResourceBox/VBox/MPBar
+@onready var timer_label: Label = $StatBox/TimerLabel
+@onready var kills_label: Label = $StatBox/KillsLabel
+@onready var relics_label: Label = $StatBox/RelicsLabel
 
 func update_health(current: float, maximum: float) -> void:
 	hp_label.text = "HP: %.1f / %.1f" % [current, maximum]
