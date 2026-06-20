@@ -110,6 +110,10 @@ func start_run() -> void:
 
 func unload_level() -> void:
 	if active_level:
+		var world_node = active_level.get_node_or_null("World") as World
+		if world_node and world_node.entity_removed.is_connected(_on_entity_removed):
+			world_node.entity_removed.disconnect(_on_entity_removed)
+
 		if ECS.world:
 			# Purge the world
 			ECS.world.purge(false)
