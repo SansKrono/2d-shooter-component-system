@@ -156,6 +156,8 @@ func process(entities: Array[Entity], _components: Array, delta: float) -> void:
 		var c_mana = entity.get_component(C_Mana) as C_Mana
 		if c_mana and c_mana.current < c_mana.maximum:
 			c_mana.current = min(c_mana.maximum, c_mana.current + c_mana.regeneration_rate * delta)
+```
+
 ### 4. Declarative Scene-Tree Composition
 
 Instead of declaring and registering all entities and systems programmatically, developers can build the entire ECS structure visually in the Godot scene tree. 
