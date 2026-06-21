@@ -1,6 +1,10 @@
 class_name CombatSystem
 extends System
 
+const C_MASS = preload("res://components/character/c_mass.gd")
+const C_PENDING_DAMAGE = preload("res://components/character/c_pending_damage.gd")
+const C_DAMAGE_TYPE = preload("res://components/character/c_damage_type.gd")
+
 static func apply_hit(bullet: Entity, target: Entity) -> void:
 	if not is_instance_valid(bullet) or not is_instance_valid(target):
 		return
@@ -8,7 +12,6 @@ static func apply_hit(bullet: Entity, target: Entity) -> void:
 	# 1. Fetch target components
 	var target_health = target.get_component(C_Health) as C_Health
 	var target_res = target.get_component(C_Resilience) as C_Resilience
-	var target_vel = target.get_component(C_Velocity) as C_Velocity
 
 	if not target_health:
 		return
@@ -30,25 +33,38 @@ static func apply_hit(bullet: Entity, target: Entity) -> void:
 	var armor = target_res.armor if target_res else 0.0
 	var final_damage = max(1.0, base_damage - armor)
 
-	# 5. Apply health modification
-	target_health.current = max(0.0, target_health.current - final_damage)
-
-	# 6. Apply knockback
-	if bullet_vel and target_vel:
-		var knockback_dir = bullet_vel.direction.normalized()
-		if knockback_dir == Vector2.ZERO:
-			# Fallback: direction from bullet to target
-			knockback_dir = (target.global_position - bullet.global_position).normalized()
+	# 5. Calculate displacement knockback vector using mass ratio formula
+	var displacement = Vector2.ZERO
+	if bullet_vel:
+		var v_p = bullet_vel.direction * bullet_vel.speed
+		if v_p == Vector2.ZERO:
+			v_p = (target.global_position - bullet.global_position).normalized() * bullet_vel.speed
+		var m_p = 8.0
+		if bullet.has_component(C_MASS):
+			m_p = bullet.get_component(C_MASS).mass
+		var m_t = 10.0
+		if target.has_component(C_MASS):
+			m_t = target.get_component(C_MASS).mass
+		elif target_res:
+			m_t = target_res.weight * 10.0
 		
-		var weight = target_res.weight if target_res else 1.0
-		var kb_force = bullet_payload.knockback_force
-		target_vel.knockback += knockback_dir * (kb_force / weight)
+		var K = 1.7
+		displacement = v_p * K * (m_p / m_t)
+
+	# 6. Append C_PendingDamage component to target
+	var pending = C_PENDING_DAMAGE.new(final_damage, displacement)
+	target.add_component(pending)
+
+	# Propagate damage type if applicable (e.g. explosive)
+	if bullet.has_component(C_DAMAGE_TYPE):
+		var dtype = bullet.get_component(C_DAMAGE_TYPE)
+		target.add_component(C_DAMAGE_TYPE.new(dtype.damage_type))
 
 	# 7. Print debug log
 	var is_crit = bullet_vol.is_critical if bullet_vol else false
 	var crit_label = " [CRITICAL!]" if is_crit else ""
-	print("[Combat] Hit %s! Damage: %.1f%s (Armor: %.1f) | Health: %.1f/%.1f" % [
-		target.name, final_damage, crit_label, armor, target_health.current, target_health.maximum
+	print("[Combat] Hit %s! Damage: %.1f%s (Armor: %.1f)" % [
+		target.name, final_damage, crit_label, armor
 	])
 
 	# 8. Trigger Invulnerability Frames
@@ -84,7 +100,6 @@ static func apply_contact_damage(attacker: Entity, target: Entity) -> void:
 	# 1. Fetch target components
 	var target_health = target.get_component(C_Health) as C_Health
 	var target_res = target.get_component(C_Resilience) as C_Resilience
-	var target_vel = target.get_component(C_Velocity) as C_Velocity
 
 	if not target_health:
 		return
@@ -102,31 +117,43 @@ static func apply_contact_damage(attacker: Entity, target: Entity) -> void:
 	var armor = target_res.armor if target_res else 0.0
 	var final_damage = max(1.0, base_damage - armor)
 
-	# 4. Apply health modification
-	target_health.current = max(0.0, target_health.current - final_damage)
+	# 4. Calculate contact knockback
+	var displacement = Vector2.ZERO
+	var knockback_dir = (target.global_position - attacker.global_position).normalized()
+	if knockback_dir == Vector2.ZERO:
+		knockback_dir = Vector2.RIGHT
 
-	# 5. Apply knockback
-	if target_vel:
-		var knockback_dir = (target.global_position - attacker.global_position).normalized()
-		if knockback_dir == Vector2.ZERO:
-			knockback_dir = Vector2.RIGHT
+	var m_t = 10.0
+	if target.has_component(C_MASS):
+		m_t = target.get_component(C_MASS).mass
+	elif target_res:
+		m_t = target_res.weight * 10.0
 
-		var weight = target_res.weight if target_res else 1.0
-		var kb_force = 150.0
-		var attacker_pay = attacker.get_component(C_Payload) as C_Payload
-		if attacker_pay:
-			kb_force = attacker_pay.knockback_force
+	var kb_force = 150.0
+	var attacker_pay = attacker.get_component(C_Payload) as C_Payload
+	if attacker_pay:
+		kb_force = attacker_pay.knockback_force
 
-		target_vel.knockback += knockback_dir * (kb_force / weight)
+	displacement = knockback_dir * (kb_force / m_t)
+
+	# 5. Append C_PendingDamage component to target
+	var pending = C_PENDING_DAMAGE.new(final_damage, displacement)
+	target.add_component(pending)
+
+	# Propagate damage type if attacker has one
+	if attacker.has_component(C_DAMAGE_TYPE):
+		var dtype = attacker.get_component(C_DAMAGE_TYPE)
+		target.add_component(C_DAMAGE_TYPE.new(dtype.damage_type))
 
 	# 6. Print debug log
-	print("[Combat] Contact damage! %s hit %s! Damage: %.1f (Armor: %.1f) | Health: %.1f/%.1f" % [
-		attacker.name, target.name, final_damage, armor, target_health.current, target_health.maximum
+	print("[Combat] Contact damage queued! %s hit %s! Damage: %.1f (Armor: %.1f)" % [
+		attacker.name, target.name, final_damage, armor
 	])
 
 	# 7. Trigger Invulnerability Frames
 	if target_res and target_res.invulnerability_duration > 0.0:
 		target_res.current_i_frames = target_res.invulnerability_duration
+
 
 static func _spawn_split_bullets(
 	original_bullet: Entity,

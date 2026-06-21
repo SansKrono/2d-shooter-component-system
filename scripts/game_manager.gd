@@ -8,9 +8,10 @@ enum GameState {
 	VICTORY
 }
 
-const GAMEPLAY_SCENE = preload("res://gui_test_scene.tscn")
+const GAMEPLAY_SCENE = preload("res://dungeon_game_scene.tscn")
 const C_TRIGGER_SCRIPT = preload("res://components/character/c_trigger.gd")
 const C_SPAWNER_SCRIPT = preload("res://components/character/c_spawner.gd")
+const C_CURRENCY = preload("res://components/character/c_currency.gd")
 
 @export var initial_state: GameState = GameState.MAIN_MENU
 
@@ -166,6 +167,11 @@ func check_victory_condition() -> void:
 	if current_state != GameState.PLAYING:
 		return
 
+	if ECS.world:
+		var systems_root = ECS.world.get_node_or_null(ECS.world.system_nodes_root)
+		if systems_root and systems_root.has_node("RoomGenerationSystem"):
+			return # Let RoomGenerationSystem handle victory progression
+
 	# Query living enemies
 	var living_enemies = get_tree().get_nodes_in_group("enemies")
 	var active_count = 0
@@ -199,9 +205,18 @@ func _update_hud() -> void:
 
 	var health = player.get_component(C_Health) as C_Health
 	var mana = player.get_component(C_Mana) as C_Mana
+	var currency = player.get_component(C_CURRENCY) as C_Currency
 
 	if health:
-		hud_ui.update_health(health.current, health.maximum)
+		if health.is_player:
+			hud_ui.update_health_hearts(
+				health.current_red,
+				health.max_red,
+				health.soul_hearts,
+				health.black_hearts
+			)
+		else:
+			hud_ui.update_health(health.current, health.maximum)
 	else:
 		hud_ui.set_health_na()
 
@@ -213,6 +228,8 @@ func _update_hud() -> void:
 	hud_ui.update_run_time(run_time)
 	hud_ui.update_kills(enemies_killed)
 	hud_ui.update_relics(relics_collected)
+	if currency:
+		hud_ui.update_coins(currency.amount)
 
 func _populate_end_stats(ui: Control) -> void:
 	if not ui:

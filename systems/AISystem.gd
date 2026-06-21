@@ -1,8 +1,10 @@
 class_name AISystem
 extends System
 
+const C_OFFSCREEN = preload("res://components/character/c_offscreen.gd")
+
 func query() -> QueryBuilder:
-	return q.with_all([C_AIStateMachine, C_Velocity])
+	return q.with_all([C_AIStateMachine, C_Velocity]).with_none([C_OFFSCREEN])
 
 func process(entities: Array[Entity], _components: Array, _delta: float) -> void:
 	# 1. Locate the player entity

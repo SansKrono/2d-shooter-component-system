@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="RunConfig" format=3]
+
+[ext_resource type="Resource" path="res://resources/floor_1_basement.tres" id="1_basement"]
+[ext_resource type="Resource" path="res://resources/floor_2_caves.tres" id="2_caves"]
+[ext_resource type="Script" path="res://resources/run_config.gd" id="3_run_config"]
+
+[resource]
+script = ExtResource("3_run_config")
+floors = Array[Resource]([ExtResource("1_basement"), ExtResource("2_caves")])

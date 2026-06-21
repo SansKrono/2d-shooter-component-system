@@ -1,0 +1,33 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://entities/environmental/e_room.gd" id="1_room"]
+[ext_resource type="PackedScene" path="res://entities/rooms/e_door.tscn" id="2_door"]
+
+[node name="ERoomStart" type="Node2D"]
+script = ExtResource("1_room")
+
+[node name="DoorNorth" parent="." instance=ExtResource("2_door")]
+position = Vector2(576, 40)
+direction = "north"
+
+[node name="DoorSouth" parent="." instance=ExtResource("2_door")]
+position = Vector2(576, 608)
+direction = "south"
+
+[node name="DoorWest" parent="." instance=ExtResource("2_door")]
+position = Vector2(40, 324)
+direction = "west"
+
+[node name="DoorEast" parent="." instance=ExtResource("2_door")]
+position = Vector2(1112, 324)
+direction = "east"
+
+[node name="DebugLabel" type="Label" parent="."]
+offset_left = 400.0
+offset_top = 280.0
+offset_right = 752.0
+offset_bottom = 344.0
+text = "START ROOM
+(Safe Zone)"
+horizontal_alignment = 1
+vertical_alignment = 1

@@ -49,19 +49,19 @@ func _process(delta: float) -> void:
 	if DisplayServer.get_name() == "headless":
 		sim_timer += delta
 
-		# 1. Teleport player onto ETrigger at 1.0s (ETrigger is at 486, 273)
+		# 1. Teleport player onto ETrigger at 1.0s (ETrigger is at 109, 325)
 		if sim_timer >= 1.0 and sim_timer < 1.1:
 			var player = get_node_or_null("Entities/EPlayer")
-			if player and player.global_position != Vector2(486, 273):
-				player.global_position = Vector2(486, 273)
-				print("[GUI Runner] Teleported player onto ETrigger (486, 273).")
+			if player and player.global_position != Vector2(109, 325):
+				player.global_position = Vector2(109, 325)
+				print("[GUI Runner] Teleported player onto ETrigger (109, 325).")
 
-		# 2. Teleport player onto SeekingAlgorithmPickup at 2.0s (relic spawned at 350, 450)
+		# 2. Teleport player onto SeekingAlgorithmPickup at 2.0s (relic spawned at 1031, 558)
 		if sim_timer >= 2.0 and sim_timer < 2.1:
 			var player = get_node_or_null("Entities/EPlayer")
-			if player and player.global_position != Vector2(350, 450):
-				player.global_position = Vector2(350, 450)
-				print("[GUI Runner] Teleported player onto spawned Relic Pickup (350, 450).")
+			if player and player.global_position != Vector2(1031, 558):
+				player.global_position = Vector2(1031, 558)
+				print("[GUI Runner] Teleported player onto spawned Relic Pickup (1031, 558).")
 
 		# 3. Simulate interact press on player at 2.3s to pick up the relic
 		if sim_timer >= 2.3 and sim_timer < 2.4:
@@ -72,12 +72,12 @@ func _process(delta: float) -> void:
 					c_input.interact_just_pressed = true
 					print("[GUI Runner] Simulating interact input to pick up relic.")
 
-		# 4. Teleport player onto EButton at 3.0s (EButton is at 204, 409)
+		# 4. Teleport player onto EButton at 3.0s (EButton is at 502, 124)
 		if sim_timer >= 3.0 and sim_timer < 3.1:
 			var player = get_node_or_null("Entities/EPlayer")
-			if player and player.global_position != Vector2(204, 409):
-				player.global_position = Vector2(204, 409)
-				print("[GUI Runner] Teleported player onto Spawner Button EButton (204, 409).")
+			if player and player.global_position != Vector2(502, 124):
+				player.global_position = Vector2(502, 124)
+				print("[GUI Runner] Teleported player onto Spawner Button EButton (502, 124).")
 
 		# 5. Simulate interact press on player at 3.3s to press the button
 		if sim_timer >= 3.3 and sim_timer < 3.4:
@@ -106,12 +106,12 @@ func _process(delta: float) -> void:
 			else:
 				print("[GUI Runner] Success: SpawnerButton 99 replaced.")
 
-		# 7. Teleport player onto EButton2 at 4.3s (EButton2 is at 371, 546)
+		# 7. Teleport player onto EButton2 at 4.3s (EButton2 is at 284, 324)
 		if sim_timer >= 4.3 and sim_timer < 4.4:
 			var player = get_node_or_null("Entities/EPlayer")
-			if player and player.global_position != Vector2(371, 546):
-				player.global_position = Vector2(371, 546)
-				print("[GUI Runner] Teleported player onto EButton2 (371, 546).")
+			if player and player.global_position != Vector2(284, 324):
+				player.global_position = Vector2(284, 324)
+				print("[GUI Runner] Teleported player onto EButton2 (284, 324).")
 
 		# 8. Simulate interact press on player at 4.6s to press EButton2
 		if sim_timer >= 4.6 and sim_timer < 4.7:

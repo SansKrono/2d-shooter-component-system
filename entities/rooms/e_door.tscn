@@ -1,0 +1,30 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://entities/rooms/e_door.gd" id="1_door"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_door"]
+size = Vector2(80, 80)
+
+[node name="EDoor" type="Node2D"]
+script = ExtResource("1_door")
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("RectangleShape2D_door")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+offset_left = -40.0
+offset_top = -20.0
+offset_right = 40.0
+offset_bottom = 20.0
+color = Color(0.45, 0.24, 0.12, 1.0)
+
+[node name="Label" type="Label" parent="."]
+offset_left = -40.0
+offset_top = -20.0
+offset_right = 40.0
+offset_bottom = 20.0
+text = "DOOR"
+horizontal_alignment = 1
+vertical_alignment = 1
