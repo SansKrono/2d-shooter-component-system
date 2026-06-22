@@ -2,6 +2,7 @@ class_name PlayerInputSystem
 extends System
 
 var _rmb_was_pressed: bool = false
+var _last_aim_direction: Vector2 = Vector2.RIGHT
 
 func query() -> QueryBuilder:
 	return q.with_all([C_Input, C_Velocity])
@@ -54,7 +55,9 @@ func process(entities: Array[Entity], _components: Array, _delta: float) -> void
 		var c_phys = entity.get_component(C_Physics)
 		if c_phys and is_instance_valid(c_phys.body):
 			var raw_aim = c_phys.body.get_global_mouse_position() - c_phys.body.global_position
-			c_input.aim_direction = raw_aim.normalized() if raw_aim.length() > 1.0 else Vector2.RIGHT
+			if raw_aim.length() > 1.0:
+				_last_aim_direction = raw_aim.normalized()
+		c_input.aim_direction = _last_aim_direction
 
 		# LMB fire button — edge detection same as interact_just_pressed
 		var lmb = Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT)

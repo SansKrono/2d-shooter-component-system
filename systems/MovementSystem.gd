@@ -69,6 +69,7 @@ func process(entities: Array[Entity], _components: Array, delta: float) -> void:
 
 		elif "global_position" in entity:
 			# Non-physics fallback: projectiles, floating pickups
-			var c_proj = entity.get_component(C_PROJECTILE)
-			var fallback_spd : float = c_proj.speed if c_proj else 200.0
-			entity.global_position += c_vel.direction * fallback_spd * delta
+			if c_loco and c_loco.current_velocity != Vector2.ZERO:
+				entity.global_position += c_loco.current_velocity * delta
+			else:
+				entity.global_position += c_vel.direction * 200.0 * delta

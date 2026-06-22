@@ -159,7 +159,7 @@ func _fire_tech_straight(shooter: Entity, c_input: C_Input) -> void:
 	if "global_position" in shooter:
 		bullet.position = shooter.global_position
 
-	var direction = c_input.aim_direction
+	var direction = _safe_aim(c_input)
 	bullet.add_component(C_Velocity.new(direction))
 	bullet.add_component(C_LOCOMOTION.new(600.0, 99999.0, 99999.0))
 	bullet.add_component(C_Payload.new(12.0, 200.0, 0.0))
@@ -181,7 +181,7 @@ func _fire_tech_straight(shooter: Entity, c_input: C_Input) -> void:
 	cmd.add_entity(bullet)
 
 func _fire_tech_fan(shooter: Entity, c_input: C_Input) -> void:
-	var base_dir = c_input.aim_direction
+	var base_dir = _safe_aim(c_input)
 	var angles = [-15.0, 0.0, 15.0]
 
 	for angle in angles:
@@ -217,7 +217,7 @@ func _fire_tech_beam(shooter: Entity, c_input: C_Input, charge: float) -> void:
 	if "global_position" in shooter:
 		bullet.position = shooter.global_position
 
-	var direction = c_input.aim_direction
+	var direction = _safe_aim(c_input)
 	bullet.add_component(C_Velocity.new(direction))
 	bullet.add_component(C_LOCOMOTION.new(1200.0, 99999.0, 99999.0))
 
@@ -239,7 +239,7 @@ func _fire_tech_beam(shooter: Entity, c_input: C_Input, charge: float) -> void:
 	cmd.add_entity(bullet)
 
 func _fire_magic_spiral(shooter: Entity, c_input: C_Input) -> void:
-	var base_dir = c_input.aim_direction
+	var base_dir = _safe_aim(c_input)
 	var deviation = randf_range(-30.0, 30.0)
 	var direction = base_dir.rotated(deg_to_rad(deviation))
 
@@ -268,7 +268,7 @@ func _fire_magic_spiral(shooter: Entity, c_input: C_Input) -> void:
 	cmd.add_entity(bullet)
 
 func _fire_magic_wave(shooter: Entity, c_input: C_Input) -> void:
-	var base_dir = c_input.aim_direction
+	var base_dir = _safe_aim(c_input)
 	var angles = [-20.0, 0.0, 20.0]
 
 	for angle in angles:
@@ -344,3 +344,6 @@ func _apply_charge_visual(entity: Entity, charge: float, mode: String) -> void:
 func _trigger_screen_shake(intensity: float, duration: float) -> void:
 	if screen_shake_system:
 		screen_shake_system.trigger_shake(intensity, duration)
+
+func _safe_aim(c_input: C_Input) -> Vector2:
+	return c_input.aim_direction if c_input.aim_direction != Vector2.ZERO else Vector2.RIGHT
