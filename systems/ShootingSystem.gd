@@ -333,9 +333,9 @@ func _apply_mode_visual(entity: Entity, mode: String) -> void:
 		sprite.modulate = Color(0.4, 0.8, 1.0) if mode == "TECH" else Color(0.8, 0.2, 1.0)
 
 	if mode == "TECH":
-		DisplayServer.cursor_set_custom_image(CURSOR_TECH, DisplayServer.CURSOR_ARROW, Vector2(16, 16))
+		DisplayServer.cursor_set_custom_image(CURSOR_TECH, DisplayServer.CURSOR_ARROW, Vector2(32, 32))
 	else:
-		DisplayServer.cursor_set_custom_image(CURSOR_MAGIC, DisplayServer.CURSOR_ARROW, Vector2(16, 16))
+		DisplayServer.cursor_set_custom_image(CURSOR_MAGIC, DisplayServer.CURSOR_ARROW, Vector2(32, 32))
 
 func _apply_charge_visual(entity: Entity, charge: float, mode: String) -> void:
 	var sprite = entity.get_node_or_null("Sprite2D") as Sprite2D
