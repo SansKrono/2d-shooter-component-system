@@ -28,6 +28,8 @@
 [ext_resource type="Resource" path="res://resources/run_default.tres" id="42_run_default"]
 [ext_resource type="Script" path="res://systems/DungeonGenerationSystem.gd" id="43_dungeon_gen"]
 [ext_resource type="Script" path="res://systems/ContinuousCameraSystem.gd" id="44_cam_sys"]
+[ext_resource type="Script" path="res://systems/ContinuousEnemySpawnerSystem.gd" id="45_enemy_spawn"]
+[ext_resource type="Script" path="res://systems/CorruptionSpreadingSystem.gd" id="46_corruption"]
 
 [sub_resource type="Resource" id="Resource_mana"]
 script = ExtResource("9_mana")
@@ -117,6 +119,18 @@ enable_tilemap = true
 script = ExtResource("44_cam_sys")
 camera_smoothing = 8.0
 camera_bounds_enabled = true
+
+[node name="ContinuousEnemySpawnerSystem" type="Node" parent="Systems"]
+script = ExtResource("45_enemy_spawn")
+enemy_spawn_enabled = true
+base_enemy_count = 2
+
+[node name="CorruptionSpreadingSystem" type="Node" parent="Systems"]
+script = ExtResource("46_corruption")
+spreading_enabled = true
+spread_radius = 300.0
+spread_rate = 0.1
+max_corruption = 1.0
 
 [node name="Entities" type="Node2D" parent="."]
 
