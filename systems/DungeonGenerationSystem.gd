@@ -135,7 +135,8 @@ func _setup_continuous_world() -> void:
 		continuous_dungeon.queue_free()
 
 	continuous_dungeon = CONTINUOUS_DUNGEON.new()
-	get_tree().root.add_child(continuous_dungeon)
+	var entities_root = _world.get_node(_world.entity_nodes_root)
+	entities_root.add_child(continuous_dungeon)
 	continuous_dungeon.setup_from_graph(dungeon_graph)
 
 	_position_player_in_dungeon()
