@@ -175,17 +175,22 @@ func _mark_destructible(room_type: String) -> Array[Vector2]:
 	return world_positions
 
 func _paint_decorations_from_config(layout_config: Resource) -> void:
-	var positions = layout_config.get("decoration_positions", [])
-	for pos in positions:
-		set_cell(3, pos, _source_id, Vector2i(3, 0))
+	if layout_config and "decoration_positions" in layout_config:
+		var positions = layout_config.get("decoration_positions")
+		for pos in positions:
+			set_cell(3, pos, _source_id, Vector2i(3, 0))
 
 func _paint_indestructible_from_config(layout_config: Resource) -> void:
-	var positions = layout_config.get("indestructible_positions", [])
-	for pos in positions:
-		set_cell(4, pos, _source_id, Vector2i(4, 0))
+	if layout_config and "indestructible_positions" in layout_config:
+		var positions = layout_config.get("indestructible_positions")
+		for pos in positions:
+			set_cell(4, pos, _source_id, Vector2i(4, 0))
 
 func _mark_destructible_from_config(layout_config: Resource) -> Array[Vector2]:
-	var tile_positions = layout_config.get("destructible_positions", [])
+	var tile_positions: Array[Vector2i] = []
+	if layout_config and "destructible_positions" in layout_config:
+		tile_positions = layout_config.get("destructible_positions")
+
 	for tp in tile_positions:
 		set_cell(5, tp, _source_id, Vector2i(5, 0))
 

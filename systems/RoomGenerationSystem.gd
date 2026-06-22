@@ -287,8 +287,8 @@ func _deferred_transition(coords: Vector2i, entering_from_dir: String) -> void:
 	if not room_data["cleared"]:
 		# Use enemy positions from layout config if available
 		var enemy_positions: Array[Vector2] = []
-		if layout_config:
-			enemy_positions = layout_config.get("enemy_spawn_positions", [])
+		if layout_config and "enemy_spawn_positions" in layout_config:
+			enemy_positions = layout_config.get("enemy_spawn_positions")
 
 		if type == "NORMAL":
 			if enemy_positions.is_empty():
@@ -359,17 +359,23 @@ func _pick_layout(room_type: String, rng: RandomNumberGenerator) -> Resource:
 		floor_cfg = run_config.floors[current_floor_index]
 
 	var layouts: Array[Resource] = []
-	match room_type:
-		"NORMAL":
-			layouts = floor_cfg.get("normal_room_layouts", []) if floor_cfg else []
-		"BOSS":
-			layouts = floor_cfg.get("boss_room_layouts", []) if floor_cfg else []
-		"TREASURE":
-			layouts = floor_cfg.get("treasure_room_layouts", []) if floor_cfg else []
-		"SHOP":
-			layouts = floor_cfg.get("shop_room_layouts", []) if floor_cfg else []
-		"START":
-			layouts = floor_cfg.get("start_room_layouts", []) if floor_cfg else []
+	if floor_cfg:
+		match room_type:
+			"NORMAL":
+				if "normal_room_layouts" in floor_cfg:
+					layouts = floor_cfg.get("normal_room_layouts")
+			"BOSS":
+				if "boss_room_layouts" in floor_cfg:
+					layouts = floor_cfg.get("boss_room_layouts")
+			"TREASURE":
+				if "treasure_room_layouts" in floor_cfg:
+					layouts = floor_cfg.get("treasure_room_layouts")
+			"SHOP":
+				if "shop_room_layouts" in floor_cfg:
+					layouts = floor_cfg.get("shop_room_layouts")
+			"START":
+				if "start_room_layouts" in floor_cfg:
+					layouts = floor_cfg.get("start_room_layouts")
 
 	if layouts.is_empty():
 		return null
