@@ -15,8 +15,18 @@ func define_components() -> Array:
 func setup(room_type: String, active_doors: Array[String]) -> Array[Vector2]:
 	if _tilemap and is_instance_valid(_tilemap):
 		_tilemap.queue_free()
+
+	# Create StaticBody2D wrapper for collision layer/mask configuration
+	var physics_body = StaticBody2D.new()
+	physics_body.name = "TileMapPhysics"
+	physics_body.collision_layer = 1
+	physics_body.collision_mask = 1
+	add_child(physics_body)
+
+	# Create and attach TileMap as child of physics body
 	_tilemap = TileMap.new()
 	_tilemap.name = "RoomTileMap"
 	_tilemap.set_script(ROOM_TILEMAP_SCRIPT)
-	add_child(_tilemap)
+	physics_body.add_child(_tilemap)
+
 	return _tilemap.paint_room(room_type, active_doors)
