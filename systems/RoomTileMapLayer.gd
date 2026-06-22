@@ -8,6 +8,7 @@ const ROOM_HEIGHT: int = 9
 var _source_id: int = -1
 
 func _ready() -> void:
+	z_index = -100
 	_setup_tileset()
 
 func _setup_tileset() -> void:
@@ -51,6 +52,10 @@ func _setup_tileset() -> void:
 
 	_source_id = ts.add_source(source)
 	tile_set = ts
+
+	# Configure TileMap collision to interact with player (CharacterBody2D on layer 1)
+	collision_layer = 1
+	collision_mask = 1
 
 	# Create 6 TileMap layers
 	for i in range(1, 6):
