@@ -1,3 +1,4 @@
+@tool
 class_name TechHazard
 extends Entity
 
@@ -17,4 +18,4 @@ func on_ready() -> void:
 	if collision and not collision.shape:
 		var circle = CircleShape2D.new()
 		circle.radius = 20.0
-		collision.shape = circle
+		collision.set_deferred("shape", circle)

@@ -8,7 +8,7 @@ func _ready() -> void:
 
 	var cursor_tex = load("res://assets/shoot-cursor-tech.png") as Texture2D
 	if cursor_tex:
-		DisplayServer.cursor_set_custom_image(cursor_tex, DisplayServer.CURSOR_ARROW, Vector2(8, 8))
+		DisplayServer.cursor_set_custom_image(cursor_tex, DisplayServer.CURSOR_ARROW, Vector2(16, 16))
 
 func _process(delta: float) -> void:
 	if ECS.world == world:

@@ -38,7 +38,7 @@ func process(entities: Array[Entity], _components: Array, delta: float) -> void:
 			if dist <= c_env.radius:
 				var c_health = target.get_component(C_HEALTH)
 				if c_health:
-					c_health.current_health = max(0.0, c_health.current_health - c_env.damage_per_tick)
+					c_health.current = max(0.0, c_health.current - c_env.damage_per_tick)
 					print("[Hazard] %s took %.1f damage from %s" % [
 						target.name, c_env.damage_per_tick, c_env.effect_type
 					])

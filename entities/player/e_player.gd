@@ -16,21 +16,18 @@ func define_components() -> Array:
 		C_Payload.new(12.0, 200.0),
 		C_Trajectory.new(600.0, 8.0, 2.5),
 		C_Volatility.new(0.3, 2.0),
-		C_Resilience.new(1.0, 1.2),
 		C_Luck.new(2.0),
 		C_Currency.new(100),
 		C_RelicInventory.new(),
 		C_ATTACK_MODE.new("TECH"),
 		C_TRANSFORM.new(Vector2.ZERO),
 		C_LOCOMOTION.new(200.0, 900.0, 800.0),
-		C_MASS.new(10.0)
+		C_MASS.new(10.0),
+		C_Physics.new($PhysicsBody)
 	]
 
 func on_ready():
 	$PhysicsBody.global_position = self.get("global_position")
-	var c_phys = get_component(C_Physics)
-	if c_phys:
-		c_phys.body = $PhysicsBody
 
 	if not Engine.is_editor_hint():
 		var trans = get_component(C_TRANSFORM)
