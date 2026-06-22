@@ -11,6 +11,7 @@ const C_BOSS_ARMOR = preload("res://components/character/c_boss_armor.gd")
 const ENEMY_SCENE = preload("res://entities/enemies/e_enemy.tscn")
 const RELIC_PICKUP_SCENE = preload("res://entities/environmental/e_relic.tscn")
 const AMPLIFICATION_ARRAY = preload("res://resources/relics/amplification_array.tres")
+const DESTRUCTIBLE_OBSTACLE_SCENE = preload("res://entities/rooms/e_destructible_obstacle.tscn")
 
 @export var map_seed: int = 12345
 @export var target_room_count: int = 6
@@ -196,12 +197,13 @@ func _deferred_transition(coords: Vector2i, entering_from_dir: String) -> void:
 	_world.add_entity(active_room_instance)
 
 	# Reposition player safely away from doors to prevent transition bouncing
-	var spawn_pos = Vector2(576, 324)
+	# 960x576 room, center at (480, 288)
+	var spawn_pos = Vector2(480, 288)
 	match entering_from_dir:
-		"north": spawn_pos = Vector2(576, 460) # Enters from South door
-		"south": spawn_pos = Vector2(576, 188) # Enters from North door
-		"east": spawn_pos = Vector2(188, 324)  # Enters from West door
-		"west": spawn_pos = Vector2(964, 324)  # Enters from East door
+		"north": spawn_pos = Vector2(480, 512)  # Enters from south door
+		"south": spawn_pos = Vector2(480, 64)   # Enters from north door
+		"east": spawn_pos = Vector2(64, 288)    # Enters from west door
+		"west": spawn_pos = Vector2(896, 288)   # Enters from east door
 
 	player.global_position = spawn_pos
 	var trans = player.get_component(C_TRANSFORM)
@@ -256,6 +258,21 @@ func _deferred_transition(coords: Vector2i, entering_from_dir: String) -> void:
 				if area:
 					area.process_mode = PROCESS_MODE_DISABLED
 
+	# Collect active door directions and paint tilemap
+	var active_doors: Array[String] = []
+	for dir_name in neighbor_dirs.keys():
+		if grid.has(coords + neighbor_dirs[dir_name]):
+			active_doors.append(dir_name)
+
+	if active_room_instance and active_room_instance.has_method("setup"):
+		var obstacle_positions: Array[Vector2] = active_room_instance.setup(type, active_doors)
+		for obs_pos in obstacle_positions:
+			var obs = DESTRUCTIBLE_OBSTACLE_SCENE.instantiate() as Entity
+			obs.position = obs_pos
+			var er = _world.get_node(_world.entity_nodes_root)
+			er.add_child(obs)
+			_world.add_entity(obs)
+
 	var c_room = active_room_instance.get_component(C_ROOM_DATA)
 	if c_room:
 		c_room.coords = coords
@@ -264,14 +281,14 @@ func _deferred_transition(coords: Vector2i, entering_from_dir: String) -> void:
 
 	if not room_data["cleared"]:
 		if type == "NORMAL":
-			_spawn_enemy(Vector2(300, 200))
-			_spawn_enemy(Vector2(800, 400))
+			_spawn_enemy(Vector2(256, 192))
+			_spawn_enemy(Vector2(704, 384))
 		elif type == "TREASURE":
-			_spawn_relic(Vector2(576, 324))
+			_spawn_relic(Vector2(480, 288))
 		elif type == "BOSS":
-			_spawn_boss(Vector2(576, 324))
+			_spawn_boss(Vector2(480, 288))
 		elif type == "SHOP":
-			_spawn_shop_items(Vector2(576, 324))
+			_spawn_shop_items(Vector2(480, 288))
 
 	print("[RoomGen] Finished loading room coords: %s (%s)" % [str(coords), type])
 

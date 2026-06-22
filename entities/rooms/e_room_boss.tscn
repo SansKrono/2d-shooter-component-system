@@ -7,19 +7,19 @@
 script = ExtResource("1_room")
 
 [node name="DoorNorth" parent="." instance=ExtResource("2_door")]
-position = Vector2(576, 40)
+position = Vector2(480, 32)
 direction = "north"
 
 [node name="DoorSouth" parent="." instance=ExtResource("2_door")]
-position = Vector2(576, 608)
+position = Vector2(480, 544)
 direction = "south"
 
 [node name="DoorWest" parent="." instance=ExtResource("2_door")]
-position = Vector2(40, 324)
+position = Vector2(32, 288)
 direction = "west"
 
 [node name="DoorEast" parent="." instance=ExtResource("2_door")]
-position = Vector2(1112, 324)
+position = Vector2(928, 288)
 direction = "east"
 
 [node name="DebugLabel" type="Label" parent="."]

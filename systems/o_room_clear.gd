@@ -49,7 +49,7 @@ func _unlock_doors() -> void:
 func _spawn_stairs() -> void:
 	print("[Observer] Spawning stairs to next floor...")
 	var stairs_inst = STAIRS_SCENE.instantiate() as Entity
-	stairs_inst.position = Vector2(576, 324)
+	stairs_inst.position = Vector2(480, 288)
 	var entities_root = ECS.world.get_node(ECS.world.entity_nodes_root)
 	entities_root.add_child(stairs_inst)
 	ECS.world.add_entity(stairs_inst)
