@@ -10,9 +10,9 @@ var _source_id: int = -1
 func _ready() -> void:
 	z_index = -100
 	_setup_tileset()
-	# Bind all TileMap layers to physics layer 0
+	# Enable all TileMap layers for rendering and physics
 	for layer_idx in range(get_layers_count()):
-		set_layer_physics_layer_index(layer_idx, 0)
+		set_layer_enabled(layer_idx, true)
 
 func _setup_tileset() -> void:
 	var ts := TileSet.new()
