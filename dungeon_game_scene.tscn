@@ -27,6 +27,7 @@
 [ext_resource type="Script" uid="uid://b1xsvw0nafd7e" path="res://systems/RoomGenerationSystem.gd" id="41_room_gen"]
 [ext_resource type="Resource" path="res://resources/run_default.tres" id="42_run_default"]
 [ext_resource type="Script" path="res://systems/DungeonGenerationSystem.gd" id="43_dungeon_gen"]
+[ext_resource type="Script" path="res://systems/ContinuousCameraSystem.gd" id="44_cam_sys"]
 
 [sub_resource type="Resource" id="Resource_mana"]
 script = ExtResource("9_mana")
@@ -110,6 +111,12 @@ script = ExtResource("43_dungeon_gen")
 map_seed = 12345
 target_chamber_count = 8
 enable_debug_draw = true
+enable_tilemap = true
+
+[node name="ContinuousCameraSystem" type="Node" parent="Systems"]
+script = ExtResource("44_cam_sys")
+camera_smoothing = 8.0
+camera_bounds_enabled = true
 
 [node name="Entities" type="Node2D" parent="."]
 

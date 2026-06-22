@@ -31,6 +31,10 @@ func process(entities: Array[Entity], _components: Array, _delta: float) -> void
 	if Engine.is_editor_hint():
 		return
 
+	var dungeon_gen_sys = _world.get_node_or_null("Systems/DungeonGenerationSystem") as DungeonGenerationSystem
+	if dungeon_gen_sys and dungeon_gen_sys.enable_tilemap:
+		return
+
 	if transition_cooldown > 0.0:
 		transition_cooldown -= _delta
 
