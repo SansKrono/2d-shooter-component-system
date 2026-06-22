@@ -12,6 +12,7 @@ const GAMEPLAY_SCENE = preload("res://dungeon_game_scene.tscn")
 const C_TRIGGER_SCRIPT = preload("res://components/character/c_trigger.gd")
 const C_SPAWNER_SCRIPT = preload("res://components/character/c_spawner.gd")
 const C_CURRENCY = preload("res://components/character/c_currency.gd")
+const C_POWER = preload("res://components/character/c_power.gd")
 
 @export var initial_state: GameState = GameState.MAIN_MENU
 
@@ -224,6 +225,12 @@ func _update_hud() -> void:
 		hud_ui.update_mana(mana.current, mana.maximum)
 	else:
 		hud_ui.set_mana_na()
+
+	var power = player.get_component(C_POWER) as C_Power
+	if power:
+		hud_ui.update_power(power.current, power.maximum)
+	else:
+		hud_ui.set_power_na()
 
 	hud_ui.update_run_time(run_time)
 	hud_ui.update_kills(enemies_killed)

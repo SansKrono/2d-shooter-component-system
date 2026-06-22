@@ -44,6 +44,7 @@ func _ready():
 	world.add_system(InvulnerabilitySystem.new())
 	world.add_system(LifetimeSystem.new())
 	world.add_system(ManaSystem.new())
+	world.add_system(PowerSystem.new())
 	world.add_system(HealthSystem.new())
 	world.add_system(InteractionSystem.new())
 	world.add_system(InteractableDebugSystem.new())
@@ -55,10 +56,6 @@ func _ready():
 	player = PLAYER_SCENE.instantiate() as Player
 	player.position = Vector2(50, 50) # Set starting position
 
-	# Add components to showcase composition
-	var c_mana = C_Mana.new(100.0, 10.0) # 100 max mana, 10 regen/sec
-	c_mana.current = 50.0 # Start at 50 to observe regeneration
-	player.add_component(c_mana)
 
 	add_child(player) # Add to scene tree
 	world.add_entity(player) # Add to ECS world

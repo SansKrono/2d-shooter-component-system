@@ -7,6 +7,7 @@ const C_DAMAGE_TYPE = preload("res://components/character/c_damage_type.gd")
 const C_LOCOMOTION = preload("res://components/character/c_locomotion.gd")
 const C_PIERCING = preload("res://components/character/c_piercing.gd")
 const C_ATTACK_MODE = preload("res://components/character/c_attack_mode.gd")
+const C_FIRE_MODE = preload("res://components/character/c_fire_mode.gd")
 const TECH_HAZARD_PREFAB = preload("res://entities/hazards/e_tech_hazard.tscn")
 const CORRUPTION_HAZARD_PREFAB = preload("res://entities/hazards/e_corruption_hazard.tscn")
 
@@ -96,14 +97,11 @@ static func apply_hit(bullet: Entity, target: Entity) -> void:
 					print("[Combat] Plasma Splitter split passive triggered! (Chance: %.2f)" % split_chance)
 					_spawn_split_bullets(bullet, target, split_effect)
 
-	# 10. Spawn environment hazard on impact if bullet is from dual-mode system
-	var c_attack_mode = null
-	if "shooter" in bullet and is_instance_valid(bullet.shooter):
-		c_attack_mode = bullet.shooter.get_component(C_AttackMode)
-
-	if c_attack_mode:
-		_spawn_hazard_on_impact(bullet, c_attack_mode.mode)
-		_spawn_impact_effect(bullet, c_attack_mode.mode)
+	# 10. Spawn environment hazard on impact if bullet has fire mode
+	var c_fire_mode = bullet.get_component(C_FIRE_MODE) as C_FIRE_MODE
+	if c_fire_mode:
+		_spawn_hazard_on_impact(bullet, c_fire_mode.mode)
+		_spawn_impact_effect(bullet, c_fire_mode.mode)
 
 	# 11. Check for piercing before destroying bullet
 	var c_piercing = bullet.get_component(C_PIERCING) as C_Piercing

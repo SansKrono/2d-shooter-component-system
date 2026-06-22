@@ -1,20 +1,18 @@
-[gd_scene load_steps=4 format=3 uid="uid://be5a557b8b2a"]
+[gd_scene format=3 uid="uid://be5a557b8b2a"]
 
-[ext_resource type="Script" path="res://prefabs/entities/e_tear.gd" id="1_tear"]
-[ext_resource type="Texture2D" uid="uid://driijb4yrp1n1" path="res://icon.svg" id="2_icon"]
+[ext_resource type="Script" uid="uid://b2x08478mmio7" path="res://prefabs/entities/e_tear.gd" id="1_tear"]
+[ext_resource type="Texture2D" uid="uid://dlq8vki36x1cw" path="res://assets/tear.png" id="2_tear"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_tear"]
 size = Vector2(16, 16)
 
-[node name="ETear" type="Node2D"]
+[node name="ETear" type="Node2D" unique_id=407996101]
 script = ExtResource("1_tear")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
-scale = Vector2(0.12, 0.12)
-texture = ExtResource("2_icon")
-self_modulate = Color(0.2, 0.6, 1.0, 1.0)
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1399103059]
+texture = ExtResource("2_tear")
 
-[node name="Area2D" type="Area2D" parent="."]
+[node name="Area2D" type="Area2D" parent="." unique_id=465122244]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=1950355151]
 shape = SubResource("RectangleShape2D_tear")

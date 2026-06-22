@@ -2,16 +2,18 @@ extends Control
 
 # Member variables
 var coins_label: Label
-var hearts_container: HFlowContainer
 var _red_heart_tex: Texture2D
 var _blue_heart_tex: Texture2D
 var _black_heart_tex: Texture2D
 
 # Onready variables
-@onready var hp_label: Label = $ResourceBox/VBox/HPLabel
-@onready var hp_bar: ProgressBar = $ResourceBox/VBox/HPBar
-@onready var mp_label: Label = $ResourceBox/VBox/MPLabel
-@onready var mp_bar: ProgressBar = $ResourceBox/VBox/MPBar
+@onready var hearts_container: HFlowContainer = $HeartsContainer
+@onready var hp_label: Label = $ResourceBox/HealthBox/HPLabel
+@onready var hp_bar: ProgressBar = $ResourceBox/HealthBox/HPBar
+@onready var mp_label: Label = $ResourceBox/ManaBox/MPLabel
+@onready var mp_bar: ProgressBar = $ResourceBox/ManaBox/MPBar
+@onready var pp_label: Label = $ResourceBox/PowerBox/PPLabel
+@onready var pp_bar: ProgressBar = $ResourceBox/PowerBox/PPBar
 @onready var timer_label: Label = $StatBox/TimerLabel
 @onready var kills_label: Label = $StatBox/KillsLabel
 @onready var relics_label: Label = $StatBox/RelicsLabel
@@ -25,18 +27,6 @@ func _ready() -> void:
 	# Hide default health label and progress bar
 	hp_label.visible = false
 	hp_bar.visible = false
-
-	# Create hearts container programmatically
-	hearts_container = HFlowContainer.new()
-	hearts_container.name = "HeartsContainer"
-	hearts_container.custom_minimum_size = Vector2(200, 0)
-	hearts_container.add_theme_constant_override("h_separation", 2)
-	hearts_container.add_theme_constant_override("v_separation", 2)
-
-	var resource_vbox = get_node_or_null("ResourceBox/VBox")
-	if resource_vbox:
-		resource_vbox.add_child(hearts_container)
-		resource_vbox.move_child(hearts_container, 0)
 
 	coins_label = Label.new()
 	coins_label.name = "CoinsLabel"
@@ -189,6 +179,15 @@ func update_mana(current: float, maximum: float) -> void:
 func set_mana_na() -> void:
 	mp_label.text = "Mana: N/A"
 	mp_bar.value = 0.0
+
+func update_power(current: float, maximum: float) -> void:
+	pp_label.text = "Power: %.1f / %.1f" % [current, maximum]
+	pp_bar.max_value = maximum
+	pp_bar.value = current
+
+func set_power_na() -> void:
+	pp_label.text = "Power: N/A"
+	pp_bar.value = 0.0
 
 func update_run_time(time_secs: float) -> void:
 	var mins = int(time_secs / 60.0)

@@ -50,4 +50,4 @@ func process(entities: Array[Entity], _components: Array, delta: float) -> void:
 func _apply_corruption_weakness(target: Entity) -> void:
 	var c_resilience = target.get_component(C_Resilience)
 	if c_resilience:
-		c_resilience.current_armor_multiplier = 0.5
+		c_resilience.armor = 0.5

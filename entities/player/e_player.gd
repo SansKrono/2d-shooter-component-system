@@ -6,6 +6,9 @@ const C_TRANSFORM = preload("res://components/character/c_transform.gd")
 const C_LOCOMOTION = preload("res://components/character/c_locomotion.gd")
 const C_MASS = preload("res://components/character/c_mass.gd")
 const C_ATTACK_MODE = preload("res://components/character/c_attack_mode.gd")
+const C_MANA = preload("res://components/character/c_mana.gd")
+const C_POWER = preload("res://components/character/c_power.gd")
+const C_PROJECTILE_STATS = preload("res://components/character/c_projectile_stats.gd")
 
 func define_components() -> Array:
 	return [
@@ -19,7 +22,10 @@ func define_components() -> Array:
 		C_Luck.new(2.0),
 		C_Currency.new(100),
 		C_RelicInventory.new(),
-		C_ATTACK_MODE.new("TECH"),
+		C_MANA.new(100.0, 8.0),
+		C_POWER.new(100.0, 15.0),
+		C_PROJECTILE_STATS.new(0.15, 0.20),
+		C_ATTACK_MODE.new(),
 		C_TRANSFORM.new(Vector2.ZERO),
 		C_LOCOMOTION.new(200.0, 900.0, 800.0),
 		C_MASS.new(10.0),

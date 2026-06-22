@@ -7,6 +7,10 @@ const C_LOCOMOTION = preload("res://components/character/c_locomotion.gd")
 const C_ATTACK_MODE = preload("res://components/character/c_attack_mode.gd")
 const C_PIERCING = preload("res://components/character/c_piercing.gd")
 const C_PHYSICS = preload("res://components/character/c_physics.gd")
+const C_MANA = preload("res://components/character/c_mana.gd")
+const C_POWER = preload("res://components/character/c_power.gd")
+const C_FIRE_MODE = preload("res://components/character/c_fire_mode.gd")
+const C_PROJECTILE_STATS = preload("res://components/character/c_projectile_stats.gd")
 const SPIRAL_MOD = preload("res://resources/effects/spiral_path_modifier.gd")
 const CURSOR_TECH = preload("res://assets/shoot-cursor-tech.png")
 const CURSOR_MAGIC = preload("res://assets/shoot-cursor-magic.png")
@@ -104,56 +108,62 @@ func _process_legacy(entity: Entity, c_input: C_Input, c_shooter: C_Shooter, del
 		cmd.add_entity(bullet)
 
 func _process_attack_mode(entity: Entity, c_input: C_Input, c_am: C_AttackMode, delta: float) -> void:
-	# Tick cooldown
-	if c_am.cooldown_timer > 0.0:
-		c_am.cooldown_timer -= delta
+	var c_proj_stats = entity.get_component(C_PROJECTILE_STATS) as C_PROJECTILE_STATS
+	if not c_proj_stats:
+		return
 
-	# Initialize mode visual on first frame
+	# Tick fire timers
+	if c_am.tech_fire_timer > 0.0:
+		c_am.tech_fire_timer -= delta
+	if c_am.magic_fire_timer > 0.0:
+		c_am.magic_fire_timer -= delta
+
+	# Initialize visual on first frame
 	if not c_am.visual_initialized:
-		_apply_mode_visual(entity, c_am.mode)
+		_apply_mode_visual(entity, C_ATTACK_MODE.MODE_TECH)
 		c_am.visual_initialized = true
 
-	# Handle mode toggle
-	if c_input.mode_toggle_just_pressed:
-		c_am.mode = C_ATTACK_MODE.MODE_MAGIC if c_am.mode == C_ATTACK_MODE.MODE_TECH else C_ATTACK_MODE.MODE_TECH
-		_apply_mode_visual(entity, c_am.mode)
-
-	# Charge accumulation
-	if c_input.fire_button_held:
-		c_am.is_charging = true
-		c_am.charge_timer += delta
-		c_am.charge_level = clamp(c_am.charge_timer / C_ATTACK_MODE.CHARGE_DURATION, 0.0, 1.0)
-		_apply_charge_visual(entity, c_am.charge_level, c_am.mode)
-
-	# Fire on release
-	if c_input.fire_button_just_released and c_am.cooldown_timer <= 0.0:
-		_fire(entity, c_input, c_am)
-		c_am.cooldown_timer = c_am.get_scaled_cooldown()
-		# Reset charge state
-		c_am.charge_level = 0.0
-		c_am.charge_timer = 0.0
-		c_am.is_charging = false
-
-func _fire(entity: Entity, c_input: C_Input, c_am: C_AttackMode) -> void:
-	var charge = c_am.charge_level
-	if c_am.mode == "TECH":
-		if charge < 0.3:
+	# Tech continuous fire (LMB held)
+	if c_input.fire_button_held and c_am.tech_fire_timer <= 0.0:
+		var c_power = entity.get_component(C_POWER) as C_Power
+		if not c_power or c_power.current >= 10.0:
+			if c_power:
+				c_power.current -= 10.0
 			_fire_tech_straight(entity, c_input)
-		elif charge < 0.6:
-			_fire_tech_fan(entity, c_input)
-			_trigger_screen_shake(3.0, 0.15)
-		else:
-			_fire_tech_beam(entity, c_input, charge)
-			_trigger_screen_shake(6.0, 0.3)
-	else:  # MAGIC
-		if charge < 0.3:
+			c_am.tech_fire_timer = c_proj_stats.tech_delay
+
+	# Magic continuous fire (RMB held)
+	if c_input.magic_button_held and c_am.magic_fire_timer <= 0.0:
+		var c_mana = entity.get_component(C_MANA) as C_Mana
+		if not c_mana or c_mana.current >= 10.0:
+			if c_mana:
+				c_mana.current -= 10.0
 			_fire_magic_spiral(entity, c_input)
-		elif charge < 0.6:
-			_fire_magic_wave(entity, c_input)
-			_trigger_screen_shake(2.5, 0.2)
-		else:
-			_fire_magic_burst(entity, c_input, charge)
-			_trigger_screen_shake(5.0, 0.25)
+			c_am.magic_fire_timer = c_proj_stats.magic_delay
+
+	# Tech charged fire (Q held)
+	if c_input.tech_charged_held:
+		c_am.tech_charge_timer += delta
+		c_am.tech_charge_level = clamp(c_am.tech_charge_timer / C_ATTACK_MODE.CHARGE_DURATION, 0.0, 1.0)
+		_apply_charge_visual(entity, c_am.tech_charge_level, C_ATTACK_MODE.MODE_TECH)
+
+	if c_input.tech_charged_just_released:
+		if c_am.tech_charge_level > 0.0:
+			_fire_charged_tech(entity, c_input, c_am)
+		c_am.tech_charge_level = 0.0
+		c_am.tech_charge_timer = 0.0
+
+	# Magic charged fire (E held)
+	if c_input.magic_charged_held:
+		c_am.magic_charge_timer += delta
+		c_am.magic_charge_level = clamp(c_am.magic_charge_timer / C_ATTACK_MODE.CHARGE_DURATION, 0.0, 1.0)
+		_apply_charge_visual(entity, c_am.magic_charge_level, C_ATTACK_MODE.MODE_MAGIC)
+
+	if c_input.magic_charged_just_released:
+		if c_am.magic_charge_level > 0.0:
+			_fire_charged_magic(entity, c_input, c_am)
+		c_am.magic_charge_level = 0.0
+		c_am.magic_charge_timer = 0.0
 
 func _fire_tech_straight(shooter: Entity, c_input: C_Input) -> void:
 	var bullet = BULLET_PREFAB.instantiate() as Entity
@@ -166,6 +176,7 @@ func _fire_tech_straight(shooter: Entity, c_input: C_Input) -> void:
 	bullet.add_component(C_LOCOMOTION.new(600.0, 99999.0, 99999.0))
 	bullet.add_component(C_Payload.new(12.0, 200.0, 0.0))
 	bullet.add_component(C_Trajectory.new(600.0, 0.0, 0.0))
+	bullet.add_component(C_FIRE_MODE.new("TECH"))
 
 	var vol = C_Volatility.new()
 	var c_vol = shooter.get_component(C_Volatility)
@@ -197,6 +208,7 @@ func _fire_tech_fan(shooter: Entity, c_input: C_Input) -> void:
 		bullet.add_component(C_LOCOMOTION.new(600.0, 99999.0, 99999.0))
 		bullet.add_component(C_Payload.new(10.0, 200.0, 0.0))
 		bullet.add_component(C_Trajectory.new(600.0, 0.0, 0.0))
+		bullet.add_component(C_FIRE_MODE.new("TECH"))
 
 		var vol = C_Volatility.new()
 		var c_vol = shooter.get_component(C_Volatility)
@@ -227,6 +239,7 @@ func _fire_tech_beam(shooter: Entity, c_input: C_Input, charge: float) -> void:
 	bullet.add_component(C_Payload.new(damage, 250.0, 0.0))
 	bullet.add_component(C_Trajectory.new(1200.0, 0.0, 0.0))
 	bullet.add_component(C_PIERCING.new(-1))
+	bullet.add_component(C_FIRE_MODE.new("TECH"))
 
 	var vol = C_Volatility.new()
 	bullet.add_component(vol)
@@ -254,6 +267,7 @@ func _fire_magic_spiral(shooter: Entity, c_input: C_Input) -> void:
 	bullet.add_component(C_LOCOMOTION.new(400.0, 99999.0, 99999.0))
 	bullet.add_component(C_Payload.new(15.0, 180.0, 0.0))
 	bullet.add_component(C_Trajectory.new(500.0, 0.0, 0.0))
+	bullet.add_component(C_FIRE_MODE.new("MAGIC"))
 
 	# Add spiral path modifier
 	var spiral = SPIRAL_MOD.new()
@@ -284,6 +298,7 @@ func _fire_magic_wave(shooter: Entity, c_input: C_Input) -> void:
 		bullet.add_component(C_LOCOMOTION.new(350.0, 99999.0, 99999.0))
 		bullet.add_component(C_Payload.new(18.0, 160.0, 0.0))
 		bullet.add_component(C_Trajectory.new(500.0, 0.0, 3.0))
+		bullet.add_component(C_FIRE_MODE.new("MAGIC"))
 
 		var vol = C_Volatility.new()
 		bullet.add_component(vol)
@@ -311,6 +326,7 @@ func _fire_magic_burst(shooter: Entity, _c_input: C_Input, charge: float) -> voi
 		var damage = 20.0 * charge
 		bullet.add_component(C_Payload.new(damage, 200.0, 0.0))
 		bullet.add_component(C_Trajectory.new(200.0, 0.0, 0.0))
+		bullet.add_component(C_FIRE_MODE.new("MAGIC"))
 
 		var vol = C_Volatility.new()
 		bullet.add_component(vol)
@@ -320,6 +336,44 @@ func _fire_magic_burst(shooter: Entity, _c_input: C_Input, charge: float) -> voi
 			sprite.modulate = Color(1.0, 0.0, 0.8)
 
 		cmd.add_entity(bullet)
+
+func _fire_charged_tech(entity: Entity, c_input: C_Input, c_am: C_AttackMode) -> void:
+	var c_power = entity.get_component(C_POWER) as C_Power
+	if c_am.tech_charge_level < 0.5:
+		# Tap or short hold: fire fan
+		var cost = 20.0
+		if not c_power or c_power.current >= cost:
+			if c_power:
+				c_power.current -= cost
+			_fire_tech_fan(entity, c_input)
+			_trigger_screen_shake(3.0, 0.15)
+	else:
+		# Long hold: fire beam
+		var cost = 30.0
+		if not c_power or c_power.current >= cost:
+			if c_power:
+				c_power.current -= cost
+			_fire_tech_beam(entity, c_input, c_am.tech_charge_level)
+			_trigger_screen_shake(6.0, 0.3)
+
+func _fire_charged_magic(entity: Entity, c_input: C_Input, c_am: C_AttackMode) -> void:
+	var c_mana = entity.get_component(C_MANA) as C_Mana
+	if c_am.magic_charge_level < 0.5:
+		# Tap or short hold: fire wave
+		var cost = 20.0
+		if not c_mana or c_mana.current >= cost:
+			if c_mana:
+				c_mana.current -= cost
+			_fire_magic_wave(entity, c_input)
+			_trigger_screen_shake(2.5, 0.2)
+	else:
+		# Long hold: fire burst
+		var cost = 35.0
+		if not c_mana or c_mana.current >= cost:
+			if c_mana:
+				c_mana.current -= cost
+			_fire_magic_burst(entity, c_input, c_am.magic_charge_level)
+			_trigger_screen_shake(5.0, 0.25)
 
 func _apply_mode_visual(entity: Entity, mode: String) -> void:
 	var sprite = entity.get_node_or_null("Sprite2D") as Sprite2D

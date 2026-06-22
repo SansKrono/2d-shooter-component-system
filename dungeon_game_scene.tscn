@@ -14,6 +14,7 @@
 [ext_resource type="Script" uid="uid://c3r3u2st6m5w3" path="res://systems/CollectibleSystem.gd" id="16_asgwg"]
 [ext_resource type="Script" uid="uid://xegd7se40w64" path="res://systems/ManaSystem.gd" id="16_mana_sys"]
 [ext_resource type="Script" uid="uid://bukutmbowhe3n" path="res://systems/HealthSystem.gd" id="17_health_sys"]
+[ext_resource type="Script" path="res://systems/PowerSystem.gd" id="50_power_sys"]
 [ext_resource type="Script" uid="uid://cuuf2ni4i7twu" path="res://systems/InteractionSystem.gd" id="18_inter_sys"]
 [ext_resource type="Script" uid="uid://d11wtvd0mbl2b" path="res://systems/AISystem.gd" id="20_ai_sys"]
 [ext_resource type="Script" uid="uid://c70r3nggus6ig" path="res://systems/PlayerShootingSystem.gd" id="31_player_shoot"]
@@ -68,6 +69,9 @@ script = ExtResource("15_life_sys")
 
 [node name="ManaSystem" type="Node" parent="Systems"]
 script = ExtResource("16_mana_sys")
+
+[node name="PowerSystem" type="Node" parent="Systems"]
+script = ExtResource("50_power_sys")
 
 [node name="CollectibleSystem" type="Node" parent="Systems"]
 script = ExtResource("16_asgwg")

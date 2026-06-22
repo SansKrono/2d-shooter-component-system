@@ -1,22 +1,19 @@
-[gd_resource type="Resource" script_class="FloorConfig" format=3 uid="uid://floor_basement"]
+[gd_resource type="Resource" script_class="FloorConfig" format=3 uid="uid://dcjvaj0h5760p"]
 
-[ext_resource type="Script" path="res://resources/floor_config.gd" id="1_floor_config"]
-[ext_resource type="Resource" uid="uid://normal_a" path="res://resources/rooms/layouts/normal/normal_a.tres" id="2_normal_a"]
-[ext_resource type="Resource" uid="uid://normal_b" path="res://resources/rooms/layouts/normal/normal_b.tres" id="3_normal_b"]
-[ext_resource type="Resource" uid="uid://boss_a" path="res://resources/rooms/layouts/boss/boss_a.tres" id="4_boss_a"]
-[ext_resource type="Resource" uid="uid://treasure_a" path="res://resources/rooms/layouts/treasure/treasure_a.tres" id="5_treasure_a"]
-[ext_resource type="Resource" uid="uid://shop_a" path="res://resources/rooms/layouts/shop/shop_a.tres" id="6_shop_a"]
-[ext_resource type="Resource" uid="uid://start_a" path="res://resources/rooms/layouts/start/start_a.tres" id="7_start_a"]
+[ext_resource type="Script" uid="uid://exb6rr0t7acm" path="res://resources/floor_config.gd" id="1_floor_config"]
+[ext_resource type="RoomLayoutConfig" path="res://resources/rooms/layouts/normal/normal_a.tres" id="2_normal_a"]
+[ext_resource type="RoomLayoutConfig" path="res://resources/rooms/layouts/normal/normal_b.tres" id="3_normal_b"]
+[ext_resource type="RoomLayoutConfig" path="res://resources/rooms/layouts/boss/boss_a.tres" id="4_boss_a"]
+[ext_resource type="RoomLayoutConfig" path="res://resources/rooms/layouts/treasure/treasure_a.tres" id="5_treasure_a"]
+[ext_resource type="RoomLayoutConfig" path="res://resources/rooms/layouts/shop/shop_a.tres" id="6_shop_a"]
+[ext_resource type="RoomLayoutConfig" path="res://resources/rooms/layouts/start/start_a.tres" id="7_start_a"]
 
 [resource]
 script = ExtResource("1_floor_config")
-floor_name = "Basement"
 min_room_count = 10
-treasure_room_count = 1
-shop_room_count = 1
-theme_color = Color(0.25, 0.45, 0.85, 1.0)
-normal_room_layouts = [ExtResource("2_normal_a"), ExtResource("3_normal_b")]
-boss_room_layouts = [ExtResource("4_boss_a")]
-treasure_room_layouts = [ExtResource("5_treasure_a")]
-shop_room_layouts = [ExtResource("6_shop_a")]
-start_room_layouts = [ExtResource("7_start_a")]
+theme_color = Color(0.25, 0.45, 0.85, 1)
+normal_room_layouts = Array[Resource]([ExtResource("2_normal_a"), ExtResource("3_normal_b")])
+boss_room_layouts = Array[Resource]([ExtResource("4_boss_a")])
+treasure_room_layouts = Array[Resource]([ExtResource("5_treasure_a")])
+shop_room_layouts = Array[Resource]([ExtResource("6_shop_a")])
+start_room_layouts = Array[Resource]([ExtResource("7_start_a")])

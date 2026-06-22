@@ -8,8 +8,16 @@ extends Component
 @export var fire_button_held: bool = false
 @export var fire_button_just_pressed: bool = false
 @export var fire_button_just_released: bool = false
+@export var magic_button_held: bool = false
+@export var magic_button_just_pressed: bool = false
+@export var magic_button_just_released: bool = false
+@export var tech_charged_held: bool = false
+@export var tech_charged_just_pressed: bool = false
+@export var tech_charged_just_released: bool = false
+@export var magic_charged_held: bool = false
+@export var magic_charged_just_pressed: bool = false
+@export var magic_charged_just_released: bool = false
 @export var aim_direction: Vector2 = Vector2.ZERO
-@export var mode_toggle_just_pressed: bool = false
 
 func is_shooting() -> bool:
 	return shoot_vector != Vector2.ZERO

@@ -2,6 +2,8 @@ class_name PlayerInputSystem
 extends System
 
 var _rmb_was_pressed: bool = false
+var _q_was_pressed: bool = false
+var _e_was_pressed: bool = false
 var _last_aim_direction: Vector2 = Vector2.RIGHT
 
 func query() -> QueryBuilder:
@@ -46,10 +48,10 @@ func process(entities: Array[Entity], _components: Array, _delta: float) -> void
 		
 		c_input.shoot_vector = shoot_dir.normalized()
 
-		# Interaction input (E key)
-		var is_e_pressed = Input.is_key_pressed(KEY_E)
-		c_input.interact_just_pressed = is_e_pressed and not c_input.interact_pressed
-		c_input.interact_pressed = is_e_pressed
+		# Interaction input (F key)
+		var is_f_pressed = Input.is_key_pressed(KEY_F)
+		c_input.interact_just_pressed = is_f_pressed and not c_input.interact_pressed
+		c_input.interact_pressed = is_f_pressed
 
 		# World-space mouse via viewport canvas transform (no C_Physics dependency)
 		var viewport = entity.get_viewport()
@@ -67,7 +69,23 @@ func process(entities: Array[Entity], _components: Array, _delta: float) -> void
 		c_input.fire_button_just_released = not lmb and c_input.fire_button_held
 		c_input.fire_button_held = lmb
 
-		# RMB mode toggle — edge detection
+		# RMB magic button — edge detection
 		var rmb = Input.is_mouse_button_pressed(MOUSE_BUTTON_RIGHT)
-		c_input.mode_toggle_just_pressed = rmb and not _rmb_was_pressed
+		c_input.magic_button_just_pressed = rmb and not _rmb_was_pressed
+		c_input.magic_button_just_released = not rmb and _rmb_was_pressed
+		c_input.magic_button_held = rmb
 		_rmb_was_pressed = rmb
+
+		# Q key charged tech spells — edge detection
+		var q_pressed = Input.is_key_pressed(KEY_Q)
+		c_input.tech_charged_just_pressed = q_pressed and not _q_was_pressed
+		c_input.tech_charged_just_released = not q_pressed and _q_was_pressed
+		c_input.tech_charged_held = q_pressed
+		_q_was_pressed = q_pressed
+
+		# E key charged magic spells — edge detection
+		var e_pressed = Input.is_key_pressed(KEY_E)
+		c_input.magic_charged_just_pressed = e_pressed and not _e_was_pressed
+		c_input.magic_charged_just_released = not e_pressed and _e_was_pressed
+		c_input.magic_charged_held = e_pressed
+		_e_was_pressed = e_pressed

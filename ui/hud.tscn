@@ -15,6 +15,17 @@ axis_stretch_vertical = 2
 region_rect = Rect2(24, 24, 8, 8)
 modulate_color = Color(0.9, 0.25, 0.25, 0.85)
 
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_pp"]
+texture = ExtResource("3_gui_texture")
+texture_margin_left = 3.0
+texture_margin_top = 3.0
+texture_margin_right = 3.0
+texture_margin_bottom = 3.0
+axis_stretch_horizontal = 2
+axis_stretch_vertical = 2
+region_rect = Rect2(24, 24, 8, 8)
+modulate_color = Color(1, 0.7, 0.1, 0.85)
+
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_mp"]
 texture = ExtResource("3_gui_texture")
 texture_margin_left = 3.0
@@ -41,13 +52,30 @@ mouse_filter = 2
 theme = ExtResource("2_theme")
 script = ExtResource("1_hud")
 
+[node name="HeartsContainer" type="HFlowContainer" parent="." unique_id=1546392840]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 1
+anchors_preset = -1
+anchor_left = -0.057000004
+anchor_top = -0.102000006
+anchor_right = -0.057000004
+anchor_bottom = -0.102000006
+offset_left = 8.664001
+offset_top = 10.096001
+offset_right = 208.664
+offset_bottom = 60.096
+theme_override_constants/h_separation = 2
+theme_override_constants/v_separation = 2
+
 [node name="StatBox" type="VBoxContainer" parent="." unique_id=463097894]
 custom_minimum_size = Vector2(200, 0)
 layout_mode = 1
-offset_left = -57.0
-offset_top = -56.0
-offset_right = 143.0
-offset_bottom = 57.0
+anchors_preset = -1
+anchor_left = -0.049000002
+anchor_right = -0.049000002
+offset_left = -1.5519981
+offset_right = 198.448
+offset_bottom = 113.0
 theme_override_constants/separation = 5
 alignment = 1
 
@@ -72,42 +100,65 @@ autowrap_mode = 2
 [node name="ResourceBox" type="HBoxContainer" parent="." unique_id=1371270918]
 layout_mode = 1
 anchors_preset = -1
-anchor_left = -0.060000002
-anchor_top = 0.89400005
-anchor_right = -0.060000002
-anchor_bottom = 0.89400005
-offset_left = 13.120003
-offset_top = -107.31201
-offset_right = 213.12
-offset_bottom = -6.3120117
+anchor_top = 0.80300003
+anchor_bottom = 0.80300003
+offset_left = -56.0
+offset_top = -35.343994
+offset_right = 1081.0
+offset_bottom = 35.656006
 
-[node name="VBox" type="VBoxContainer" parent="ResourceBox" unique_id=869536282]
-custom_minimum_size = Vector2(200, 0)
+[node name="HealthBox" type="VBoxContainer" parent="ResourceBox" unique_id=869536282]
+custom_minimum_size = Vector2(300, 0)
 layout_mode = 2
 theme_override_constants/separation = 5
 alignment = 1
 
-[node name="HPLabel" type="Label" parent="ResourceBox/VBox" unique_id=29176439]
+[node name="HPLabel" type="Label" parent="ResourceBox/HealthBox" unique_id=29176439]
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 0.35, 0.35, 1)
-theme_override_font_sizes/font_size = 19
+theme_override_font_sizes/font_size = 25
 text = "HP: 100 / 100"
 
-[node name="HPBar" type="ProgressBar" parent="ResourceBox/VBox" unique_id=230522763]
-custom_minimum_size = Vector2(0, 10)
+[node name="HPBar" type="ProgressBar" parent="ResourceBox/HealthBox" unique_id=230522763]
+custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
 theme_override_styles/fill = SubResource("StyleBoxTexture_hp")
 value = 100.0
 show_percentage = false
 
-[node name="MPLabel" type="Label" parent="ResourceBox/VBox" unique_id=1382624540]
+[node name="PowerBox" type="VBoxContainer" parent="ResourceBox" unique_id=1228583276]
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 2
+theme_override_constants/separation = 5
+alignment = 1
+
+[node name="PPLabel" type="Label" parent="ResourceBox/PowerBox" unique_id=2014892045]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.7, 0.1, 1)
+theme_override_font_sizes/font_size = 25
+text = "Power: 100.0"
+
+[node name="PPBar" type="ProgressBar" parent="ResourceBox/PowerBox" unique_id=942621783]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+theme_override_styles/fill = SubResource("StyleBoxTexture_pp")
+value = 100.0
+show_percentage = false
+
+[node name="ManaBox" type="VBoxContainer" parent="ResourceBox" unique_id=499958447]
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 2
+theme_override_constants/separation = 5
+alignment = 1
+
+[node name="MPLabel" type="Label" parent="ResourceBox/ManaBox" unique_id=2134327842]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.3, 0.65, 1, 1)
-theme_override_font_sizes/font_size = 19
+theme_override_font_sizes/font_size = 25
 text = "Mana: 100.0"
 
-[node name="MPBar" type="ProgressBar" parent="ResourceBox/VBox" unique_id=507124469]
-custom_minimum_size = Vector2(0, 10)
+[node name="MPBar" type="ProgressBar" parent="ResourceBox/ManaBox" unique_id=675412100]
+custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
 theme_override_styles/fill = SubResource("StyleBoxTexture_mp")
 value = 100.0
