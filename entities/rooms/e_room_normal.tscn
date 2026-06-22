@@ -7,6 +7,7 @@
 script = ExtResource("1_room")
 
 [node name="ColorRect" type="ColorRect" parent="." unique_id=550899484]
+visible = false
 z_index = -999
 offset_right = 960.0
 offset_bottom = 576.0
