@@ -1,31 +1,32 @@
-[gd_scene load_steps=28 format=3]
+[gd_scene format=3]
 
-[ext_resource type="Script" path="res://scripts/dungeon_game_runner.gd" id="1_runner"]
-[ext_resource type="Script" path="res://addons/gecs/ecs/world.gd" id="2_world"]
+[ext_resource type="Script" uid="uid://bmevhiqyjwmmj" path="res://scripts/dungeon_game_runner.gd" id="1_runner"]
+[ext_resource type="Script" uid="uid://cdu5tlyk72uu4" path="res://addons/gecs/ecs/world.gd" id="2_world"]
 [ext_resource type="PackedScene" uid="uid://ci0rexrdr26fu" path="res://entities/player/e_player.tscn" id="3_player"]
-[ext_resource type="Script" path="res://addons/gecs/ecs/component.gd" id="8_component"]
-[ext_resource type="Script" path="res://components/character/c_mana.gd" id="9_mana"]
-[ext_resource type="Script" path="res://systems/PlayerInputSystem.gd" id="10_input_sys"]
-[ext_resource type="Script" path="res://systems/MovementSystem.gd" id="11_move_sys"]
-[ext_resource type="Script" path="res://systems/ShootingSystem.gd" id="12_shoot_sys"]
-[ext_resource type="Script" path="res://systems/TrajectorySystem.gd" id="13_traj_sys"]
-[ext_resource type="Script" path="res://systems/InvulnerabilitySystem.gd" id="14_inv_sys"]
-[ext_resource type="Script" path="res://systems/LifetimeSystem.gd" id="15_life_sys"]
-[ext_resource type="Script" path="res://systems/CollectibleSystem.gd" id="16_asgwg"]
-[ext_resource type="Script" path="res://systems/ManaSystem.gd" id="16_mana_sys"]
-[ext_resource type="Script" path="res://systems/HealthSystem.gd" id="17_health_sys"]
-[ext_resource type="Script" path="res://systems/InteractionSystem.gd" id="18_inter_sys"]
-[ext_resource type="Script" path="res://systems/AISystem.gd" id="20_ai_sys"]
-[ext_resource type="Script" path="res://systems/PlayerShootingSystem.gd" id="31_player_shoot"]
-[ext_resource type="Script" path="res://systems/DamageResolutionSystem.gd" id="32_dmg_res"]
-[ext_resource type="Script" path="res://systems/KnockbackSystem.gd" id="33_knockback"]
-[ext_resource type="Script" path="res://systems/StatRecalculationSystem.gd" id="34_recalc"]
-[ext_resource type="Script" path="res://systems/o_room_clear.gd" id="36_room_clear"]
-[ext_resource type="Script" path="res://systems/DeathResolutionSystem.gd" id="38_death_res"]
-[ext_resource type="Script" path="res://systems/RewardSpawnSystem.gd" id="39_reward_spawn"]
-[ext_resource type="Script" path="res://systems/VisibilitySystem.gd" id="40_visibility"]
-[ext_resource type="Script" path="res://systems/RoomGenerationSystem.gd" id="41_room_gen"]
+[ext_resource type="Script" uid="uid://b6k13gc2m4e5s" path="res://addons/gecs/ecs/component.gd" id="8_component"]
+[ext_resource type="Script" uid="uid://cnp6j2x6cj7xl" path="res://components/character/c_mana.gd" id="9_mana"]
+[ext_resource type="Script" uid="uid://db14owjqim1u3" path="res://systems/PlayerInputSystem.gd" id="10_input_sys"]
+[ext_resource type="Script" uid="uid://bgplo7waub0wt" path="res://systems/MovementSystem.gd" id="11_move_sys"]
+[ext_resource type="Script" uid="uid://0byv16e73r2u" path="res://systems/ShootingSystem.gd" id="12_shoot_sys"]
+[ext_resource type="Script" uid="uid://b8lft6266wtxw" path="res://systems/TrajectorySystem.gd" id="13_traj_sys"]
+[ext_resource type="Script" uid="uid://s7j6nvpj6nq1" path="res://systems/InvulnerabilitySystem.gd" id="14_inv_sys"]
+[ext_resource type="Script" uid="uid://dp2ipvnx4hdsv" path="res://systems/LifetimeSystem.gd" id="15_life_sys"]
+[ext_resource type="Script" uid="uid://c3r3u2st6m5w3" path="res://systems/CollectibleSystem.gd" id="16_asgwg"]
+[ext_resource type="Script" uid="uid://xegd7se40w64" path="res://systems/ManaSystem.gd" id="16_mana_sys"]
+[ext_resource type="Script" uid="uid://bukutmbowhe3n" path="res://systems/HealthSystem.gd" id="17_health_sys"]
+[ext_resource type="Script" uid="uid://cuuf2ni4i7twu" path="res://systems/InteractionSystem.gd" id="18_inter_sys"]
+[ext_resource type="Script" uid="uid://d11wtvd0mbl2b" path="res://systems/AISystem.gd" id="20_ai_sys"]
+[ext_resource type="Script" uid="uid://c70r3nggus6ig" path="res://systems/PlayerShootingSystem.gd" id="31_player_shoot"]
+[ext_resource type="Script" uid="uid://cuc80jqivgbrj" path="res://systems/DamageResolutionSystem.gd" id="32_dmg_res"]
+[ext_resource type="Script" uid="uid://cis4bock22ru1" path="res://systems/KnockbackSystem.gd" id="33_knockback"]
+[ext_resource type="Script" uid="uid://pyrx4nyagbar" path="res://systems/StatRecalculationSystem.gd" id="34_recalc"]
+[ext_resource type="Script" uid="uid://f88vegmaap54" path="res://systems/o_room_clear.gd" id="36_room_clear"]
+[ext_resource type="Script" uid="uid://bqqbr0ecf8vlu" path="res://systems/DeathResolutionSystem.gd" id="38_death_res"]
+[ext_resource type="Script" uid="uid://ck7bh1j87r24f" path="res://systems/RewardSpawnSystem.gd" id="39_reward_spawn"]
+[ext_resource type="Script" uid="uid://mnpwyqu14wjo" path="res://systems/VisibilitySystem.gd" id="40_visibility"]
+[ext_resource type="Script" uid="uid://b1xsvw0nafd7e" path="res://systems/RoomGenerationSystem.gd" id="41_room_gen"]
 [ext_resource type="Resource" path="res://resources/run_default.tres" id="42_run_default"]
+[ext_resource type="Script" path="res://systems/DungeonGenerationSystem.gd" id="43_dungeon_gen"]
 
 [sub_resource type="Resource" id="Resource_mana"]
 script = ExtResource("9_mana")
@@ -103,6 +104,12 @@ script = ExtResource("41_room_gen")
 map_seed = 12345
 target_room_count = 6
 run_config = ExtResource("42_run_default")
+
+[node name="DungeonGenerationSystem" type="Node" parent="Systems"]
+script = ExtResource("43_dungeon_gen")
+map_seed = 12345
+target_chamber_count = 8
+enable_debug_draw = true
 
 [node name="Entities" type="Node2D" parent="."]
 
