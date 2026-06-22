@@ -162,5 +162,5 @@ func _setup_tile_physics(tileset: TileSet, source: TileSetAtlasSource) -> void:
 		])
 		data.set_collision_polygon(0, 0, polygon)
 
-	set_collision_layer(2)
-	set_collision_mask(1)
+	set_collision_layer_value(2, true)
+	set_collision_mask_value(1, true)

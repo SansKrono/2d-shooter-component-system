@@ -62,10 +62,11 @@ func generate_connections(chambers: Array) -> Array[Corridor]:
 	var chamber_ids: Array[int] = []
 
 	for chamber in chambers:
-		if chamber is Dictionary and chamber.has("rect") and chamber.has("id"):
-			chamber_list.append(chamber["rect"])
-			chamber_ids.append(chamber["id"])
-		elif chamber.has("rect") and chamber.has("id"):
+		if chamber is Dictionary:
+			if chamber.has("rect") and chamber.has("id"):
+				chamber_list.append(chamber["rect"])
+				chamber_ids.append(chamber["id"])
+		elif chamber != null:
 			chamber_list.append(chamber.rect)
 			chamber_ids.append(chamber.id)
 

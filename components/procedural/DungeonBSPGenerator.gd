@@ -90,7 +90,7 @@ func _create_chamber(bounds: Rect2i) -> Chamber:
 		bounds.size - Vector2i(padding * 2, padding * 2)
 	)
 
-	chamber_rect.size = Vector2i.MAX.min(chamber_rect.size, Vector2i(1000, 1000))
+	chamber_rect.size = Vector2i.MAX.min(Vector2i(1000, 1000))
 	if chamber_rect.size.x < 60 or chamber_rect.size.y < 60:
 		chamber_rect = bounds
 

@@ -7,6 +7,7 @@ enum EnemyType { CHASER, SHOOTER }
 const C_ENEMY = preload("res://components/character/c_enemy.gd")
 const C_TRANSFORM = preload("res://components/character/c_transform.gd")
 const C_MASS = preload("res://components/character/c_mass.gd")
+const C_LOCOMOTION = preload("res://components/character/c_locomotion.gd")
 
 @export var type: EnemyType = EnemyType.CHASER
 
@@ -21,7 +22,8 @@ func define_components() -> Array:
 		return [
 			C_Health.new(50.0),
 			C_Resilience.new(3.0, 1.5, 0.4),
-			C_Velocity.new(Vector2.ZERO, 80.0),
+			C_Velocity.new(Vector2.ZERO),
+			C_LOCOMOTION.new(80.0, 400.0, 800.0),
 			C_Input.new(),
 			C_AIStateMachine.new(C_AIStateMachine.State.IDLE, 300.0, 0.0, 15.0),
 			C_ENEMY.new(),
@@ -32,7 +34,8 @@ func define_components() -> Array:
 		return [
 			C_Health.new(40.0),
 			C_Resilience.new(1.0, 1.0, 0.4),
-			C_Velocity.new(Vector2.ZERO, 40.0),
+			C_Velocity.new(Vector2.ZERO),
+			C_LOCOMOTION.new(40.0, 200.0, 600.0),
 			C_Input.new(),
 			C_Shooter.new(1.5, 250.0),
 			C_Payload.new(10.0, 150.0),
@@ -66,4 +69,3 @@ func _on_area_entered(area: Area2D):
 	var target = area.owner as Entity
 	if target and target is Player:
 		CombatSystem.apply_contact_damage(self, target)
-

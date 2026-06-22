@@ -6,6 +6,7 @@ const C_TEAR_STATS = preload("res://components/character/c_tear_stats.gd")
 const C_TRANSFORM = preload("res://components/character/c_transform.gd")
 const C_INPUT = preload("res://components/character/c_input.gd")
 const C_VELOCITY = preload("res://components/character/c_velocity.gd")
+const C_LOCOMOTION = preload("res://components/character/c_locomotion.gd")
 const C_DAMAGE = preload("res://components/character/c_damage.gd")
 const C_LIFETIME = preload("res://components/character/c_lifetime.gd")
 const C_FIRED_BY = preload("res://components/character/c_fired_by.gd")
@@ -34,15 +35,17 @@ func process(entities: Array[Entity], _components: Array, delta: float) -> void:
 
 func _spawn_tear(shooter: Entity, spawn_pos: Vector2, direction: Vector2, stats) -> void:
 	var tear_entity: Entity = PROJECTILE_PREFAB.instantiate()
-	
+
 	tear_entity.add_component(C_TRANSFORM.new(spawn_pos))
-	# Velocity is a function of direction and shot_speed (arbitrarily scaled by engine units)
-	tear_entity.add_component(C_VELOCITY.new(direction, stats.shot_speed * 300.0))
+	tear_entity.add_component(C_VELOCITY.new(direction))
+	# Projectile uses C_Locomotion with instant acceleration (99999.0) and no decay (99999.0)
+	# to travel at constant speed in the given direction
+	tear_entity.add_component(C_LOCOMOTION.new(stats.shot_speed * 300.0, 99999.0, 99999.0))
 	tear_entity.add_component(C_DAMAGE.new(stats.damage))
 	tear_entity.add_component(C_LIFETIME.new(stats.tear_range * 0.15))
-	
+
 	# Establish a relationship to bypass friendly fire and inherit modifiers
 	tear_entity.add_relationship(Relationship.new(C_FIRED_BY.new(), shooter))
-	
+
 	# Safely queue the entity addition for the end of the system's execution
 	cmd.add_entity(tear_entity)

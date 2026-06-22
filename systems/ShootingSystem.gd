@@ -3,6 +3,7 @@ extends System
 
 const BULLET_PREFAB = preload("res://entities/projectiles/e_bullet.tscn")
 const C_BulletPath = preload("res://components/character/c_bullet_path.gd")
+const C_LOCOMOTION = preload("res://components/character/c_locomotion.gd")
 
 func query() -> QueryBuilder:
 	return q.with_all([C_Input, C_Shooter])
@@ -67,7 +68,10 @@ func process(entities: Array[Entity], _components: Array, delta: float) -> void:
 				bullet.add_component(C_BulletPath.new(c_path.path_modifiers))
 
 			# Compose components for the bullet
-			bullet.add_component(C_Velocity.new(shoot_dir, c_shooter.bullet_speed))
+			bullet.add_component(C_Velocity.new(shoot_dir))
+			# Projectile uses C_Locomotion with instant acceleration and no decay
+			# to travel at constant speed in the given direction
+			bullet.add_component(C_LOCOMOTION.new(c_shooter.bullet_speed, 99999.0, 99999.0))
 			bullet.add_component(C_Payload.new(bullet_damage, knockback, aoe))
 
 			var bullet_range = c_traj.max_range if c_traj else 500.0

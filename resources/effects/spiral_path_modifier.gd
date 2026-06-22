@@ -8,16 +8,21 @@ var base_angle: float = 0.0
 var elapsed_time: float = 0.0
 var original_speed: float = 0.0
 
+const C_LOCOMOTION = preload("res://components/character/c_locomotion.gd")
+
 func initialize_path(bullet: Entity) -> void:
 	elapsed_time = 0.0
 	spawn_pos = bullet.global_position if "global_position" in bullet else Vector2.ZERO
 	var c_vel = bullet.get_component(C_Velocity) as C_Velocity
+	var c_loco = bullet.get_component(C_LOCOMOTION) as C_Locomotion
 	if c_vel:
-		original_speed = c_vel.speed
 		base_angle = c_vel.direction.angle()
-		# Zero out velocity speed to disable standard MovementSystem updates
-		c_vel.speed = 0.0
 		c_vel.direction = Vector2.ZERO
+	if c_loco:
+		original_speed = c_loco.base_speed
+		c_loco.base_speed = 0.0
+	else:
+		original_speed = 400.0
 
 func _tick_path(bullet: Entity, delta: float) -> void:
 	elapsed_time += delta

@@ -112,10 +112,14 @@ func _create_debug_visualization() -> void:
 
 	var draw_node = Node2D.new()
 	draw_node.name = "DungeonDebugDraw"
+	draw_node.set_script(preload("res://systems/DungeonDebugDraw.gd"))
 	debug_canvas.add_child(draw_node)
 
-	draw_node.set_script(preload("res://systems/DungeonDebugDraw.gd"))
-	draw_node.dungeon_graph = dungeon_graph
+	call_deferred("_assign_debug_graph", draw_node)
+
+func _assign_debug_graph(draw_node: Node2D) -> void:
+	if draw_node and draw_node.is_node_ready():
+		draw_node.dungeon_graph = dungeon_graph
 
 func get_dungeon_graph() -> C_DUNGEON_GRAPH:
 	if not generated:

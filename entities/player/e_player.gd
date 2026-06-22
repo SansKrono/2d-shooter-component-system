@@ -10,7 +10,7 @@ const C_MASS = preload("res://components/character/c_mass.gd")
 func define_components() -> Array:
 	return [
 		C_Health.new(100.0, 6, 0, 0, true),
-		C_Velocity.new(Vector2.ZERO, 200.0),
+		C_Velocity.new(Vector2.ZERO),
 		C_Input.new(),
 		C_Shooter.new(0.15, 500.0),
 		C_Payload.new(12.0, 200.0),
@@ -23,10 +23,13 @@ func define_components() -> Array:
 		C_TEAR_STATS.new(3.5, 10, 6.5, 1.0, 0.0),
 		C_TRANSFORM.new(Vector2.ZERO),
 		C_LOCOMOTION.new(1.0, 1.0, 800.0),
-		C_MASS.new(10.0)
+		C_MASS.new(10.0),
+		C_Physics.new($PhysicsBody)
 	]
 
 func on_ready():
+	$PhysicsBody.global_position = self.get("global_position")
+
 	if not Engine.is_editor_hint():
 		var trans = get_component(C_TRANSFORM)
 		if trans and "global_position" in self:

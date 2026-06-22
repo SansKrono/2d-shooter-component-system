@@ -1,21 +1,26 @@
 class_name ContinuousDungeonEntity
 extends Node2D
 
-var tilemap_layer: DungeonTileMapLayer = null
+var tilemap_layer: TileMap = null
 var dungeon_graph: Resource = null
 
 func _ready() -> void:
 	name = "ContinuousDungeon"
 
-	tilemap_layer = DungeonTileMapLayer.new()
+	tilemap_layer = TileMap.new()
 	tilemap_layer.name = "TileMapLayer"
+	tilemap_layer.set_script(preload("res://systems/DungeonTileMapLayer.gd"))
 	add_child(tilemap_layer)
 
 func setup_from_graph(graph: Resource) -> void:
 	dungeon_graph = graph
 	if tilemap_layer and dungeon_graph:
-		tilemap_layer.paint_dungeon(dungeon_graph)
+		call_deferred("_paint_tilemap")
 		print("[ContinuousDungeon] Setup complete with dungeon graph")
+
+func _paint_tilemap() -> void:
+	if tilemap_layer and tilemap_layer.has_method("paint_dungeon"):
+		tilemap_layer.paint_dungeon(dungeon_graph)
 
 func get_spawn_position_for_chamber(chamber_id: int) -> Vector2:
 	if not dungeon_graph:

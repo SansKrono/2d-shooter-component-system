@@ -8,7 +8,7 @@ var shooter: Entity = null
 
 func define_components() -> Array:
 	return [
-		C_Velocity.new(Vector2.ZERO, 400.0),
+		C_Velocity.new(Vector2.ZERO),
 		C_Lifetime.new(2.0)
 	]
 

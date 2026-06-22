@@ -40,7 +40,7 @@ func _draw_chambers() -> void:
 			2.0
 		)
 
-		# Label drawn as small circles for now (text rendering complex in _draw)
+		var label_pos = chamber.rect.get_center()
 		draw_circle(label_pos, 3.0, Color.WHITE)
 
 func _draw_corridors() -> void:

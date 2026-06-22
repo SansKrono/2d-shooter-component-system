@@ -4,6 +4,7 @@ extends System
 const C_MASS = preload("res://components/character/c_mass.gd")
 const C_PENDING_DAMAGE = preload("res://components/character/c_pending_damage.gd")
 const C_DAMAGE_TYPE = preload("res://components/character/c_damage_type.gd")
+const C_LOCOMOTION = preload("res://components/character/c_locomotion.gd")
 
 static func apply_hit(bullet: Entity, target: Entity) -> void:
 	if not is_instance_valid(bullet) or not is_instance_valid(target):
@@ -24,6 +25,7 @@ static func apply_hit(bullet: Entity, target: Entity) -> void:
 	var bullet_payload = bullet.get_component(C_Payload) as C_Payload
 	var bullet_vel = bullet.get_component(C_Velocity) as C_Velocity
 	var bullet_vol = bullet.get_component(C_Volatility) as C_Volatility
+	var bullet_loco = bullet.get_component(C_LOCOMOTION) as C_Locomotion
 
 	if not bullet_payload:
 		return
@@ -36,9 +38,10 @@ static func apply_hit(bullet: Entity, target: Entity) -> void:
 	# 5. Calculate displacement knockback vector using mass ratio formula
 	var displacement = Vector2.ZERO
 	if bullet_vel:
-		var v_p = bullet_vel.direction * bullet_vel.speed
+		var speed = bullet_loco.base_speed if bullet_loco else 400.0
+		var v_p = bullet_vel.direction * speed
 		if v_p == Vector2.ZERO:
-			v_p = (target.global_position - bullet.global_position).normalized() * bullet_vel.speed
+			v_p = (target.global_position - bullet.global_position).normalized() * speed
 		var m_p = 8.0
 		if bullet.has_component(C_MASS):
 			m_p = bullet.get_component(C_MASS).mass
@@ -184,7 +187,7 @@ static func _spawn_split_bullets(
 		var kb = orig_payload.knockback_force * dmg_mult if orig_payload else 75.0
 		var aoe = orig_payload.area_of_effect if orig_payload else 0.0
 
-		split.add_component(C_Velocity.new(new_dir, orig_vel.speed))
+		split.add_component(C_Velocity.new(new_dir))
 		split.add_component(C_Payload.new(dmg, kb, aoe))
 
 		var max_range = orig_traj.max_range if orig_traj else 500.0

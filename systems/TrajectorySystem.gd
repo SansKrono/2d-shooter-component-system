@@ -2,6 +2,7 @@ class_name TrajectorySystem
 extends System
 
 const C_BulletPath = preload("res://components/character/c_bullet_path.gd")
+const C_LOCOMOTION = preload("res://components/character/c_locomotion.gd")
 
 func query() -> QueryBuilder:
 	return q.with_all([C_Velocity, C_Trajectory]).with_none([C_Input])
@@ -10,11 +11,13 @@ func process(entities: Array[Entity], _components: Array, delta: float) -> void:
 	for entity in entities:
 		var c_vel = entity.get_component(C_Velocity) as C_Velocity
 		var c_traj = entity.get_component(C_Trajectory) as C_Trajectory
+		var c_loco = entity.get_component(C_LOCOMOTION) as C_Locomotion
 		if not c_vel or not c_traj:
 			continue
 
 		# 1. Update distance traveled and check range limit
-		c_traj.distance_traveled += c_vel.speed * delta
+		var speed = c_loco.base_speed if c_loco else 400.0
+		c_traj.distance_traveled += speed * delta
 		if c_traj.distance_traveled >= c_traj.max_range:
 			cmd.remove_entity(entity)
 			continue
