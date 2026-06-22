@@ -16,7 +16,7 @@ const CONTINUOUS_DUNGEON = preload("res://entities/environmental/e_continuous_du
 
 var dungeon_graph: C_DUNGEON_GRAPH = null
 var continuous_dungeon: Node2D = null
-var debug_canvas: CanvasLayer = null
+var debug_draw_node: Node2D = null
 var generated: bool = false
 var camera_2d: Camera2D = null
 
@@ -103,19 +103,15 @@ func _create_debug_visualization() -> void:
 	if not enable_debug_draw:
 		return
 
-	if debug_canvas:
-		debug_canvas.queue_free()
+	if debug_draw_node:
+		debug_draw_node.queue_free()
 
-	debug_canvas = CanvasLayer.new()
-	debug_canvas.layer = 100
-	get_tree().root.add_child(debug_canvas)
+	debug_draw_node = Node2D.new()
+	debug_draw_node.name = "DungeonDebugDraw"
+	debug_draw_node.set_script(preload("res://systems/DungeonDebugDraw.gd"))
+	get_tree().root.add_child(debug_draw_node)
 
-	var draw_node = Node2D.new()
-	draw_node.name = "DungeonDebugDraw"
-	draw_node.set_script(preload("res://systems/DungeonDebugDraw.gd"))
-	debug_canvas.add_child(draw_node)
-
-	call_deferred("_assign_debug_graph", draw_node)
+	call_deferred("_assign_debug_graph", debug_draw_node)
 
 func _assign_debug_graph(draw_node: Node2D) -> void:
 	if draw_node and draw_node.is_node_ready():
