@@ -51,11 +51,12 @@ func process(entities: Array[Entity], _components: Array, _delta: float) -> void
 		c_input.interact_just_pressed = is_e_pressed and not c_input.interact_pressed
 		c_input.interact_pressed = is_e_pressed
 
-		# Mouse aim direction using PhysicsBody for get_global_mouse_position
-		var c_phys = entity.get_component(C_Physics)
-		if c_phys and is_instance_valid(c_phys.body):
-			var entity_pos: Vector2 = entity.get("global_position") if "global_position" in entity else c_phys.body.global_position
-			var raw_aim = c_phys.body.get_global_mouse_position() - entity_pos
+		# World-space mouse via viewport canvas transform (no C_Physics dependency)
+		var viewport = entity.get_viewport()
+		if viewport:
+			var world_mouse: Vector2 = viewport.get_canvas_transform().affine_inverse() * viewport.get_mouse_position()
+			var player_pos: Vector2 = entity.get("global_position") if "global_position" in entity else Vector2.ZERO
+			var raw_aim = world_mouse - player_pos
 			if raw_aim.length() > 1.0:
 				_last_aim_direction = raw_aim.normalized()
 		c_input.aim_direction = _last_aim_direction
