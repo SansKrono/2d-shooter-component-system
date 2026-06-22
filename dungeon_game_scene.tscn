@@ -31,6 +31,8 @@
 [ext_resource type="Script" path="res://systems/ContinuousEnemySpawnerSystem.gd" id="45_enemy_spawn"]
 [ext_resource type="Script" path="res://systems/CorruptionSpreadingSystem.gd" id="46_corruption"]
 [ext_resource type="Script" path="res://systems/CorruptionVisualSystem.gd" id="47_corruption_visual"]
+[ext_resource type="Script" path="res://systems/EnvironmentEffectSystem.gd" id="48_env_effect"]
+[ext_resource type="Script" path="res://systems/ScreenShakeSystem.gd" id="49_screen_shake"]
 
 [sub_resource type="Resource" id="Resource_mana"]
 script = ExtResource("9_mana")
@@ -135,6 +137,12 @@ max_corruption = 1.0
 
 [node name="CorruptionVisualSystem" type="Node" parent="Systems"]
 script = ExtResource("47_corruption_visual")
+
+[node name="EnvironmentEffectSystem" type="Node" parent="Systems"]
+script = ExtResource("48_env_effect")
+
+[node name="ScreenShakeSystem" type="Node" parent="Systems"]
+script = ExtResource("49_screen_shake")
 
 [node name="Entities" type="Node2D" parent="."]
 

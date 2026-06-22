@@ -2,10 +2,10 @@
 class_name Player
 extends Entity
 
-const C_TEAR_STATS = preload("res://components/character/c_tear_stats.gd")
 const C_TRANSFORM = preload("res://components/character/c_transform.gd")
 const C_LOCOMOTION = preload("res://components/character/c_locomotion.gd")
 const C_MASS = preload("res://components/character/c_mass.gd")
+const C_ATTACK_MODE = preload("res://components/character/c_attack_mode.gd")
 
 func define_components() -> Array:
 	return [
@@ -20,7 +20,7 @@ func define_components() -> Array:
 		C_Luck.new(2.0),
 		C_Currency.new(100),
 		C_RelicInventory.new(),
-		C_TEAR_STATS.new(3.5, 10, 6.5, 1.0, 0.0),
+		C_ATTACK_MODE.new("TECH"),
 		C_TRANSFORM.new(Vector2.ZERO),
 		C_LOCOMOTION.new(1.0, 1.0, 800.0),
 		C_MASS.new(10.0),

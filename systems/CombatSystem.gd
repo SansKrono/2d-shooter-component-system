@@ -5,6 +5,10 @@ const C_MASS = preload("res://components/character/c_mass.gd")
 const C_PENDING_DAMAGE = preload("res://components/character/c_pending_damage.gd")
 const C_DAMAGE_TYPE = preload("res://components/character/c_damage_type.gd")
 const C_LOCOMOTION = preload("res://components/character/c_locomotion.gd")
+const C_PIERCING = preload("res://components/character/c_piercing.gd")
+const C_ATTACK_MODE = preload("res://components/character/c_attack_mode.gd")
+const TECH_HAZARD_PREFAB = preload("res://entities/hazards/e_tech_hazard.tscn")
+const CORRUPTION_HAZARD_PREFAB = preload("res://entities/hazards/e_corruption_hazard.tscn")
 
 static func apply_hit(bullet: Entity, target: Entity) -> void:
 	if not is_instance_valid(bullet) or not is_instance_valid(target):
@@ -92,7 +96,21 @@ static func apply_hit(bullet: Entity, target: Entity) -> void:
 					print("[Combat] Plasma Splitter split passive triggered! (Chance: %.2f)" % split_chance)
 					_spawn_split_bullets(bullet, target, split_effect)
 
-	# 10. Destroy Bullet via ECS World
+	# 10. Spawn environment hazard on impact if bullet is from dual-mode system
+	var c_attack_mode = null
+	if "shooter" in bullet and is_instance_valid(bullet.shooter):
+		c_attack_mode = bullet.shooter.get_component(C_AttackMode)
+
+	if c_attack_mode:
+		_spawn_hazard_on_impact(bullet, c_attack_mode.mode)
+		_spawn_impact_effect(bullet, c_attack_mode.mode)
+
+	# 11. Check for piercing before destroying bullet
+	var c_piercing = bullet.get_component(C_PIERCING) as C_Piercing
+	if c_piercing:
+		c_piercing.hit_count += 1
+		if c_piercing.pierce_count < 0 or c_piercing.hit_count < c_piercing.pierce_count:
+			return  # bullet survives
 	if ECS.world:
 		ECS.world.remove_entity(bullet)
 
@@ -209,3 +227,32 @@ static func _spawn_split_bullets(
 		if main_node:
 			main_node.add_child.call_deferred(split)
 			ECS.world.add_entity.call_deferred(split)
+
+static func _spawn_hazard_on_impact(bullet: Entity, mode: String) -> void:
+	if not is_instance_valid(bullet) or not "global_position" in bullet:
+		return
+
+	var hazard: Entity = null
+	if mode == "TECH":
+		hazard = TECH_HAZARD_PREFAB.instantiate() as Entity
+	elif mode == "MAGIC":
+		hazard = CORRUPTION_HAZARD_PREFAB.instantiate() as Entity
+	else:
+		return
+
+	if hazard:
+		hazard.global_position = bullet.global_position
+		if ECS.world:
+			ECS.world.add_entity(hazard)
+		print("[Hazard] Spawned %s hazard at %v" % [mode, bullet.global_position])
+
+static func _spawn_impact_effect(bullet: Entity, mode: String) -> void:
+	if not is_instance_valid(bullet):
+		return
+
+	var sprite = bullet.get_node_or_null("Sprite2D") as Sprite2D
+	if sprite and NodeFX:
+		if mode == "TECH":
+			NodeFX.pop(sprite, 0.2, false)
+		else:  # MAGIC
+			NodeFX.pulse(sprite, 0.15, 1)

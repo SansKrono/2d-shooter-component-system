@@ -1,6 +1,8 @@
 class_name PlayerInputSystem
 extends System
 
+var _rmb_was_pressed: bool = false
+
 func query() -> QueryBuilder:
 	return q.with_all([C_Input, C_Velocity])
 
@@ -47,3 +49,20 @@ func process(entities: Array[Entity], _components: Array, _delta: float) -> void
 		var is_e_pressed = Input.is_key_pressed(KEY_E)
 		c_input.interact_just_pressed = is_e_pressed and not c_input.interact_pressed
 		c_input.interact_pressed = is_e_pressed
+
+		# Mouse aim direction using PhysicsBody for get_global_mouse_position
+		var c_phys = entity.get_component(C_Physics)
+		if c_phys and is_instance_valid(c_phys.body):
+			var raw_aim = c_phys.body.get_global_mouse_position() - c_phys.body.global_position
+			c_input.aim_direction = raw_aim.normalized() if raw_aim.length() > 1.0 else Vector2.RIGHT
+
+		# LMB fire button — edge detection same as interact_just_pressed
+		var lmb = Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT)
+		c_input.fire_button_just_pressed = lmb and not c_input.fire_button_held
+		c_input.fire_button_just_released = not lmb and c_input.fire_button_held
+		c_input.fire_button_held = lmb
+
+		# RMB mode toggle — edge detection
+		var rmb = Input.is_mouse_button_pressed(MOUSE_BUTTON_RIGHT)
+		c_input.mode_toggle_just_pressed = rmb and not _rmb_was_pressed
+		_rmb_was_pressed = rmb
