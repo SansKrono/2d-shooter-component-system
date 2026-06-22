@@ -151,13 +151,3 @@ func _setup_tile_physics(tileset: TileSet, source: TileSetAtlasSource) -> void:
 
 	for tile_id in wall_tiles:
 		source.create_tile(tile_id)
-		var data = source.get_tile_data(tile_id, 0)
-		data.set_collision_polygons_count(0, 1)
-
-		var polygon = PackedVector2Array([
-			Vector2(0, 0),
-			Vector2(TILE_SIZE, 0),
-			Vector2(TILE_SIZE, TILE_SIZE),
-			Vector2(0, TILE_SIZE)
-		])
-		data.set_collision_polygon(0, 0, polygon)

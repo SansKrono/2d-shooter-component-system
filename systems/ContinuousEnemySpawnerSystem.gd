@@ -26,9 +26,18 @@ func process(_entities: Array[Entity], _components: Array, _delta: float) -> voi
 		generation_complete = true
 
 func _spawn_initial_enemies() -> void:
-	var gen_sys = _world.get_node_or_null("Systems/DungeonGenerationSystem") as DungeonGenerationSystem
+	if not _world:
+		print("[ContinuousEnemySpawner] No world reference")
+		return
+
+	var system_path = str(_world.system_nodes_root) + "/DungeonGenerationSystem"
+	var gen_sys = _world.get_node_or_null(system_path)
 	if not gen_sys:
-		print("[ContinuousEnemySpawner] DungeonGenerationSystem not found")
+		print("[ContinuousEnemySpawner] DungeonGenerationSystem not found at %s" % system_path)
+		return
+
+	if not gen_sys.has_method("get_dungeon_graph"):
+		print("[ContinuousEnemySpawner] DungeonGenerationSystem doesn't have get_dungeon_graph")
 		return
 
 	dungeon_graph = gen_sys.get_dungeon_graph()
@@ -49,7 +58,7 @@ func _spawn_enemies_in_chamber(chamber: Object) -> void:
 	var rect = chamber.rect
 	var count = base_enemy_count
 
-	var corruption = chamber.corruption_level if chamber.has("corruption_level") else 0.0
+	var corruption = chamber.corruption_level
 	count = int(count * (1.0 + corruption))
 
 	for _i in range(count):
