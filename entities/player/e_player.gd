@@ -23,11 +23,14 @@ func define_components() -> Array:
 		C_TRANSFORM.new(Vector2.ZERO),
 		C_LOCOMOTION.new(200.0, 900.0, 800.0),
 		C_MASS.new(10.0),
-		C_Physics.new($PhysicsBody)
+		C_Physics.new(null)
 	]
 
 func on_ready():
 	$PhysicsBody.global_position = self.get("global_position")
+	var c_phys = get_component(C_Physics)
+	if c_phys:
+		c_phys.body = $PhysicsBody
 
 	if not Engine.is_editor_hint():
 		var trans = get_component(C_TRANSFORM)

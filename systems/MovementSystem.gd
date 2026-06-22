@@ -66,6 +66,7 @@ func process(entities: Array[Entity], _components: Array, delta: float) -> void:
 			# Sync Entity position from physics result so other systems
 			# reading entity.global_position stay accurate.
 			entity.global_position = c_phys.body.global_position
+			c_phys.body.position = Vector2.ZERO
 
 		elif "global_position" in entity:
 			# Non-physics fallback: projectiles, floating pickups

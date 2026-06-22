@@ -1,6 +1,12 @@
-[gd_resource type="Resource" script_class="FloorConfig" format=3]
+[gd_resource type="Resource" script_class="FloorConfig" format=3 uid="uid://floor_caves"]
 
 [ext_resource type="Script" path="res://resources/floor_config.gd" id="1_floor_config"]
+[ext_resource type="Resource" uid="uid://normal_b" path="res://resources/rooms/layouts/normal/normal_b.tres" id="2_normal_b"]
+[ext_resource type="Resource" uid="uid://normal_c" path="res://resources/rooms/layouts/normal/normal_c.tres" id="3_normal_c"]
+[ext_resource type="Resource" uid="uid://boss_b" path="res://resources/rooms/layouts/boss/boss_b.tres" id="4_boss_b"]
+[ext_resource type="Resource" uid="uid://treasure_b" path="res://resources/rooms/layouts/treasure/treasure_b.tres" id="5_treasure_b"]
+[ext_resource type="Resource" uid="uid://shop_b" path="res://resources/rooms/layouts/shop/shop_b.tres" id="6_shop_b"]
+[ext_resource type="Resource" uid="uid://start_a" path="res://resources/rooms/layouts/start/start_a.tres" id="7_start_a"]
 
 [resource]
 script = ExtResource("1_floor_config")
@@ -9,3 +15,8 @@ min_room_count = 6
 treasure_room_count = 1
 shop_room_count = 1
 theme_color = Color(0.76, 0.6, 0.42, 1.0)
+normal_room_layouts = [ExtResource("2_normal_b"), ExtResource("3_normal_c")]
+boss_room_layouts = [ExtResource("4_boss_b")]
+treasure_room_layouts = [ExtResource("5_treasure_b")]
+shop_room_layouts = [ExtResource("6_shop_b")]
+start_room_layouts = [ExtResource("7_start_a")]

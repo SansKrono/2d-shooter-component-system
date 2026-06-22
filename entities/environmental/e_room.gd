@@ -12,7 +12,7 @@ func define_components() -> Array:
 	rd.state = 1
 	return [rd]
 
-func setup(room_type: String, active_doors: Array[String]) -> Array[Vector2]:
+func setup(room_type: String, active_doors: Array[String], layout_config: Resource = null) -> Array[Vector2]:
 	if _tilemap and is_instance_valid(_tilemap):
 		_tilemap.queue_free()
 
@@ -29,4 +29,4 @@ func setup(room_type: String, active_doors: Array[String]) -> Array[Vector2]:
 	_tilemap.set_script(ROOM_TILEMAP_SCRIPT)
 	physics_body.add_child(_tilemap)
 
-	return _tilemap.paint_room(room_type, active_doors)
+	return _tilemap.paint_room(room_type, active_doors, layout_config)

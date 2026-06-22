@@ -9,6 +9,9 @@ const C_DOOR = preload("res://components/character/c_door.gd")
 @export var is_locked: bool = false:
 	set(val):
 		is_locked = val
+		var c_door = get_component(C_DOOR)
+		if c_door:
+			c_door.is_locked = val
 		_update_visuals()
 
 var global_pos: Vector2:
@@ -19,6 +22,7 @@ var global_pos: Vector2:
 		return Vector2.ZERO
 
 var _notified_locked: bool = false
+var _physics_collision: CollisionShape2D = null
 
 func define_components() -> Array:
 	return [
@@ -26,6 +30,19 @@ func define_components() -> Array:
 	]
 
 func on_ready() -> void:
+	# Create StaticBody2D and CollisionShape2D dynamically to avoid editing raw .tscn files
+	var static_body = StaticBody2D.new()
+	static_body.name = "DoorLockPhysics"
+	static_body.collision_layer = 1
+	static_body.collision_mask = 1
+	add_child(static_body)
+
+	_physics_collision = CollisionShape2D.new()
+	var rect_shape = RectangleShape2D.new()
+	rect_shape.size = Vector2(64, 64)
+	_physics_collision.shape = rect_shape
+	static_body.add_child(_physics_collision)
+
 	if not Engine.is_editor_hint():
 		_update_visuals()
 
@@ -91,6 +108,14 @@ func _check_and_trigger_transition(player: Player) -> void:
 
 func _update_visuals() -> void:
 	var label = get_node_or_null("Label") as Label
+	var c_door = get_component(C_DOOR)
+	var locked = c_door.is_locked if c_door else is_locked
+
 	if label:
-		var status = " [L]" if is_locked else ""
+		var status = " [L]" if locked else ""
 		label.text = direction.to_upper() + status
+
+	if _physics_collision:
+		_physics_collision.set_deferred("disabled", not locked)
+		print("[DoorDebug] %s updated: locked=%s, collision disabled=%s" % [direction, str(locked), str(not locked)])
+

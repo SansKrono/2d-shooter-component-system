@@ -1,0 +1,11 @@
+[gd_resource type="RoomLayoutConfig" script_class="RoomLayoutConfig" load_steps=2 format=3 uid="uid://normal_b"]
+
+[ext_resource type="Script" path="res://resources/rooms/room_layout_config.gd" id="1_config"]
+
+[resource]
+script = ExtResource("1_config")
+layout_name = "Normal B - Dense Obstacles"
+decoration_positions = [Vector2i(3, 3), Vector2i(11, 3), Vector2i(7, 4), Vector2i(3, 5), Vector2i(11, 5)]
+indestructible_positions = [Vector2i(5, 2), Vector2i(9, 2), Vector2i(5, 6), Vector2i(9, 6), Vector2i(7, 4)]
+destructible_positions = [Vector2i(4, 4), Vector2i(10, 4)]
+enemy_spawn_positions = [Vector2(320, 160), Vector2(640, 320), Vector2(480, 450)]

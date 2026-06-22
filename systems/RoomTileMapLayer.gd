@@ -10,9 +10,9 @@ var _source_id: int = -1
 func _ready() -> void:
 	z_index = -100
 	_setup_tileset()
-	# Enable all TileMap layers for rendering and physics
+	# Bind all TileMap layers to physics layer 0
 	for layer_idx in range(get_layers_count()):
-		set_layer_enabled(layer_idx, true)
+		set_layer_enabled(layer_idx, 1)
 
 func _setup_tileset() -> void:
 	var ts := TileSet.new()
@@ -43,17 +43,19 @@ func _setup_tileset() -> void:
 	for i in range(6):
 		source.create_tile(Vector2i(i, 0))
 
+	_source_id = ts.add_source(source)
+
 	# Physics polygons on wall (col 1) and indestructible (col 4)
+	var half := TILE_SIZE / 2.0
 	var poly := PackedVector2Array([
-		Vector2(0, 0), Vector2(TILE_SIZE, 0),
-		Vector2(TILE_SIZE, TILE_SIZE), Vector2(0, TILE_SIZE)
+		Vector2(-half, -half), Vector2(half, -half),
+		Vector2(half, half), Vector2(-half, half)
 	])
 	for blocking in [Vector2i(1, 0), Vector2i(4, 0)]:
 		var td: TileData = source.get_tile_data(blocking, 0)
 		td.add_collision_polygon(0)
 		td.set_collision_polygon_points(0, 0, poly)
 
-	_source_id = ts.add_source(source)
 	tile_set = ts
 
 	# Create 6 TileMap layers
@@ -66,7 +68,7 @@ func _setup_tileset() -> void:
 	set_layer_name(4, "Indestructible")
 	set_layer_name(5, "Destructible")
 
-func paint_room(room_type: String, active_doors: Array[String]) -> Array[Vector2]:
+func paint_room(room_type: String, active_doors: Array[String], layout_config: Resource = null) -> Array[Vector2]:
 	if _source_id == -1:
 		push_error("[RoomTileMapLayer] _setup_tileset not yet called")
 		return []
@@ -74,9 +76,15 @@ func paint_room(room_type: String, active_doors: Array[String]) -> Array[Vector2
 	_paint_floor()
 	_paint_walls(active_doors)
 	_paint_doors(active_doors)
-	_paint_decorations(room_type)
-	_paint_indestructible(room_type)
-	return _mark_destructible(room_type)
+
+	if layout_config:
+		_paint_decorations_from_config(layout_config)
+		_paint_indestructible_from_config(layout_config)
+		return _mark_destructible_from_config(layout_config)
+	else:
+		_paint_decorations(room_type)
+		_paint_indestructible(room_type)
+		return _mark_destructible(room_type)
 
 func _paint_floor() -> void:
 	for x in range(1, ROOM_WIDTH - 1):
@@ -158,6 +166,26 @@ func _mark_destructible(room_type: String) -> Array[Vector2]:
 		"BOSS":
 			tile_positions = []
 
+	for tp in tile_positions:
+		set_cell(5, tp, _source_id, Vector2i(5, 0))
+
+	var world_positions: Array[Vector2] = []
+	for tp in tile_positions:
+		world_positions.append(map_to_local(tp))
+	return world_positions
+
+func _paint_decorations_from_config(layout_config: Resource) -> void:
+	var positions = layout_config.get("decoration_positions", [])
+	for pos in positions:
+		set_cell(3, pos, _source_id, Vector2i(3, 0))
+
+func _paint_indestructible_from_config(layout_config: Resource) -> void:
+	var positions = layout_config.get("indestructible_positions", [])
+	for pos in positions:
+		set_cell(4, pos, _source_id, Vector2i(4, 0))
+
+func _mark_destructible_from_config(layout_config: Resource) -> Array[Vector2]:
+	var tile_positions = layout_config.get("destructible_positions", [])
 	for tp in tile_positions:
 		set_cell(5, tp, _source_id, Vector2i(5, 0))
 

@@ -258,14 +258,19 @@ func _deferred_transition(coords: Vector2i, entering_from_dir: String) -> void:
 				if area:
 					area.process_mode = PROCESS_MODE_DISABLED
 
-	# Collect active door directions and paint tilemap
+	# Collect active door directions and pick layout variation
 	var active_doors: Array[String] = []
 	for dir_name in neighbor_dirs.keys():
 		if grid.has(coords + neighbor_dirs[dir_name]):
 			active_doors.append(dir_name)
 
+	# Pick room layout via seeded RNG — deterministic per room
+	var room_rng := RandomNumberGenerator.new()
+	room_rng.seed = map_seed + current_floor_index * 1000 + coords.x * 100 + coords.y
+	var layout_config = _pick_layout(type, room_rng)
+
 	if active_room_instance and active_room_instance.has_method("setup"):
-		var obstacle_positions: Array[Vector2] = active_room_instance.setup(type, active_doors)
+		var obstacle_positions: Array[Vector2] = active_room_instance.setup(type, active_doors, layout_config)
 		for obs_pos in obstacle_positions:
 			var obs = DESTRUCTIBLE_OBSTACLE_SCENE.instantiate() as Entity
 			obs.position = obs_pos
@@ -280,9 +285,16 @@ func _deferred_transition(coords: Vector2i, entering_from_dir: String) -> void:
 		c_room.state = 1 if is_combat else 2
 
 	if not room_data["cleared"]:
+		# Use enemy positions from layout config if available
+		var enemy_positions: Array[Vector2] = []
+		if layout_config:
+			enemy_positions = layout_config.get("enemy_spawn_positions", [])
+
 		if type == "NORMAL":
-			_spawn_enemy(Vector2(256, 192))
-			_spawn_enemy(Vector2(704, 384))
+			if enemy_positions.is_empty():
+				enemy_positions = [Vector2(256, 192), Vector2(704, 384)]
+			for pos in enemy_positions:
+				_spawn_enemy(pos)
 		elif type == "TREASURE":
 			_spawn_relic(Vector2(480, 288))
 		elif type == "BOSS":
@@ -340,6 +352,28 @@ func _spawn_shop_items(pos: Vector2) -> void:
 	entities_root.add_child(relic_inst)
 	_world.add_entity(relic_inst)
 	NodeFX.hover(relic_inst.get_node("Sprite2D"))
+
+func _pick_layout(room_type: String, rng: RandomNumberGenerator) -> Resource:
+	var floor_cfg: Resource = null
+	if run_config and current_floor_index < run_config.floors.size():
+		floor_cfg = run_config.floors[current_floor_index]
+
+	var layouts: Array[Resource] = []
+	match room_type:
+		"NORMAL":
+			layouts = floor_cfg.get("normal_room_layouts", []) if floor_cfg else []
+		"BOSS":
+			layouts = floor_cfg.get("boss_room_layouts", []) if floor_cfg else []
+		"TREASURE":
+			layouts = floor_cfg.get("treasure_room_layouts", []) if floor_cfg else []
+		"SHOP":
+			layouts = floor_cfg.get("shop_room_layouts", []) if floor_cfg else []
+		"START":
+			layouts = floor_cfg.get("start_room_layouts", []) if floor_cfg else []
+
+	if layouts.is_empty():
+		return null
+	return layouts[rng.randi() % layouts.size()]
 
 func descend_floor() -> void:
 	if transition_cooldown > 0.0:
