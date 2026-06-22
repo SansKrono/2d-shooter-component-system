@@ -30,6 +30,7 @@
 [ext_resource type="Script" path="res://systems/ContinuousCameraSystem.gd" id="44_cam_sys"]
 [ext_resource type="Script" path="res://systems/ContinuousEnemySpawnerSystem.gd" id="45_enemy_spawn"]
 [ext_resource type="Script" path="res://systems/CorruptionSpreadingSystem.gd" id="46_corruption"]
+[ext_resource type="Script" path="res://systems/CorruptionVisualSystem.gd" id="47_corruption_visual"]
 
 [sub_resource type="Resource" id="Resource_mana"]
 script = ExtResource("9_mana")
@@ -131,6 +132,9 @@ spreading_enabled = true
 spread_radius = 300.0
 spread_rate = 0.1
 max_corruption = 1.0
+
+[node name="CorruptionVisualSystem" type="Node" parent="Systems"]
+script = ExtResource("47_corruption_visual")
 
 [node name="Entities" type="Node2D" parent="."]
 

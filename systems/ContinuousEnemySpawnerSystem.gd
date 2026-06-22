@@ -5,6 +5,7 @@ const ENEMY_SCENE = preload("res://entities/enemies/e_enemy.tscn")
 const RELIC_PICKUP_SCENE = preload("res://entities/environmental/e_relic.tscn")
 const AMPLIFICATION_ARRAY = preload("res://resources/relics/amplification_array.tres")
 const C_TRANSFORM = preload("res://components/character/c_transform.gd")
+const CORRUPTED_SERVER = preload("res://entities/environmental/e_corrupted_server.gd")
 
 @export var enemy_spawn_enabled: bool = true
 @export var base_enemy_count: int = 2
@@ -65,6 +66,10 @@ func _spawn_enemies_in_chamber(chamber: Object) -> void:
 		var spawn_pos = _random_pos_in_rect(rect)
 		_spawn_enemy_at(spawn_pos)
 
+	if corruption > 0.5:
+		var server_pos = _random_pos_in_rect(rect)
+		_spawn_corrupted_server(server_pos)
+
 func _spawn_boss_in_chamber(chamber: Object) -> void:
 	var spawn_pos = chamber.rect.get_center()
 	var boss = ENEMY_SCENE.instantiate() as Entity
@@ -121,6 +126,18 @@ func _spawn_enemy_at(pos: Vector2) -> void:
 		var entities_root = _world.get_node(_world.entity_nodes_root)
 		entities_root.add_child(enemy)
 		_world.add_entity(enemy)
+
+func _spawn_corrupted_server(pos: Vector2) -> void:
+	var server = CORRUPTED_SERVER.new()
+	if server:
+		var trans = C_TRANSFORM.new()
+		trans.position = pos
+		server.add_component(trans)
+
+		var entities_root = _world.get_node(_world.entity_nodes_root)
+		entities_root.add_child(server)
+		_world.add_entity(server)
+		print("[EnemySpawner] Corrupted server spawned at %s" % str(pos))
 
 func _random_pos_in_rect(rect: Rect2i) -> Vector2:
 	var rng = RandomNumberGenerator.new()

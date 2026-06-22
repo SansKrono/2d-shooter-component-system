@@ -4,6 +4,7 @@ extends TileMap
 const TILE_SIZE: int = 16
 const WALKABLE_TILE: Vector2i = Vector2i(0, 0)
 const WALL_TILE: Vector2i = Vector2i(1, 0)
+const CORRUPTED_TILE: Vector2i = Vector2i(5, 0)
 
 var dungeon_graph: Resource = null
 
@@ -56,7 +57,7 @@ func _paint_corridor_path(corridor: Object) -> void:
 	for i in range(path.size() - 1):
 		var start = path[i]
 		var end = path[i + 1]
-		_paint_line_segment(start, end, width, Vector2i(1, 0))
+		_paint_line_segment(start, end, width, WALKABLE_TILE)
 
 func _paint_line_segment(start: Vector2, end: Vector2, width: int, tile_id: Vector2i) -> void:
 	var dist = start.distance_to(end)
@@ -101,6 +102,16 @@ func _fill_rect_with_tile(rect: Rect2i, tile_id: Vector2i) -> void:
 		for y in range(start_tile.y, end_tile.y + 1):
 			set_cell(0, Vector2i(x, y), 0, tile_id)
 
+func repaint_corruption(chambers: Array) -> void:
+	if not dungeon_graph:
+		return
+
+	for chamber in chambers:
+		if chamber.corruption_level > 0.3:
+			var use_corrupted = chamber.corruption_level > 0.6
+			var tile_id = CORRUPTED_TILE if use_corrupted else WALKABLE_TILE
+			_fill_rect_with_tile(chamber.rect, tile_id)
+
 func _create_tileset() -> TileSet:
 	var tileset = TileSet.new()
 	tileset.tile_size = Vector2i(TILE_SIZE, TILE_SIZE)
@@ -116,7 +127,7 @@ func _create_tileset() -> TileSet:
 	return tileset
 
 func _create_dummy_texture() -> Texture2D:
-	var image = Image.create(80, 16, false, Image.FORMAT_RGB8)
+	var image = Image.create(96, 16, false, Image.FORMAT_RGB8)
 
 	image.fill(Color.GRAY)
 	for x in range(0, 16):
@@ -139,11 +150,15 @@ func _create_dummy_texture() -> Texture2D:
 		for y in range(0, 16):
 			image.set_pixel(x, y, Color.CYAN)
 
+	for x in range(80, 96):
+		for y in range(0, 16):
+			image.set_pixel(x, y, Color(0.35, 0.0, 0.5))
+
 	var texture = ImageTexture.create_from_image(image)
 	return texture
 
 func _setup_tile_physics(tileset: TileSet, source: TileSetAtlasSource) -> void:
-	var walkable_tiles = [WALKABLE_TILE, Vector2i(2, 0), Vector2i(3, 0), Vector2i(4, 0)]
+	var walkable_tiles = [WALKABLE_TILE, Vector2i(2, 0), Vector2i(3, 0), Vector2i(4, 0), CORRUPTED_TILE]
 	var wall_tiles = [WALL_TILE]
 
 	for tile_id in walkable_tiles:

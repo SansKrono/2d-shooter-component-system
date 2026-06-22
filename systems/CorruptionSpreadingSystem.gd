@@ -39,6 +39,8 @@ func _spread_corruption() -> void:
 	for zone in dungeon_graph.corruption_zones:
 		_spread_from_zone(zone)
 
+	call_deferred("_update_tilemap")
+
 func _spread_from_zone(zone: Object) -> void:
 	if not dungeon_graph:
 		return
@@ -73,3 +75,10 @@ func get_point_corruption_level(pos: Vector2) -> float:
 		return chamber.corruption_level
 
 	return 0.0
+
+func _update_tilemap() -> void:
+	var continuous_dungeon = get_tree().root.get_node_or_null("ContinuousDungeon")
+	if continuous_dungeon and continuous_dungeon.has_method("tilemap_layer"):
+		var tilemap = continuous_dungeon.tilemap_layer
+		if tilemap and tilemap.has_method("repaint_corruption"):
+			tilemap.repaint_corruption(dungeon_graph.chambers)
