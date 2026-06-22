@@ -8,6 +8,8 @@ const C_ATTACK_MODE = preload("res://components/character/c_attack_mode.gd")
 const C_PIERCING = preload("res://components/character/c_piercing.gd")
 const C_PHYSICS = preload("res://components/character/c_physics.gd")
 const SPIRAL_MOD = preload("res://resources/effects/spiral_path_modifier.gd")
+const CURSOR_TECH = preload("res://assets/shoot-cursor-tech.png")
+const CURSOR_MAGIC = preload("res://assets/shoot-cursor-magic.png")
 
 var screen_shake_system = null
 
@@ -329,6 +331,11 @@ func _apply_mode_visual(entity: Entity, mode: String) -> void:
 
 	if sprite:
 		sprite.modulate = Color(0.4, 0.8, 1.0) if mode == "TECH" else Color(0.8, 0.2, 1.0)
+
+	if mode == "TECH":
+		DisplayServer.cursor_set_custom_image(CURSOR_TECH, DisplayServer.CURSOR_ARROW, Vector2(8, 8))
+	else:
+		DisplayServer.cursor_set_custom_image(CURSOR_MAGIC, DisplayServer.CURSOR_ARROW, Vector2(8, 8))
 
 func _apply_charge_visual(entity: Entity, charge: float, mode: String) -> void:
 	var sprite = entity.get_node_or_null("Sprite2D") as Sprite2D

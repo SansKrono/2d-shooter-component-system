@@ -54,7 +54,8 @@ func process(entities: Array[Entity], _components: Array, _delta: float) -> void
 		# Mouse aim direction using PhysicsBody for get_global_mouse_position
 		var c_phys = entity.get_component(C_Physics)
 		if c_phys and is_instance_valid(c_phys.body):
-			var raw_aim = c_phys.body.get_global_mouse_position() - c_phys.body.global_position
+			var entity_pos: Vector2 = entity.get("global_position") if "global_position" in entity else c_phys.body.global_position
+			var raw_aim = c_phys.body.get_global_mouse_position() - entity_pos
 			if raw_aim.length() > 1.0:
 				_last_aim_direction = raw_aim.normalized()
 		c_input.aim_direction = _last_aim_direction

@@ -22,7 +22,7 @@ func define_components() -> Array:
 		C_RelicInventory.new(),
 		C_ATTACK_MODE.new("TECH"),
 		C_TRANSFORM.new(Vector2.ZERO),
-		C_LOCOMOTION.new(1.0, 1.0, 800.0),
+		C_LOCOMOTION.new(200.0, 900.0, 800.0),
 		C_MASS.new(10.0),
 		C_Physics.new($PhysicsBody)
 	]
