@@ -3,39 +3,70 @@
 [ext_resource type="Script" uid="uid://c7yfaxb8cxrxk" path="res://ui/hud.gd" id="1_hud"]
 [ext_resource type="Theme" uid="uid://csuj8yvw71swq" path="res://pixel_ui_theme/PixelTheme-Magic.tres" id="2_theme"]
 [ext_resource type="Texture2D" uid="uid://cxv22bwc6xa8q" path="res://pixel_ui_theme/8x8_ui_elements_magic.png" id="3_gui_texture"]
+[ext_resource type="Texture2D" path="res://ui/components/SHADOW Series - Pixel UI/Things/UI - bar.png" id="4_bar"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_hp_bg"]
+texture = ExtResource("4_bar")
+texture_margin_left = 4.0
+texture_margin_top = 2.0
+texture_margin_right = 4.0
+texture_margin_bottom = 2.0
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 0
+region_rect = Rect2(0, 0, 280, 20)
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_hp"]
-texture = ExtResource("3_gui_texture")
-texture_margin_left = 3.0
-texture_margin_top = 3.0
-texture_margin_right = 3.0
-texture_margin_bottom = 3.0
-axis_stretch_horizontal = 2
-axis_stretch_vertical = 2
-region_rect = Rect2(24, 24, 8, 8)
-modulate_color = Color(0.9, 0.25, 0.25, 0.85)
+texture = ExtResource("4_bar")
+texture_margin_left = 4.0
+texture_margin_top = 2.0
+texture_margin_right = 4.0
+texture_margin_bottom = 2.0
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 0
+region_rect = Rect2(0, 0, 280, 20)
+modulate_color = Color(1, 0.2, 0.2, 1)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_pp_bg"]
+texture = ExtResource("4_bar")
+texture_margin_left = 4.0
+texture_margin_top = 2.0
+texture_margin_right = 4.0
+texture_margin_bottom = 2.0
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 0
+region_rect = Rect2(0, 0, 280, 20)
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_pp"]
-texture = ExtResource("3_gui_texture")
-texture_margin_left = 3.0
-texture_margin_top = 3.0
-texture_margin_right = 3.0
-texture_margin_bottom = 3.0
-axis_stretch_horizontal = 2
-axis_stretch_vertical = 2
-region_rect = Rect2(24, 24, 8, 8)
-modulate_color = Color(1, 0.7, 0.1, 0.85)
+texture = ExtResource("4_bar")
+texture_margin_left = 4.0
+texture_margin_top = 2.0
+texture_margin_right = 4.0
+texture_margin_bottom = 2.0
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 0
+region_rect = Rect2(0, 0, 280, 20)
+modulate_color = Color(1, 0.7, 0.1, 1)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_mp_bg"]
+texture = ExtResource("4_bar")
+texture_margin_left = 4.0
+texture_margin_top = 2.0
+texture_margin_right = 4.0
+texture_margin_bottom = 2.0
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 0
+region_rect = Rect2(0, 0, 280, 20)
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_mp"]
-texture = ExtResource("3_gui_texture")
-texture_margin_left = 3.0
-texture_margin_top = 3.0
-texture_margin_right = 3.0
-texture_margin_bottom = 3.0
-axis_stretch_horizontal = 2
-axis_stretch_vertical = 2
-region_rect = Rect2(24, 24, 8, 8)
-modulate_color = Color(0.2, 0.55, 0.9, 0.85)
+texture = ExtResource("4_bar")
+texture_margin_left = 4.0
+texture_margin_top = 2.0
+texture_margin_right = 4.0
+texture_margin_bottom = 2.0
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 0
+region_rect = Rect2(0, 0, 280, 20)
+modulate_color = Color(0.3, 0.6, 1, 1)
 
 [node name="HUD" type="Control" unique_id=968639838]
 layout_mode = 3
@@ -131,6 +162,7 @@ text = "HP: 100 / 100"
 [node name="HPBar" type="ProgressBar" parent="ResourceBox/HealthBox" unique_id=230522763]
 custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
+theme_override_styles/background = SubResource("StyleBoxTexture_hp_bg")
 theme_override_styles/fill = SubResource("StyleBoxTexture_hp")
 value = 100.0
 show_percentage = false
@@ -151,6 +183,7 @@ text = "Power: 100.0"
 [node name="PPBar" type="ProgressBar" parent="ResourceBox/PowerBox" unique_id=942621783]
 custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
+theme_override_styles/background = SubResource("StyleBoxTexture_pp_bg")
 theme_override_styles/fill = SubResource("StyleBoxTexture_pp")
 value = 100.0
 show_percentage = false
@@ -171,6 +204,7 @@ text = "Mana: 100.0"
 [node name="MPBar" type="ProgressBar" parent="ResourceBox/ManaBox" unique_id=675412100]
 custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
+theme_override_styles/background = SubResource("StyleBoxTexture_mp_bg")
 theme_override_styles/fill = SubResource("StyleBoxTexture_mp")
 value = 100.0
 show_percentage = false

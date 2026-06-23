@@ -1,7 +1,16 @@
-[gd_scene load_steps=3 format=3]
+[gd_scene load_steps=6 format=3]
 
 [ext_resource type="Script" path="res://ui/main_menu.gd" id="1_menu"]
 [ext_resource type="Theme" uid="uid://csuj8yvw71swq" path="res://pixel_ui_theme/PixelTheme-Magic.tres" id="2_theme"]
+[ext_resource type="Texture2D" path="res://ui/components/SHADOW Series - Pixel UI/Button/UI - button.png" id="3_buttons"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_start"]
+atlas = ExtResource("3_buttons")
+region = Rect2(372, 0, 93, 44)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_quit"]
+atlas = ExtResource("3_buttons")
+region = Rect2(279, 0, 93, 44)
 
 [node name="MainMenu" type="Control"]
 layout_mode = 3
@@ -30,9 +39,9 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -200.0
-offset_top = -200.0
+offset_top = -140.0
 offset_right = 200.0
-offset_bottom = 200.0
+offset_bottom = 140.0
 grow_horizontal = 2
 grow_vertical = 2
 
@@ -41,13 +50,13 @@ layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 30.0
-offset_top = 40.0
-offset_right = -30.0
-offset_bottom = -40.0
+offset_left = 20.0
+offset_top = 20.0
+offset_right = -20.0
+offset_bottom = -20.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/separation = 20
+theme_override_constants/separation = 16
 alignment = 1
 
 [node name="Title" type="Label" parent="Panel/VBoxContainer"]
@@ -64,15 +73,18 @@ theme_override_font_sizes/font_size = 14
 text = "Synergy & Relic Engine"
 horizontal_alignment = 1
 
-[node name="HSeparator" type="HSeparator" parent="Panel/VBoxContainer"]
+[node name="Spacer" type="Control" parent="Panel/VBoxContainer"]
 layout_mode = 2
+custom_minimum_size = Vector2(0, 8)
 
-[node name="StartButton" type="Button" parent="Panel/VBoxContainer"]
+[node name="StartButton" type="TextureButton" parent="Panel/VBoxContainer"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 18
-text = "Start Run"
+texture_normal = SubResource("AtlasTexture_start")
+texture_pressed = SubResource("AtlasTexture_start")
+expand_mode = 1
 
-[node name="QuitButton" type="Button" parent="Panel/VBoxContainer"]
+[node name="QuitButton" type="TextureButton" parent="Panel/VBoxContainer"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 18
-text = "Quit Game"
+texture_normal = SubResource("AtlasTexture_quit")
+texture_pressed = SubResource("AtlasTexture_quit")
+expand_mode = 1
