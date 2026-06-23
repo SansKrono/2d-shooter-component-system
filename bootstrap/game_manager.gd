@@ -1,0 +1,350 @@
+extends Node2D
+
+enum GameState {
+	MAIN_MENU,
+	PLAYING,
+	PAUSED,
+	GAME_OVER,
+	VICTORY
+}
+
+const GAMEPLAY_SCENE = preload("res://scenes/dungeon_game_scene.tscn")
+const C_TRIGGER_SCRIPT = preload("res://components/world/c_trigger.gd")
+const C_SPAWNER_SCRIPT = preload("res://components/world/c_spawner.gd")
+const C_CURRENCY = preload("res://components/economy/c_currency.gd")
+const C_POWER = preload("res://components/status/c_power.gd")
+
+@export var initial_state: GameState = GameState.MAIN_MENU
+
+var current_state: GameState = GameState.MAIN_MENU
+var run_time: float = 0.0
+var enemies_killed: int = 0
+var relics_collected: Array[String] = []
+var active_level: Node2D = null
+var player: Player = null
+var is_debug_camera_active: bool = false
+
+
+
+
+@onready var world_container: Node2D = $WorldContainer
+@onready var canvas_layer: CanvasLayer = $CanvasLayer
+
+# UI Screen References
+@onready var main_menu_ui: Control = $CanvasLayer/MainMenu
+@onready var hud_ui: Control = $CanvasLayer/HUD
+@onready var pause_menu_ui: Control = $CanvasLayer/PauseMenu
+@onready var game_over_ui: Control = $CanvasLayer/GameOver
+@onready var victory_ui: Control = $CanvasLayer/Victory
+
+func _ready() -> void:
+	process_mode = PROCESS_MODE_ALWAYS # Let Manager process inputs even during scene pause
+	change_state(initial_state)
+
+	# Connect UI custom signals
+	if main_menu_ui:
+		main_menu_ui.start_run_pressed.connect(_on_start_pressed)
+		main_menu_ui.quit_game_pressed.connect(_on_quit_pressed)
+	if pause_menu_ui:
+		pause_menu_ui.resume_pressed.connect(_on_resume_pressed)
+		pause_menu_ui.restart_pressed.connect(_on_restart_pressed)
+		pause_menu_ui.main_menu_pressed.connect(_on_menu_pressed)
+	if game_over_ui:
+		game_over_ui.retry_pressed.connect(_on_restart_pressed)
+		game_over_ui.main_menu_pressed.connect(_on_menu_pressed)
+	if victory_ui:
+		victory_ui.play_again_pressed.connect(_on_restart_pressed)
+		victory_ui.main_menu_pressed.connect(_on_menu_pressed)
+
+	# Auto-start run when running headlessly for verification
+	if DisplayServer.get_name() == "headless":
+		print("[GameManager] Headless mode detected. Auto-starting run for verification...")
+		call_deferred("start_run")
+
+func _process(delta: float) -> void:
+	if current_state == GameState.PLAYING:
+		run_time += delta
+		_update_hud()
+
+
+
+func _input(event: InputEvent) -> void:
+	if event.is_action_pressed("ui_cancel") or event.is_action_pressed("escape"):
+		if current_state == GameState.PLAYING:
+			change_state(GameState.PAUSED)
+		elif current_state == GameState.PAUSED:
+			change_state(GameState.PLAYING)
+
+	if current_state == GameState.PLAYING:
+		if event is InputEventKey and event.pressed and not event.echo:
+			if event.keycode == KEY_C or event.keycode == KEY_F3:
+				toggle_debug_camera()
+
+func toggle_debug_camera() -> void:
+	var gameplay_camera = get_node_or_null("DungeonCamera") as Camera2D
+	var debug_camera = get_node_or_null("DebugCamera") as Camera2D
+
+	if not gameplay_camera or not debug_camera:
+		return
+
+	is_debug_camera_active = not is_debug_camera_active
+
+	if is_debug_camera_active:
+		_configure_debug_camera(debug_camera)
+		debug_camera.make_current()
+		print("[GameManager] Switched to DEBUG CAMERA (showing whole map)")
+	else:
+		gameplay_camera.make_current()
+		print("[GameManager] Switched back to GAMEPLAY CAMERA")
+
+
+
+func _configure_debug_camera(debug_camera: Camera2D) -> void:
+	if not active_level:
+		return
+	var systems = active_level.get_node_or_null("Systems")
+	if not systems:
+		return
+	var gen_sys = systems.get_node_or_null("DungeonGenerationSystem") as DungeonGenerationSystem
+	if not gen_sys:
+		return
+
+	var dungeon_graph = gen_sys.get_dungeon_graph()
+	if not dungeon_graph:
+		return
+
+	var bounds = dungeon_graph.dungeon_bounds
+	# Center debug camera on dungeon bounds
+	debug_camera.global_position = bounds.position + bounds.size / 2.0
+
+	# Calculate zoom to fit the bounds in the viewport with a small margin
+	var viewport_size = get_viewport().get_visible_rect().size
+	if viewport_size.x > 0 and viewport_size.y > 0 and bounds.size.x > 0 and bounds.size.y > 0:
+		var zoom_x = viewport_size.x / bounds.size.x
+		var zoom_y = viewport_size.y / bounds.size.y
+		var zoom_factor = min(zoom_x, zoom_y) * 0.90
+		# Clamp minimum and maximum zoom to reasonable values
+		zoom_factor = clamp(zoom_factor, 0.02, 2.0)
+		debug_camera.zoom = Vector2(zoom_factor, zoom_factor)
+
+
+func change_state(new_state: GameState) -> void:
+	current_state = new_state
+
+	# Toggle control visibilities
+	main_menu_ui.visible = (new_state == GameState.MAIN_MENU)
+	hud_ui.visible = (new_state == GameState.PLAYING or new_state == GameState.PAUSED)
+	pause_menu_ui.visible = (new_state == GameState.PAUSED)
+	game_over_ui.visible = (new_state == GameState.GAME_OVER)
+	victory_ui.visible = (new_state == GameState.VICTORY)
+
+	# Scene tree pause management
+	get_tree().paused = (new_state == GameState.PAUSED)
+
+	if new_state == GameState.GAME_OVER:
+		_populate_end_stats(game_over_ui)
+	elif new_state == GameState.VICTORY:
+		_populate_end_stats(victory_ui)
+
+func start_run() -> void:
+	unload_level()
+
+	run_time = 0.0
+	enemies_killed = 0
+	relics_collected.clear()
+
+
+	# Create DungeonCamera (gameplay camera)
+	var gameplay_camera := Camera2D.new()
+	gameplay_camera.name = "DungeonCamera"
+	add_child(gameplay_camera)
+	gameplay_camera.make_current()
+
+	# Create DebugCamera
+	var debug_camera := Camera2D.new()
+	debug_camera.name = "DebugCamera"
+	add_child(debug_camera)
+
+	# Instantiate gameplay level
+	active_level = GAMEPLAY_SCENE.instantiate() as Node2D
+	world_container.add_child(active_level)
+
+
+	var world_node = active_level.get_node_or_null("World") as World
+	if world_node:
+		ECS.world = world_node
+		if not world_node.entity_removed.is_connected(_on_entity_removed):
+			world_node.entity_removed.connect(_on_entity_removed)
+
+		# Defer player search until entity ready completes
+		call_deferred("_setup_player_connections", world_node)
+
+	change_state(GameState.PLAYING)
+	print("[GameManager] Starting new run with cameras initialized.")
+
+
+func unload_level() -> void:
+	# Clean up cameras first
+	var gameplay_camera = get_node_or_null("DungeonCamera")
+	if gameplay_camera:
+		gameplay_camera.queue_free()
+	var debug_camera = get_node_or_null("DebugCamera")
+	if debug_camera:
+		debug_camera.queue_free()
+	is_debug_camera_active = false
+
+	if active_level:
+		var world_node = active_level.get_node_or_null("World") as World
+		if world_node and world_node.entity_removed.is_connected(_on_entity_removed):
+			world_node.entity_removed.disconnect(_on_entity_removed)
+
+		if ECS.world:
+			# Purge the world
+			ECS.world.purge(false)
+			ECS.world = null
+		active_level.queue_free()
+		active_level = null
+		player = null
+
+
+func trigger_game_over() -> void:
+	if current_state == GameState.PLAYING:
+		print("[GameManager] Player has died. Game Over!")
+		change_state(GameState.GAME_OVER)
+
+func trigger_victory() -> void:
+	if current_state == GameState.PLAYING:
+		print("[GameManager] Victory achieved! Clear run completed.")
+		change_state(GameState.VICTORY)
+
+func _setup_player_connections(world_node: World) -> void:
+	var players = world_node.query.with_all([C_Input]).execute()
+	if not players.is_empty():
+		player = players[0] as Player
+
+		# Attach inventory signals
+		var c_inv = player.get_component(C_RelicInventory) as C_RelicInventory
+		if c_inv:
+			if not c_inv.relic_added.is_connected(_on_player_relic_added):
+				c_inv.relic_added.connect(_on_player_relic_added)
+
+			# Cache existing relics
+			for relic in c_inv.relics:
+				if relic and not relics_collected.has(relic.name):
+					relics_collected.append(relic.name)
+
+func _on_player_relic_added(relic: Relic) -> void:
+	if relic and not relics_collected.has(relic.name):
+		relics_collected.append(relic.name)
+		print("[GameManager] Stat modifier/relic collected: ", relic.name)
+
+func _on_entity_removed(entity: Entity) -> void:
+	if entity == player:
+		# Defer death transition to avoid modification in process loop
+		call_deferred("trigger_game_over")
+	elif entity.is_in_group("enemies"):
+		enemies_killed += 1
+		print("[GameManager] Enemy defeated. Kills: ", enemies_killed)
+		call_deferred("check_victory_condition")
+
+func check_victory_condition() -> void:
+	if current_state != GameState.PLAYING:
+		return
+
+	if ECS.world:
+		var systems_root = ECS.world.get_node_or_null(ECS.world.system_nodes_root)
+		if systems_root and systems_root.has_node("RoomGenerationSystem"):
+			return # Let RoomGenerationSystem handle victory progression
+
+	# Query living enemies
+	var living_enemies = get_tree().get_nodes_in_group("enemies")
+	var active_count = 0
+	for enemy in living_enemies:
+		if is_instance_valid(enemy):
+			var health = enemy.get_component(C_Health) as C_Health
+			if health and health.current > 0.0:
+				active_count += 1
+
+	if active_count > 0:
+		return # Active threats still present
+
+	# Query GECS spawners for pending enemy spawns
+	if ECS.world:
+		var spawners = ECS.world.query.with_all([C_SPAWNER_SCRIPT]).execute()
+		var pending = false
+		for spawner in spawners:
+			var c_spawn = spawner.get_component(C_SPAWNER_SCRIPT) as C_SPAWNER_SCRIPT
+			if c_spawn:
+				if c_spawn.max_spawn_count < 0 or c_spawn.current_spawn_count < c_spawn.max_spawn_count:
+					pending = true
+					break
+
+		# If no pending spawns and no living enemies, player achieves victory
+		if not pending:
+			trigger_victory()
+
+func _update_hud() -> void:
+	if not is_instance_valid(player) or not hud_ui:
+		return
+
+	var health = player.get_component(C_Health) as C_Health
+	var mana = player.get_component(C_Mana) as C_Mana
+	var currency = player.get_component(C_CURRENCY) as C_Currency
+
+	if health:
+		if health.is_player:
+			hud_ui.update_health_hearts(
+				health.current_red,
+				health.max_red,
+				health.soul_hearts,
+				health.black_hearts
+			)
+		else:
+			hud_ui.update_health(health.current, health.maximum)
+	else:
+		hud_ui.set_health_na()
+
+	if mana:
+		hud_ui.update_mana(mana.current, mana.maximum)
+	else:
+		hud_ui.set_mana_na()
+
+	var power = player.get_component(C_POWER) as C_Power
+	if power:
+		hud_ui.update_power(power.current, power.maximum)
+	else:
+		hud_ui.set_power_na()
+
+	hud_ui.update_run_time(run_time)
+	hud_ui.update_kills(enemies_killed)
+	hud_ui.update_relics(relics_collected)
+	if currency:
+		hud_ui.update_coins(currency.amount)
+
+func _populate_end_stats(ui: Control) -> void:
+	if not ui:
+		return
+	var mins = int(run_time / 60.0)
+	var secs = int(run_time) % 60
+	var time_str = "%02d:%02d" % [mins, secs]
+	var r_list = relics_collected
+	var relics_str = ", ".join(r_list) if not r_list.is_empty() else "None"
+
+	ui.set_stats(time_str, enemies_killed, relics_str)
+
+# UI Button Callbacks
+func _on_start_pressed() -> void:
+	start_run()
+
+func _on_resume_pressed() -> void:
+	change_state(GameState.PLAYING)
+
+func _on_restart_pressed() -> void:
+	start_run()
+
+func _on_menu_pressed() -> void:
+	unload_level()
+	change_state(GameState.MAIN_MENU)
+
+func _on_quit_pressed() -> void:
+	get_tree().quit()
