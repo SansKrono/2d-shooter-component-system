@@ -171,7 +171,6 @@ func _place_player(graph: C_DungeonGraph) -> void:
 
 	var phys_body = player.get_node_or_null("PhysicsBody")
 	if phys_body:
-		phys_body.global_position = start.world_pos
 		phys_body.position = Vector2.ZERO
 
 	var trans = player.get_component(C_TRANSFORM)
