@@ -7,11 +7,11 @@
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_newgame"]
 atlas = ExtResource("3_buttons")
-region = Rect2(0, 0, 93, 44)
+region = Rect2(0, 0, 93, 40)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_mainmenu"]
 atlas = ExtResource("3_buttons")
-region = Rect2(0, 44, 93, 44)
+region = Rect2(0, 40, 93, 40)
 
 [node name="GameOver" type="Control"]
 layout_mode = 3
@@ -80,15 +80,17 @@ layout_mode = 2
 custom_minimum_size = Vector2(0, 8)
 
 [node name="RetryButton" type="TextureButton" parent="Panel/VBoxContainer"]
-custom_minimum_size = Vector2(93, 44)
+custom_minimum_size = Vector2(93, 40)
 layout_mode = 2
+size_flags_horizontal = 4
 texture_normal = SubResource("AtlasTexture_newgame")
 texture_pressed = SubResource("AtlasTexture_newgame")
 expand_mode = 0
 
 [node name="MenuButton" type="TextureButton" parent="Panel/VBoxContainer"]
-custom_minimum_size = Vector2(93, 44)
+custom_minimum_size = Vector2(93, 40)
 layout_mode = 2
+size_flags_horizontal = 4
 texture_normal = SubResource("AtlasTexture_mainmenu")
 texture_pressed = SubResource("AtlasTexture_mainmenu")
 expand_mode = 0
