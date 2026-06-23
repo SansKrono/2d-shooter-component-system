@@ -8,7 +8,7 @@ var target_camera: Camera2D = null
 func query() -> QueryBuilder:
 	return q.with_all([C_Health]).with_none([C_Dead])
 
-func process(entities: Array[Entity], _components: Array, delta: float) -> void:
+func process(_entities: Array[Entity], _components: Array, delta: float) -> void:
 	if not target_camera:
 		target_camera = get_viewport().get_camera_2d()
 

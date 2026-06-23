@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3]
 
 [ext_resource type="Script" path="res://ui/pause_menu.gd" id="1_pause"]
-[ext_resource type="Theme" uid="uid://yqkvsb5q7pab" path="res://pixel_ui_theme/PixelTheme.tres" id="2_theme"]
+[ext_resource type="Theme" uid="uid://csuj8yvw71swq" path="res://pixel_ui_theme/PixelTheme-Magic.tres" id="2_theme"]
 
 [node name="PauseMenu" type="Control"]
 process_mode = 2
@@ -21,7 +21,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(0.05, 0.05, 0.05, 0.6)
+color = Color(0.05, 0.02, 0.1, 0.7)
 
 [node name="Panel" type="Panel" parent="."]
 layout_mode = 1
@@ -53,8 +53,8 @@ alignment = 1
 
 [node name="Title" type="Label" parent="Panel/VBoxContainer"]
 layout_mode = 2
-theme_override_colors/font_color = Color(0.8, 0.8, 0.8, 1)
-theme_override_font_sizes/font_size = 24
+theme_override_colors/font_color = Color(0.7, 0.4, 1, 1)
+theme_override_font_sizes/font_size = 28
 text = "PAUSED"
 horizontal_alignment = 1
 

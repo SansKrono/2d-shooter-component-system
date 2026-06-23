@@ -1,8 +1,8 @@
 [gd_scene format=3 uid="uid://d01yyqggg0ptu"]
 
 [ext_resource type="Script" uid="uid://c7yfaxb8cxrxk" path="res://ui/hud.gd" id="1_hud"]
-[ext_resource type="Theme" uid="uid://yqkvsb5q7pab" path="res://pixel_ui_theme/PixelTheme.tres" id="2_theme"]
-[ext_resource type="Texture2D" uid="uid://dx0u5hiwxfgu5" path="res://pixel_ui_theme/8x8_ui_elements.png" id="3_gui_texture"]
+[ext_resource type="Theme" uid="uid://csuj8yvw71swq" path="res://pixel_ui_theme/PixelTheme-Magic.tres" id="2_theme"]
+[ext_resource type="Texture2D" uid="uid://cxv22bwc6xa8q" path="res://pixel_ui_theme/8x8_ui_elements_magic.png" id="3_gui_texture"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_hp"]
 texture = ExtResource("3_gui_texture")
@@ -42,10 +42,10 @@ layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 69.0
-offset_top = 69.0
-offset_right = 69.0
-offset_bottom = 69.0
+offset_left = 0.0
+offset_top = 0.0
+offset_right = 0.0
+offset_bottom = 0.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
@@ -53,70 +53,79 @@ theme = ExtResource("2_theme")
 script = ExtResource("1_hud")
 
 [node name="HeartsContainer" type="HFlowContainer" parent="." unique_id=1546392840]
-custom_minimum_size = Vector2(200, 0)
+custom_minimum_size = Vector2(240, 32)
 layout_mode = 1
-anchors_preset = -1
-anchor_left = -0.057000004
-anchor_top = -0.102000006
-anchor_right = -0.057000004
-anchor_bottom = -0.102000006
-offset_left = 8.664001
-offset_top = 10.096001
-offset_right = 208.664
-offset_bottom = 60.096
+anchors_preset = 0
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_left = 8.0
+offset_top = 8.0
+offset_right = 248.0
+offset_bottom = 40.0
 theme_override_constants/h_separation = 2
 theme_override_constants/v_separation = 2
 
 [node name="StatBox" type="VBoxContainer" parent="." unique_id=463097894]
 custom_minimum_size = Vector2(200, 0)
 layout_mode = 1
-anchors_preset = -1
-anchor_left = -0.049000002
-anchor_right = -0.049000002
-offset_left = -1.5519981
-offset_right = 198.448
-offset_bottom = 113.0
-theme_override_constants/separation = 5
-alignment = 1
+anchors_preset = 0
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_left = 8.0
+offset_top = 48.0
+offset_right = 208.0
+offset_bottom = 140.0
+theme_override_constants/separation = 4
+alignment = 0
 
 [node name="TimerLabel" type="Label" parent="StatBox" unique_id=1901934278]
 layout_mode = 2
-theme_override_font_sizes/font_size = 19
+theme_override_font_sizes/font_size = 16
+theme_override_colors/font_color = Color(0.8, 0.8, 0.9, 1)
 text = "Time: 00:00"
 
 [node name="KillsLabel" type="Label" parent="StatBox" unique_id=222337872]
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 0.8, 0.2, 1)
-theme_override_font_sizes/font_size = 19
+theme_override_font_sizes/font_size = 16
 text = "Kills: 0"
 
 [node name="RelicsLabel" type="Label" parent="StatBox" unique_id=879064729]
 layout_mode = 2
-theme_override_colors/font_color = Color(0.7, 0.9, 0.7, 1)
-theme_override_font_sizes/font_size = 17
+theme_override_colors/font_color = Color(0.6, 0.8, 0.7, 1)
+theme_override_font_sizes/font_size = 14
 text = "Relics: None"
 autowrap_mode = 2
+custom_minimum_size = Vector2(192, 0)
 
 [node name="ResourceBox" type="HBoxContainer" parent="." unique_id=1371270918]
 layout_mode = 1
-anchors_preset = -1
-anchor_top = 0.80300003
-anchor_bottom = 0.80300003
-offset_left = -56.0
-offset_top = -35.343994
-offset_right = 1081.0
-offset_bottom = 35.656006
+anchors_preset = 12
+anchor_left = 0.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 0.0
+offset_top = -70.0
+offset_right = 0.0
+offset_bottom = 0.0
+size_flags_horizontal = 3
 
 [node name="HealthBox" type="VBoxContainer" parent="ResourceBox" unique_id=869536282]
-custom_minimum_size = Vector2(300, 0)
+custom_minimum_size = Vector2(0, 0)
 layout_mode = 2
-theme_override_constants/separation = 5
-alignment = 1
+size_flags_horizontal = 3
+theme_override_constants/separation = 4
+alignment = 0
 
 [node name="HPLabel" type="Label" parent="ResourceBox/HealthBox" unique_id=29176439]
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 0.35, 0.35, 1)
-theme_override_font_sizes/font_size = 25
+theme_override_font_sizes/font_size = 18
 text = "HP: 100 / 100"
 
 [node name="HPBar" type="ProgressBar" parent="ResourceBox/HealthBox" unique_id=230522763]
@@ -127,15 +136,16 @@ value = 100.0
 show_percentage = false
 
 [node name="PowerBox" type="VBoxContainer" parent="ResourceBox" unique_id=1228583276]
-custom_minimum_size = Vector2(300, 0)
+custom_minimum_size = Vector2(0, 0)
 layout_mode = 2
-theme_override_constants/separation = 5
-alignment = 1
+size_flags_horizontal = 3
+theme_override_constants/separation = 4
+alignment = 0
 
 [node name="PPLabel" type="Label" parent="ResourceBox/PowerBox" unique_id=2014892045]
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 0.7, 0.1, 1)
-theme_override_font_sizes/font_size = 25
+theme_override_font_sizes/font_size = 18
 text = "Power: 100.0"
 
 [node name="PPBar" type="ProgressBar" parent="ResourceBox/PowerBox" unique_id=942621783]
@@ -146,15 +156,16 @@ value = 100.0
 show_percentage = false
 
 [node name="ManaBox" type="VBoxContainer" parent="ResourceBox" unique_id=499958447]
-custom_minimum_size = Vector2(300, 0)
+custom_minimum_size = Vector2(0, 0)
 layout_mode = 2
-theme_override_constants/separation = 5
-alignment = 1
+size_flags_horizontal = 3
+theme_override_constants/separation = 4
+alignment = 0
 
 [node name="MPLabel" type="Label" parent="ResourceBox/ManaBox" unique_id=2134327842]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.3, 0.65, 1, 1)
-theme_override_font_sizes/font_size = 25
+theme_override_font_sizes/font_size = 18
 text = "Mana: 100.0"
 
 [node name="MPBar" type="ProgressBar" parent="ResourceBox/ManaBox" unique_id=675412100]
