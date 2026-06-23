@@ -1,12 +1,14 @@
+# DEPRECATED: Superseded by DungeonGenerationSystem.gd and DungeonTileMapLayer.gd
+# Safe to delete once dungeon system is fully stable.
 class_name RoomGenerationSystem
 extends System
 
-const C_ROOM_DATA = preload("res://components/character/c_room_data.gd")
-const C_DOOR = preload("res://components/character/c_door.gd")
-const C_INPUT = preload("res://components/character/c_input.gd")
-const C_TRANSFORM = preload("res://components/character/c_transform.gd")
-const C_FAMILIAR_OF = preload("res://components/character/c_familiar_of.gd")
-const C_BOSS_ARMOR = preload("res://components/character/c_boss_armor.gd")
+const C_ROOM_DATA = preload("res://components/world/c_room_data.gd")
+const C_DOOR = preload("res://components/world/c_door.gd")
+const C_INPUT = preload("res://components/player/c_input.gd")
+const C_TRANSFORM = preload("res://components/movement/c_transform.gd")
+const C_FAMILIAR_OF = preload("res://components/behaviour/c_familiar_of.gd")
+const C_BOSS_ARMOR = preload("res://components/combat/c_boss_armor.gd")
 
 const ENEMY_SCENE = preload("res://entities/enemies/e_enemy.tscn")
 const RELIC_PICKUP_SCENE = preload("res://entities/environmental/e_relic.tscn")
@@ -43,7 +45,7 @@ func process(entities: Array[Entity], _components: Array, _delta: float) -> void
 		generated = true
 		generate_layout()
 		# Instantly load start room at coordinate (0,0)
-		call_deferred("_deferred_transition", Vector2i.ZERO, "south")
+		call_deferred("_deferred_transition", Vector2i.ZERO, "center")
 		return
 
 	# Keep grid layout synced with cleared status
@@ -204,6 +206,7 @@ func _deferred_transition(coords: Vector2i, entering_from_dir: String) -> void:
 		"south": spawn_pos = Vector2(480, 64)   # Enters from north door
 		"east": spawn_pos = Vector2(64, 288)    # Enters from west door
 		"west": spawn_pos = Vector2(896, 288)   # Enters from east door
+		"center": spawn_pos = Vector2(480, 288) # Initial spawn at room center
 
 	player.global_position = spawn_pos
 	var trans = player.get_component(C_TRANSFORM)
