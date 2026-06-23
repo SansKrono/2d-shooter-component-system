@@ -1,46 +1,71 @@
+@tool
 class_name ContinuousDungeonEntity
-extends Node2D
+extends Entity
 
-var tilemap_layer: TileMap = null
-var dungeon_graph: Resource = null
+const DUNGEON_TILESET_PATH: String = "res://resources/dungeon_tileset.tres"
 
 func _ready() -> void:
+	super._initialize()
 	name = "ContinuousDungeon"
+	_setup_tilemap()
 
-	tilemap_layer = TileMap.new()
-	tilemap_layer.name = "TileMapLayer"
-	tilemap_layer.set_script(preload("res://systems/DungeonTileMapLayer.gd"))
-	add_child(tilemap_layer)
+const C_DUNGEON_GRAPH = preload("res://components/world/c_dungeon_graph.gd")
 
-func setup_from_graph(graph: Resource) -> void:
-	dungeon_graph = graph
-	if tilemap_layer and dungeon_graph:
-		call_deferred("_paint_tilemap")
-		print("[ContinuousDungeon] Setup complete with dungeon graph")
+func define_components() -> Array:
+	return [C_DUNGEON_GRAPH.new()]
 
-func _paint_tilemap() -> void:
-	if tilemap_layer and tilemap_layer.has_method("paint_dungeon"):
-		tilemap_layer.paint_dungeon(dungeon_graph)
+func _setup_tilemap() -> void:
+	var tilemap_root: Node2D = Node2D.new()
+	tilemap_root.name = "DungeonTileMap"
+	add_child(tilemap_root)
 
-func get_spawn_position_for_chamber(chamber_id: int) -> Vector2:
-	if not dungeon_graph:
-		return Vector2(100, 100)
+	var tileset: TileSet = _load_or_create_tileset()
 
-	for chamber in dungeon_graph.chambers:
-		if chamber.id == chamber_id:
-			return chamber.rect.get_center()
+	var floor_tech       = _make_layer("FloorTech",       tileset, Color(0.75, 0.90, 1.00), -10)
+	var floor_hybrid     = _make_layer("FloorHybrid",     tileset, Color.WHITE,              -10)
+	var floor_corruption = _make_layer("FloorCorruption", tileset, Color(0.90, 0.72, 1.00), -10)
+	var walls            = _make_layer("Walls",           tileset, Color.WHITE,              -5)
 
-	return Vector2(100, 100)
+	tilemap_root.add_child(floor_tech)
+	tilemap_root.add_child(floor_hybrid)
+	tilemap_root.add_child(floor_corruption)
+	tilemap_root.add_child(walls)
 
-func get_chamber_at_position(pos: Vector2) -> Object:
-	if dungeon_graph:
-		return dungeon_graph.find_chamber_at_position(pos)
-	return null
+func _make_layer(layer_name: String, tileset: TileSet, color: Color, z: int) -> TileMapLayer:
+	var layer: TileMapLayer = TileMapLayer.new()
+	layer.name = layer_name
+	layer.tile_set = tileset
+	layer.modulate = color
+	layer.z_index = z
+	return layer
+
+func _load_or_create_tileset() -> TileSet:
+	if ResourceLoader.exists(DUNGEON_TILESET_PATH):
+		return load(DUNGEON_TILESET_PATH) as TileSet
+
+	# Programmatic fallback — register all 8×10 atlas tiles (32×32 px each)
+	var tileset: TileSet = TileSet.new()
+	tileset.tile_size = Vector2i(32, 32)
+
+	var source: TileSetAtlasSource = TileSetAtlasSource.new()
+	source.texture = load("res://assets/tilesets/dungeon_69b.png") as Texture2D
+	source.texture_region_size = Vector2i(32, 32)
+
+	for col in range(8):
+		for row in range(10):
+			var coord := Vector2i(col, row)
+			if not source.has_tile(coord):
+				source.create_tile(coord)
+
+	tileset.add_source(source, 0)
+	return tileset
 
 func is_point_walkable(pos: Vector2) -> bool:
-	if not tilemap_layer:
+	var tilemap_root: Node = get_node_or_null("DungeonTileMap")
+	if not tilemap_root:
 		return false
-
-	var tile_coords = tilemap_layer.local_to_map(pos)
-	var tile_data = tilemap_layer.get_cell_tile_data(0, tile_coords)
-	return tile_data != null
+	var floor_layer: TileMapLayer = tilemap_root.get_node_or_null("FloorHybrid") as TileMapLayer
+	if not floor_layer:
+		return false
+	var tile_coords: Vector2i = floor_layer.local_to_map(pos)
+	return floor_layer.get_cell_tile_data(tile_coords) != null
