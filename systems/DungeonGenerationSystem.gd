@@ -176,6 +176,12 @@ func _place_player(graph: C_DungeonGraph) -> void:
 	var trans = player.get_component(C_TRANSFORM)
 	if trans:
 		trans.position = start.world_pos
+
+	# Reset camera snap to force it to snap to this new position on next update
+	var cam_sys = _world.get_node_or_null("Systems/ContinuousCameraSystem") as ContinuousCameraSystem
+	if cam_sys:
+		cam_sys._first_valid_update = true
+
 	print("[DungeonGen] Player placed at %s" % str(start.world_pos))
 
 func _create_debug_draw(graph: C_DungeonGraph) -> void:
