@@ -4,8 +4,8 @@ signal retry_pressed
 signal main_menu_pressed
 
 @onready var stats_text: Label = $Panel/VBoxContainer/StatsText
-@onready var retry_button: Button = $Panel/VBoxContainer/RetryButton
-@onready var menu_button: Button = $Panel/VBoxContainer/MenuButton
+@onready var retry_button: TextureButton = $Panel/VBoxContainer/RetryButton
+@onready var menu_button: TextureButton = $Panel/VBoxContainer/MenuButton
 
 func _ready() -> void:
 	retry_button.pressed.connect(_on_retry_pressed)

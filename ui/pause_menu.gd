@@ -4,9 +4,9 @@ signal resume_pressed
 signal restart_pressed
 signal main_menu_pressed
 
-@onready var resume_button: Button = $Panel/VBoxContainer/ResumeButton
-@onready var restart_button: Button = $Panel/VBoxContainer/RestartButton
-@onready var menu_button: Button = $Panel/VBoxContainer/MenuButton
+@onready var resume_button: TextureButton = $Panel/VBoxContainer/ResumeButton
+@onready var restart_button: TextureButton = $Panel/VBoxContainer/RestartButton
+@onready var menu_button: TextureButton = $Panel/VBoxContainer/MenuButton
 
 func _ready() -> void:
 	resume_button.pressed.connect(_on_resume_pressed)

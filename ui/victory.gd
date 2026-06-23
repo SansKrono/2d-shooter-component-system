@@ -4,8 +4,8 @@ signal play_again_pressed
 signal main_menu_pressed
 
 @onready var stats_text: Label = $Panel/VBoxContainer/StatsText
-@onready var play_again_button: Button = $Panel/VBoxContainer/PlayAgainButton
-@onready var menu_button: Button = $Panel/VBoxContainer/MenuButton
+@onready var play_again_button: TextureButton = $Panel/VBoxContainer/PlayAgainButton
+@onready var menu_button: TextureButton = $Panel/VBoxContainer/MenuButton
 
 func _ready() -> void:
 	play_again_button.pressed.connect(_on_play_again_pressed)

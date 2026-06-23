@@ -3,8 +3,8 @@ extends Control
 signal start_run_pressed
 signal quit_game_pressed
 
-@onready var start_button: Button = $Panel/VBoxContainer/StartButton
-@onready var quit_button: Button = $Panel/VBoxContainer/QuitButton
+@onready var start_button: TextureButton = $Panel/VBoxContainer/StartButton
+@onready var quit_button: TextureButton = $Panel/VBoxContainer/QuitButton
 
 func _ready() -> void:
 	start_button.pressed.connect(_on_start_pressed)
