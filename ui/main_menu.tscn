@@ -80,13 +80,15 @@ layout_mode = 2
 custom_minimum_size = Vector2(0, 8)
 
 [node name="StartButton" type="TextureButton" parent="Panel/VBoxContainer"]
+custom_minimum_size = Vector2(93, 44)
 layout_mode = 2
 texture_normal = SubResource("AtlasTexture_start")
 texture_pressed = SubResource("AtlasTexture_start")
-expand_mode = 1
+expand_mode = 0
 
 [node name="QuitButton" type="TextureButton" parent="Panel/VBoxContainer"]
+custom_minimum_size = Vector2(93, 44)
 layout_mode = 2
 texture_normal = SubResource("AtlasTexture_quit")
 texture_pressed = SubResource("AtlasTexture_quit")
-expand_mode = 1
+expand_mode = 0

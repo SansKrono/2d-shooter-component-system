@@ -80,13 +80,15 @@ layout_mode = 2
 custom_minimum_size = Vector2(0, 8)
 
 [node name="RetryButton" type="TextureButton" parent="Panel/VBoxContainer"]
+custom_minimum_size = Vector2(93, 44)
 layout_mode = 2
 texture_normal = SubResource("AtlasTexture_newgame")
 texture_pressed = SubResource("AtlasTexture_newgame")
-expand_mode = 1
+expand_mode = 0
 
 [node name="MenuButton" type="TextureButton" parent="Panel/VBoxContainer"]
+custom_minimum_size = Vector2(93, 44)
 layout_mode = 2
 texture_normal = SubResource("AtlasTexture_mainmenu")
 texture_pressed = SubResource("AtlasTexture_mainmenu")
-expand_mode = 1
+expand_mode = 0
