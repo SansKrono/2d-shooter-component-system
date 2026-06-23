@@ -15,58 +15,40 @@ axis_stretch_horizontal = 1
 axis_stretch_vertical = 0
 region_rect = Rect2(0, 0, 280, 20)
 
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_hp"]
-texture = ExtResource("4_bar")
-texture_margin_left = 4.0
-texture_margin_top = 2.0
-texture_margin_right = 4.0
-texture_margin_bottom = 2.0
-axis_stretch_horizontal = 1
-axis_stretch_vertical = 0
-region_rect = Rect2(0, 0, 280, 20)
-modulate_color = Color(1, 0.2, 0.2, 1)
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hp_fill"]
+bg_color = Color(1, 0.2, 0.2, 1)
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
 
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_pp_bg"]
-texture = ExtResource("4_bar")
-texture_margin_left = 4.0
-texture_margin_top = 2.0
-texture_margin_right = 4.0
-texture_margin_bottom = 2.0
-axis_stretch_horizontal = 1
-axis_stretch_vertical = 0
-region_rect = Rect2(0, 0, 280, 20)
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_pp_bg"]
+bg_color = Color(0.15, 0.1, 0.2, 0.5)
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
 
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_pp"]
-texture = ExtResource("4_bar")
-texture_margin_left = 4.0
-texture_margin_top = 2.0
-texture_margin_right = 4.0
-texture_margin_bottom = 2.0
-axis_stretch_horizontal = 1
-axis_stretch_vertical = 0
-region_rect = Rect2(0, 0, 280, 20)
-modulate_color = Color(1, 0.7, 0.1, 1)
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_pp_fill"]
+bg_color = Color(1, 0.7, 0.1, 1)
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
 
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_mp_bg"]
-texture = ExtResource("4_bar")
-texture_margin_left = 4.0
-texture_margin_top = 2.0
-texture_margin_right = 4.0
-texture_margin_bottom = 2.0
-axis_stretch_horizontal = 1
-axis_stretch_vertical = 0
-region_rect = Rect2(0, 0, 280, 20)
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_mp_bg"]
+bg_color = Color(0.15, 0.1, 0.2, 0.5)
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
 
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_mp"]
-texture = ExtResource("4_bar")
-texture_margin_left = 4.0
-texture_margin_top = 2.0
-texture_margin_right = 4.0
-texture_margin_bottom = 2.0
-axis_stretch_horizontal = 1
-axis_stretch_vertical = 0
-region_rect = Rect2(0, 0, 280, 20)
-modulate_color = Color(0.3, 0.6, 1, 1)
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_mp_fill"]
+bg_color = Color(0.3, 0.6, 1, 1)
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
 
 [node name="HUD" type="Control" unique_id=968639838]
 layout_mode = 3
@@ -163,7 +145,7 @@ text = "HP: 100 / 100"
 custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
 theme_override_styles/background = SubResource("StyleBoxTexture_hp_bg")
-theme_override_styles/fill = SubResource("StyleBoxTexture_hp")
+theme_override_styles/fill = SubResource("StyleBoxFlat_hp_fill")
 value = 100.0
 show_percentage = false
 
@@ -183,8 +165,8 @@ text = "Power: 100.0"
 [node name="PPBar" type="ProgressBar" parent="ResourceBox/PowerBox" unique_id=942621783]
 custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
-theme_override_styles/background = SubResource("StyleBoxTexture_pp_bg")
-theme_override_styles/fill = SubResource("StyleBoxTexture_pp")
+theme_override_styles/background = SubResource("StyleBoxFlat_pp_bg")
+theme_override_styles/fill = SubResource("StyleBoxFlat_pp_fill")
 value = 100.0
 show_percentage = false
 
@@ -204,7 +186,7 @@ text = "Mana: 100.0"
 [node name="MPBar" type="ProgressBar" parent="ResourceBox/ManaBox" unique_id=675412100]
 custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
-theme_override_styles/background = SubResource("StyleBoxTexture_mp_bg")
-theme_override_styles/fill = SubResource("StyleBoxTexture_mp")
+theme_override_styles/background = SubResource("StyleBoxFlat_mp_bg")
+theme_override_styles/fill = SubResource("StyleBoxFlat_mp_fill")
 value = 100.0
 show_percentage = false
