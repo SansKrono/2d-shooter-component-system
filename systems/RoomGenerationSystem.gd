@@ -209,6 +209,10 @@ func _deferred_transition(coords: Vector2i, entering_from_dir: String) -> void:
 		"center": spawn_pos = Vector2(480, 288) # Initial spawn at room center
 
 	player.global_position = spawn_pos
+	var phys_body = player.get_node_or_null("PhysicsBody")
+	if phys_body:
+		phys_body.global_position = spawn_pos
+		phys_body.position = Vector2.ZERO
 	var trans = player.get_component(C_TRANSFORM)
 	if trans:
 		trans.position = spawn_pos

@@ -1,190 +1,195 @@
 class_name DungeonGenerationSystem
 extends System
 
-const C_DUNGEON_GRAPH = preload("res://components/character/c_dungeon_graph.gd")
-const C_TRANSFORM = preload("res://components/character/c_transform.gd")
-const C_INPUT = preload("res://components/character/c_input.gd")
-const DUNGEON_BSP_GENERATOR = preload("res://components/procedural/DungeonBSPGenerator.gd")
-const CORRIDOR_GENERATOR = preload("res://components/procedural/CorridorGenerator.gd")
-const CONTINUOUS_DUNGEON = preload("res://entities/environmental/e_continuous_dungeon.gd")
+const C_DUNGEON_GRAPH  = preload("res://components/world/c_dungeon_graph.gd")
+const C_INPUT          = preload("res://components/player/c_input.gd")
+const C_TRANSFORM      = preload("res://components/movement/c_transform.gd")
+const ROOM_GRAPH_GEN   = preload("res://components/procedural/RoomGraphGenerator.gd")
+const ROOM_PLACER      = preload("res://components/procedural/RoomPlacer.gd")
+const TILE_CARVER      = preload("res://components/procedural/TileMapCarver.gd")
+const DUNGEON_SCRIPT   = preload("res://entities/environmental/e_continuous_dungeon.gd")
+const DEBUG_SCRIPT     = preload("res://systems/debug/DungeonDebugDraw.gd")
 
-@export var dungeon_bounds: Rect2i = Rect2i(0, 0, 2000, 2000)
-@export var target_chamber_count: int = 8
-@export var map_seed: int = 12345
+@export var run_seed: int = 12345
+@export var floor_number: int = 1
 @export var enable_debug_draw: bool = true
-@export var enable_tilemap: bool = true
 
-var dungeon_graph: C_DUNGEON_GRAPH = null
-var continuous_dungeon: Node2D = null
-var debug_draw_node: Node2D = null
-var generated: bool = false
-var camera_2d: Camera2D = null
-
-func _ready() -> void:
-	if Engine.is_editor_hint():
-		return
-	generate_dungeon()
-	_setup_camera()
-	_setup_continuous_world()
+var _dungeon_graph: C_DungeonGraph = null
+var _generated: bool = false
 
 func query() -> QueryBuilder:
 	process_empty = true
 	return q.with_all([])
 
 func process(_entities: Array[Entity], _components: Array, _delta: float) -> void:
-	pass
+	if not _generated:
+		_generated = true
+		_run_generation()
 
-func generate_dungeon() -> void:
-	if generated:
+func _run_generation() -> void:
+	var rng := RandomNumberGenerator.new()
+	rng.seed = _floor_seed(run_seed, floor_number)
+
+	# 1. Build room graph
+	var graph_gen := ROOM_GRAPH_GEN.new(rng)
+	var rooms: Array = graph_gen.generate(floor_number)
+	var edges: Array = graph_gen.edges
+
+	# 2. Assign world positions
+	var placer := ROOM_PLACER.new()
+	placer.place(rooms)
+
+	# 3. Obtain or create dungeon entity with four-layer TileMap
+	var dungeon_entity: Node = _get_or_create_dungeon_entity()
+
+	# Wait a frame so _ready() on the new entity has run
+	await get_tree().process_frame
+
+	# 4. Resolve TileMapLayer references
+	var floor_layers: Dictionary = {}
+	var wall_layer: Object = null
+	var tm_root: Node = dungeon_entity.get_node_or_null("DungeonTileMap")
+	if tm_root:
+		floor_layers = {
+			"tech":       tm_root.get_node_or_null("FloorTech"),
+			"hybrid":     tm_root.get_node_or_null("FloorHybrid"),
+			"corruption": tm_root.get_node_or_null("FloorCorruption"),
+		}
+		wall_layer = tm_root.get_node_or_null("Walls")
+
+	# 5. Carve TileMap
+	var carver := TILE_CARVER.new(floor_layers, wall_layer, rng)
+	carver.carve(rooms, edges)
+
+	# 6. Store graph component on dungeon entity (pre-declared in define_components)
+	var graph: C_DungeonGraph = dungeon_entity.get_component(C_DUNGEON_GRAPH)
+	if not graph:
+		push_error("[DungeonGen] dungeon entity missing C_DungeonGraph component")
 		return
-	generated = true
+	graph.rooms = rooms
+	graph.edges = edges
+	graph.floor_number = floor_number
+	graph.run_seed = run_seed
+	for r in rooms:
+		match r.room_type:
+			"start": graph.start_room_id = r.id
+			"boss":  graph.boss_room_id  = r.id
+	graph.current_room_id = graph.start_room_id
 
-	dungeon_graph = C_DUNGEON_GRAPH.new()
-	dungeon_graph.dungeon_bounds = dungeon_bounds
+	# Calculate dungeon bounds in pixels
+	var min_x: float = INF
+	var max_x: float = -INF
+	var min_y: float = INF
+	var max_y: float = -INF
+	var size_tiles: Dictionary = {"small": 12, "medium": 16, "large": 20}
+	for r in rooms:
+		var tile_count: int = size_tiles.get(r.size, 16)
+		var room_pixel_size: float = tile_count * 32.0
+		var half_size: float = room_pixel_size / 2.0
+		var r_min_x: float = r.world_pos.x - half_size
+		var r_max_x: float = r.world_pos.x + half_size
+		var r_min_y: float = r.world_pos.y - half_size
+		var r_max_y: float = r.world_pos.y + half_size
+		if r_min_x < min_x: min_x = r_min_x
+		if r_max_x > max_x: max_x = r_max_x
+		if r_min_y < min_y: min_y = r_min_y
+		if r_max_y > max_y: max_y = r_max_y
+	var margin: float = 64.0
+	graph.dungeon_bounds = Rect2(
+		min_x - margin,
+		min_y - margin,
+		(max_x - min_x) + margin * 2.0,
+		(max_y - min_y) + margin * 2.0
+	)
 
-	var bsp_gen = DUNGEON_BSP_GENERATOR.new(map_seed)
-	var bsp_chambers = bsp_gen.generate(dungeon_bounds, target_chamber_count)
+	_dungeon_graph = graph
 
-	for chamber in bsp_chambers:
-		var graph_chamber = C_DUNGEON_GRAPH.Chamber.new(
-			chamber.id,
-			chamber.rect,
-			chamber.chamber_type,
-			0.0
-		)
-		dungeon_graph.chambers.append(graph_chamber)
 
-	var corridor_gen = CORRIDOR_GENERATOR.new(map_seed)
-	var corridors = corridor_gen.generate_connections(bsp_chambers)
+	# 7. Spawn doors at corridor mouths
+	_spawn_doors(edges, dungeon_entity)
 
-	for corridor in corridors:
-		var graph_corridor = C_DUNGEON_GRAPH.Corridor.new(
-			corridor.id,
-			corridor.from_chamber,
-			corridor.to_chamber,
-			corridor.path,
-			corridor.width,
-			0.0
-		)
-		dungeon_graph.corridors.append(graph_corridor)
+	# 8. Place player at start room centre
+	_place_player(graph)
 
-		var from_chamber = dungeon_graph.get_chamber(corridor.from_chamber)
-		var to_chamber = dungeon_graph.get_chamber(corridor.to_chamber)
-		if from_chamber:
-			from_chamber.connected_corridors.append(corridor.id)
-		if to_chamber:
-			to_chamber.connected_corridors.append(corridor.id)
+	# 9. Debug visualisation
+	if enable_debug_draw:
+		_create_debug_draw(graph)
 
-	_init_corruption_zones()
-	_create_debug_visualization()
-
-	print("[DungeonGen] Dungeon generated: %d chambers, %d corridors" % [
-		dungeon_graph.chambers.size(),
-		dungeon_graph.corridors.size()
+	print("[DungeonGen] Floor %d: %d rooms, %d edges, seed=%d" % [
+		floor_number, rooms.size(), edges.size(), run_seed
 	])
 
-func _init_corruption_zones() -> void:
-	for chamber in dungeon_graph.chambers:
-		if chamber.chamber_type == "boss":
-			var zone = C_DUNGEON_GRAPH.CorruptionZone.new(
-				chamber.rect.get_center(),
-				300.0,
-				1.0
-			)
-			dungeon_graph.corruption_zones.append(zone)
+func _floor_seed(p_seed: int, p_floor: int) -> int:
+	# FNV-style mix: same seed + floor always produces identical dungeon
+	return p_seed ^ (p_floor * 2654435761)
 
-			for other_chamber in dungeon_graph.chambers:
-				if other_chamber.chamber_type == "normal":
-					var dist = chamber.rect.get_center().distance_to(other_chamber.rect.get_center())
-					if dist < 600.0:
-						other_chamber.corruption_level = 1.0 - (dist / 600.0)
+func _get_or_create_dungeon_entity() -> Node:
+	# Look for existing dungeon entity first
+	var entities_root: Node = _get_entities_root()
+	for child in entities_root.get_children():
+		if child.get_script() == DUNGEON_SCRIPT:
+			return child
 
-func _create_debug_visualization() -> void:
-	if not enable_debug_draw:
-		return
+	var entity = DUNGEON_SCRIPT.new()
+	entities_root.add_child(entity)
+	return entity
 
-	if debug_draw_node:
-		debug_draw_node.queue_free()
-
-	debug_draw_node = Node2D.new()
-	debug_draw_node.name = "DungeonDebugDraw"
-	debug_draw_node.set_script(preload("res://systems/DungeonDebugDraw.gd"))
-	get_tree().root.add_child(debug_draw_node)
-
-	call_deferred("_assign_debug_graph", debug_draw_node)
-
-func _assign_debug_graph(draw_node: Node2D) -> void:
-	if draw_node and draw_node.is_node_ready():
-		draw_node.dungeon_graph = dungeon_graph
-
-func get_dungeon_graph() -> C_DUNGEON_GRAPH:
-	if not generated:
-		generate_dungeon()
-	return dungeon_graph
-
-func get_chamber_at_position(pos: Vector2) -> C_DUNGEON_GRAPH.Chamber:
-	if dungeon_graph:
-		return dungeon_graph.find_chamber_at_position(pos)
-	return null
-
-func _setup_continuous_world() -> void:
-	if not enable_tilemap or not dungeon_graph:
-		return
-
-	if continuous_dungeon:
-		continuous_dungeon.queue_free()
-
-	continuous_dungeon = CONTINUOUS_DUNGEON.new()
-	var entities_root = _world.get_node(_world.entity_nodes_root)
-	entities_root.add_child(continuous_dungeon)
-	continuous_dungeon.setup_from_graph(dungeon_graph)
-
-	_position_player_in_dungeon()
-
-	print("[DungeonGen] Continuous world created")
-
-func _position_player_in_dungeon() -> void:
-	if not _world or not continuous_dungeon:
-		return
-
-	var player: Entity = null
-	var players = _world.query.with_all([C_INPUT]).execute()
-	for p in players:
-		if p is Player:
-			player = p
-			break
-
-	if not player:
-		return
-
-	var start_chamber = dungeon_graph.chambers[0] if dungeon_graph.chambers.size() > 0 else null
-	if start_chamber:
-		var spawn_pos = start_chamber.rect.get_center()
-		player.global_position = spawn_pos
-		var trans = player.get_component(C_TRANSFORM)
-		if trans:
-			trans.position = spawn_pos
-		print("[DungeonGen] Player positioned at dungeon start: %s" % str(spawn_pos))
-
-func _setup_camera() -> void:
-	if camera_2d:
-		camera_2d.queue_free()
-
-	camera_2d = Camera2D.new()
-	camera_2d.name = "DungeonCamera"
-	camera_2d.zoom = Vector2(1.0, 1.0)
-	get_tree().root.add_child(camera_2d)
-
-	var player: Entity = null
+func _get_entities_root() -> Node:
 	if _world:
-		var players = _world.query.with_all([C_INPUT]).execute()
-		for p in players:
-			if p is Player:
-				player = p
-				break
+		var root_path = _world.entity_nodes_root
+		var n: Node = get_node_or_null(root_path)
+		if n:
+			return n
+	return get_tree().root
 
-	if player:
-		camera_2d.global_position = player.global_position
-		camera_2d.set_physics_process(true)
+func _spawn_doors(edges: Array, dungeon_entity: Node) -> void:
+	var DOOR_SCENE_PATH := "res://entities/rooms/e_door.tscn"
+	if not ResourceLoader.exists(DOOR_SCENE_PATH):
+		return
+	var DOOR_SCENE: PackedScene = load(DOOR_SCENE_PATH)
+	var C_DOOR_SCRIPT = preload("res://components/world/c_door.gd")
 
-	print("[DungeonGen] Camera2D created and positioned")
+	for edge in edges:
+		for door_tile_pos in edge.door_positions:
+			var door: Node = DOOR_SCENE.instantiate()
+			dungeon_entity.add_child(door)
+			door.global_position = Vector2(door_tile_pos) * 32.0
+			if door.has_method("get_component"):
+				var c_door = door.get_component(C_DOOR_SCRIPT)
+				if c_door:
+					c_door.is_locked = false
+
+func _place_player(graph: C_DungeonGraph) -> void:
+	if not _world:
+		return
+	var players: Array = _world.query.with_all([C_INPUT]).execute()
+	var start = graph.get_room(graph.start_room_id)
+	if not start or players.is_empty():
+		return
+	var player = players[0]
+	player.global_position = start.world_pos
+
+	var phys_body = player.get_node_or_null("PhysicsBody")
+	if phys_body:
+		phys_body.global_position = start.world_pos
+		phys_body.position = Vector2.ZERO
+
+	var trans = player.get_component(C_TRANSFORM)
+	if trans:
+		trans.position = start.world_pos
+	print("[DungeonGen] Player placed at %s" % str(start.world_pos))
+
+func _create_debug_draw(graph: C_DungeonGraph) -> void:
+	var node := Node2D.new()
+	node.name = "DungeonDebugDraw"
+	node.set_script(DEBUG_SCRIPT)
+	get_tree().root.add_child(node)
+	call_deferred("_assign_debug", node, graph)
+
+func _assign_debug(node: Node2D, graph: C_DungeonGraph) -> void:
+	if is_instance_valid(node):
+		node.set_meta("dungeon_graph", graph)
+		node.queue_redraw()
+
+func get_dungeon_graph() -> C_DungeonGraph:
+	return _dungeon_graph
