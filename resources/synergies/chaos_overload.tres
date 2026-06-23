@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="ItemSynergy" format=3 uid="uid://chaos_overload"]
+
+[ext_resource type="Script" path="res://resources/item_synergy.gd" id="1_synergy"]
+[ext_resource type="Resource" uid="uid://dmg_mult_1_4" path="res://resources/effects/effects_damage_multiplier_1_4.tres" id="2_dmg"]
+
+[resource]
+script = ExtResource("1_synergy")
+name = "Chaos Overload"
+description = "Unleash chaos. +30% damage variance, projectiles split on impact."
+required_tags = PackedStringArray("magic", "chaos")
+min_items_with_tags = 2
+rarity = "uncommon"
+build_identity = "mage"
+visual_effect = "purple_glow"
+synergy_effects = Array[Resource]([ExtResource("2_dmg")])

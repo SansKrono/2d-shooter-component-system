@@ -1,10 +1,10 @@
-[gd_scene format=3 uid="uid://maingame123"]
+[gd_scene format=3 uid="uid://70pd3ggmnaqn"]
 
-[ext_resource type="Script" uid="uid://0nmtsnc5r2" path="res://scripts/game_manager.gd" id="1_manager"]
-[ext_resource type="PackedScene" path="res://ui/main_menu.tscn" id="2_menu"]
+[ext_resource type="Script" uid="uid://0nmtsnc5r2" path="res://bootstrap/game_manager.gd" id="1_manager"]
+[ext_resource type="PackedScene" uid="uid://gngn7wb7cqgd" path="res://ui/main_menu.tscn" id="2_menu"]
 [ext_resource type="PackedScene" uid="uid://d01yyqggg0ptu" path="res://ui/hud.tscn" id="3_hud"]
-[ext_resource type="PackedScene" path="res://ui/pause_menu.tscn" id="4_pause"]
-[ext_resource type="PackedScene" path="res://ui/game_over.tscn" id="5_go"]
+[ext_resource type="PackedScene" uid="uid://be0kqyf5n7vi3" path="res://ui/pause_menu.tscn" id="4_pause"]
+[ext_resource type="PackedScene" uid="uid://de8dqtcou3kmg" path="res://ui/game_over.tscn" id="5_go"]
 [ext_resource type="PackedScene" path="res://ui/victory.tscn" id="6_vic"]
 
 [node name="MainGame" type="Node2D" unique_id=1949308904]

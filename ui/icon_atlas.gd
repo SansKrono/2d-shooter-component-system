@@ -4,7 +4,7 @@ extends Resource
 # Shadow Series icons2 grid: cyan-outlined icons
 # Used for hearts, status, UI indicators
 
-const ICONS_TEXTURE = preload("res://ui/components/SHADOW Series - Pixel UI/Icons/UI - icons2.png")
+const ICONS_TEXTURE = preload("res://ui/components/shadow_series/Icons/UI - icons2.png")
 const ICON_SIZE = 16
 
 var icons: Dictionary = {

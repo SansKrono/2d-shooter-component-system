@@ -1,10 +1,10 @@
 class_name DeathResolutionSystem
 extends System
 
-const C_DEAD = preload("res://components/character/c_dead.gd")
-const C_ENEMY = preload("res://components/character/c_enemy.gd")
-const C_SPAWN_REWARD = preload("res://components/character/c_spawn_reward.gd")
-const C_TRANSFORM = preload("res://components/character/c_transform.gd")
+const C_DEAD = preload("res://components/combat/c_dead.gd")
+const C_ENEMY = preload("res://components/behaviour/c_enemy.gd")
+const C_SPAWN_REWARD = preload("res://components/world/c_spawn_reward.gd")
+const C_TRANSFORM = preload("res://components/movement/c_transform.gd")
 
 func query() -> QueryBuilder:
 	return q.with_all([C_DEAD])

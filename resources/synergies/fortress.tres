@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="ItemSynergy" format=3 uid="uid://fortress"]
+
+[ext_resource type="Script" path="res://resources/item_synergy.gd" id="1_synergy"]
+[ext_resource type="Resource" uid="uid://dmg_red_0_3" path="res://resources/effects/effects_damage_reduction_0_3.tres" id="2_red"]
+
+[resource]
+script = ExtResource("1_synergy")
+name = "Fortress"
+description = "Defensive stance. 2+ defensive items grant +30% damage reduction."
+required_tags = PackedStringArray("defensive")
+min_items_with_tags = 2
+rarity = "common"
+build_identity = ""
+visual_effect = "blue_shield"
+synergy_effects = Array[Resource]([ExtResource("2_red")])

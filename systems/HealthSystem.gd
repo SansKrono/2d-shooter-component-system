@@ -1,7 +1,7 @@
 class_name HealthSystem
 extends System
 
-const C_DEAD = preload("res://components/character/c_dead.gd")
+const C_DEAD = preload("res://components/combat/c_dead.gd")
 
 func query() -> QueryBuilder:
 	return q.with_all([C_Health])

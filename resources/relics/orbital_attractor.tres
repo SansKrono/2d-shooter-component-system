@@ -16,4 +16,5 @@ path_modifier = SubResource("Resource_orbit")
 script = ExtResource("3_relic")
 name = "Orbital Attractor"
 description = "Projectiles orbit around you."
+rarity = "uncommon"
 effects = Array[Resource]([SubResource("Resource_apply_path")])

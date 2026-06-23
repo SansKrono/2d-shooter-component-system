@@ -1,15 +1,17 @@
+# DEPRECATED: Legacy tear-based shooting. Active ShootingSystem.gd supersedes this.
+# Relies on C_TearStats/e_tear.tscn. Remove once ShootingSystem covers all cases.
 class_name PlayerShootingSystem
 extends System
 
-const PROJECTILE_PREFAB = preload("res://prefabs/entities/e_tear.tscn")
-const C_TEAR_STATS = preload("res://components/character/c_tear_stats.gd")
-const C_TRANSFORM = preload("res://components/character/c_transform.gd")
-const C_INPUT = preload("res://components/character/c_input.gd")
-const C_VELOCITY = preload("res://components/character/c_velocity.gd")
-const C_LOCOMOTION = preload("res://components/character/c_locomotion.gd")
-const C_DAMAGE = preload("res://components/character/c_damage.gd")
-const C_LIFETIME = preload("res://components/character/c_lifetime.gd")
-const C_FIRED_BY = preload("res://components/character/c_fired_by.gd")
+const PROJECTILE_PREFAB = preload("res://_deprecated/prefabs/entities/e_tear.tscn")
+const C_TEAR_STATS = preload("res://components/projectile/c_tear_stats.gd")
+const C_TRANSFORM = preload("res://components/movement/c_transform.gd")
+const C_INPUT = preload("res://components/player/c_input.gd")
+const C_VELOCITY = preload("res://components/movement/c_velocity.gd")
+const C_LOCOMOTION = preload("res://components/movement/c_locomotion.gd")
+const C_DAMAGE = preload("res://components/combat/c_damage.gd")
+const C_LIFETIME = preload("res://components/status/c_lifetime.gd")
+const C_FIRED_BY = preload("res://components/projectile/c_fired_by.gd")
 
 func query() -> QueryBuilder:
 	return q.with_all([C_TEAR_STATS, C_TRANSFORM, C_INPUT])

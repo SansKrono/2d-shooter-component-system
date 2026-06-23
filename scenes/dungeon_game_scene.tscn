@@ -1,0 +1,139 @@
+[gd_scene format=3 uid="uid://dpsoblsinfp06"]
+
+[ext_resource type="Script" uid="uid://bmevhiqyjwmmj" path="res://bootstrap/dungeon_game_runner.gd" id="1_runner"]
+[ext_resource type="Script" uid="uid://cdu5tlyk72uu4" path="res://addons/gecs/ecs/world.gd" id="2_world"]
+[ext_resource type="PackedScene" uid="uid://ci0rexrdr26fu" path="res://entities/player/e_player.tscn" id="3_player"]
+[ext_resource type="Script" uid="uid://b6k13gc2m4e5s" path="res://addons/gecs/ecs/component.gd" id="8_component"]
+[ext_resource type="Script" uid="uid://cnp6j2x6cj7xl" path="res://components/status/c_mana.gd" id="9_mana"]
+[ext_resource type="Script" uid="uid://db14owjqim1u3" path="res://systems/PlayerInputSystem.gd" id="10_input_sys"]
+[ext_resource type="Script" uid="uid://bgplo7waub0wt" path="res://systems/MovementSystem.gd" id="11_move_sys"]
+[ext_resource type="Script" uid="uid://0byv16e73r2u" path="res://systems/ShootingSystem.gd" id="12_shoot_sys"]
+[ext_resource type="Script" uid="uid://b8lft6266wtxw" path="res://systems/TrajectorySystem.gd" id="13_traj_sys"]
+[ext_resource type="Script" uid="uid://s7j6nvpj6nq1" path="res://systems/InvulnerabilitySystem.gd" id="14_inv_sys"]
+[ext_resource type="Script" uid="uid://dp2ipvnx4hdsv" path="res://systems/LifetimeSystem.gd" id="15_life_sys"]
+[ext_resource type="Script" uid="uid://c3r3u2st6m5w3" path="res://systems/CollectibleSystem.gd" id="16_asgwg"]
+[ext_resource type="Script" uid="uid://xegd7se40w64" path="res://systems/ManaSystem.gd" id="16_mana_sys"]
+[ext_resource type="Script" uid="uid://bukutmbowhe3n" path="res://systems/HealthSystem.gd" id="17_health_sys"]
+[ext_resource type="Script" uid="uid://cuuf2ni4i7twu" path="res://systems/InteractionSystem.gd" id="18_inter_sys"]
+[ext_resource type="Script" uid="uid://d11wtvd0mbl2b" path="res://systems/AISystem.gd" id="20_ai_sys"]
+[ext_resource type="Script" uid="uid://c70r3nggus6ig" path="res://systems/PlayerShootingSystem.gd" id="31_player_shoot"]
+[ext_resource type="Script" uid="uid://cuc80jqivgbrj" path="res://systems/DamageResolutionSystem.gd" id="32_dmg_res"]
+[ext_resource type="Script" uid="uid://cis4bock22ru1" path="res://systems/KnockbackSystem.gd" id="33_knockback"]
+[ext_resource type="Script" uid="uid://pyrx4nyagbar" path="res://systems/StatRecalculationSystem.gd" id="34_recalc"]
+[ext_resource type="Script" uid="uid://f88vegmaap54" path="res://observers/o_room_clear.gd" id="36_room_clear"]
+[ext_resource type="Script" uid="uid://bqqbr0ecf8vlu" path="res://systems/DeathResolutionSystem.gd" id="38_death_res"]
+[ext_resource type="Script" uid="uid://ck7bh1j87r24f" path="res://systems/RewardSpawnSystem.gd" id="39_reward_spawn"]
+[ext_resource type="Script" uid="uid://mnpwyqu14wjo" path="res://systems/VisibilitySystem.gd" id="40_visibility"]
+[ext_resource type="Script" uid="uid://ks67bwy5ueu6" path="res://systems/DungeonGenerationSystem.gd" id="43_dungeon_gen"]
+[ext_resource type="Script" uid="uid://cjy05fth7v22l" path="res://systems/ContinuousCameraSystem.gd" id="44_cam_sys"]
+[ext_resource type="Script" uid="uid://cjnukjhj35uyq" path="res://systems/ContinuousEnemySpawnerSystem.gd" id="45_enemy_spawn"]
+[ext_resource type="Script" uid="uid://cyxbh8313mym0" path="res://systems/CorruptionSpreadingSystem.gd" id="46_corruption"]
+[ext_resource type="Script" uid="uid://b2u7k0co44b86" path="res://systems/CorruptionVisualSystem.gd" id="47_corruption_visual"]
+[ext_resource type="Script" uid="uid://c57w72m2lcr3j" path="res://systems/EnvironmentEffectSystem.gd" id="48_env_effect"]
+[ext_resource type="Script" uid="uid://8ap1fqgdhnop" path="res://systems/ScreenShakeSystem.gd" id="49_screen_shake"]
+[ext_resource type="Script" uid="uid://cg2uonkt8t1gk" path="res://systems/MinimapSystem.gd" id="50_minimap"]
+[ext_resource type="Script" uid="uid://lhke3y1mqtkx" path="res://systems/PowerSystem.gd" id="50_power_sys"]
+
+[sub_resource type="Resource" id="Resource_mana"]
+script = ExtResource("9_mana")
+current = 50.0
+
+[node name="DungeonGameScene" type="Node2D" unique_id=620629934]
+script = ExtResource("1_runner")
+
+[node name="World" type="Node" parent="." unique_id=1823632101]
+script = ExtResource("2_world")
+entity_nodes_root = NodePath("../Entities")
+system_nodes_root = NodePath("../Systems")
+
+[node name="Systems" type="Node" parent="." unique_id=748183218]
+
+[node name="PlayerInputSystem" type="Node" parent="Systems" unique_id=1346219185]
+script = ExtResource("10_input_sys")
+
+[node name="MovementSystem" type="Node" parent="Systems" unique_id=1795386647]
+script = ExtResource("11_move_sys")
+
+[node name="ShootingSystem" type="Node" parent="Systems" unique_id=1641237895]
+script = ExtResource("12_shoot_sys")
+
+[node name="TrajectorySystem" type="Node" parent="Systems" unique_id=2103845061]
+script = ExtResource("13_traj_sys")
+
+[node name="InvulnerabilitySystem" type="Node" parent="Systems" unique_id=1336168878]
+script = ExtResource("14_inv_sys")
+
+[node name="LifetimeSystem" type="Node" parent="Systems" unique_id=1662301163]
+script = ExtResource("15_life_sys")
+
+[node name="ManaSystem" type="Node" parent="Systems" unique_id=1569432283]
+script = ExtResource("16_mana_sys")
+
+[node name="PowerSystem" type="Node" parent="Systems" unique_id=737248149]
+script = ExtResource("50_power_sys")
+
+[node name="CollectibleSystem" type="Node" parent="Systems" unique_id=1055563245]
+script = ExtResource("16_asgwg")
+
+[node name="HealthSystem" type="Node" parent="Systems" unique_id=489566557]
+script = ExtResource("17_health_sys")
+
+[node name="InteractionSystem" type="Node" parent="Systems" unique_id=1426653825]
+script = ExtResource("18_inter_sys")
+
+[node name="AISystem" type="Node" parent="Systems" unique_id=416508941]
+script = ExtResource("20_ai_sys")
+
+[node name="PlayerShootingSystem" type="Node" parent="Systems" unique_id=2146926749]
+script = ExtResource("31_player_shoot")
+
+[node name="DamageResolutionSystem" type="Node" parent="Systems" unique_id=1060556814]
+script = ExtResource("32_dmg_res")
+
+[node name="KnockbackSystem" type="Node" parent="Systems" unique_id=1731079553]
+script = ExtResource("33_knockback")
+
+[node name="StatRecalculationSystem" type="Node" parent="Systems" unique_id=138965184]
+script = ExtResource("34_recalc")
+
+[node name="RoomClearObserver" type="Node" parent="Systems" unique_id=1050475023]
+script = ExtResource("36_room_clear")
+
+[node name="DeathResolutionSystem" type="Node" parent="Systems" unique_id=1024058110]
+script = ExtResource("38_death_res")
+
+[node name="RewardSpawnSystem" type="Node" parent="Systems" unique_id=1749816694]
+script = ExtResource("39_reward_spawn")
+
+[node name="VisibilitySystem" type="Node" parent="Systems" unique_id=1746063613]
+script = ExtResource("40_visibility")
+
+[node name="DungeonGenerationSystem" type="Node" parent="Systems" unique_id=1879329772]
+script = ExtResource("43_dungeon_gen")
+
+[node name="ContinuousCameraSystem" type="Node" parent="Systems" unique_id=2096349913]
+script = ExtResource("44_cam_sys")
+
+[node name="ContinuousEnemySpawnerSystem" type="Node" parent="Systems" unique_id=2021978278]
+script = ExtResource("45_enemy_spawn")
+
+[node name="CorruptionSpreadingSystem" type="Node" parent="Systems" unique_id=703603650]
+script = ExtResource("46_corruption")
+
+[node name="CorruptionVisualSystem" type="Node" parent="Systems" unique_id=1296841528]
+script = ExtResource("47_corruption_visual")
+
+[node name="EnvironmentEffectSystem" type="Node" parent="Systems" unique_id=643029832]
+script = ExtResource("48_env_effect")
+
+[node name="ScreenShakeSystem" type="Node" parent="Systems" unique_id=1588909606]
+script = ExtResource("49_screen_shake")
+
+[node name="MinimapSystem" type="Node" parent="Systems" unique_id=1251036930]
+script = ExtResource("50_minimap")
+
+[node name="Entities" type="Node2D" parent="." unique_id=1602659660]
+
+[node name="EPlayer" parent="Entities" unique_id=827376707 instance=ExtResource("3_player")]
+position = Vector2(576, 324)
+component_resources = Array[ExtResource("8_component")]([SubResource("Resource_mana")])

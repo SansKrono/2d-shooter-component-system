@@ -45,8 +45,8 @@ func _spread_from_zone(zone: Object) -> void:
 	if not dungeon_graph:
 		return
 
-	for chamber in dungeon_graph.chambers:
-		var chamber_center = chamber.rect.get_center()
+	for chamber in dungeon_graph.rooms:
+		var chamber_center = chamber.world_pos
 		var dist = zone.center.distance_to(chamber_center)
 
 		if dist <= zone.radius:
@@ -60,7 +60,7 @@ func get_chamber_corruption_level(chamber_id: int) -> float:
 	if not dungeon_graph:
 		return 0.0
 
-	for chamber in dungeon_graph.chambers:
+	for chamber in dungeon_graph.rooms:
 		if chamber.id == chamber_id:
 			return chamber.corruption_level
 
@@ -81,4 +81,4 @@ func _update_tilemap() -> void:
 	if continuous_dungeon and continuous_dungeon.has_method("tilemap_layer"):
 		var tilemap = continuous_dungeon.tilemap_layer
 		if tilemap and tilemap.has_method("repaint_corruption"):
-			tilemap.repaint_corruption(dungeon_graph.chambers)
+			tilemap.repaint_corruption(dungeon_graph.rooms)

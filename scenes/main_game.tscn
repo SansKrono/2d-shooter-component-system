@@ -1,0 +1,29 @@
+[gd_scene format=3 uid="uid://maingame123"]
+
+[ext_resource type="Script" uid="uid://0nmtsnc5r2" path="res://bootstrap/game_manager.gd" id="1_manager"]
+[ext_resource type="PackedScene" path="res://ui/main_menu.tscn" id="2_menu"]
+[ext_resource type="PackedScene" uid="uid://d01yyqggg0ptu" path="res://ui/hud.tscn" id="3_hud"]
+[ext_resource type="PackedScene" path="res://ui/pause_menu.tscn" id="4_pause"]
+[ext_resource type="PackedScene" path="res://ui/game_over.tscn" id="5_go"]
+[ext_resource type="PackedScene" path="res://ui/victory.tscn" id="6_vic"]
+
+[node name="MainGame" type="Node2D" unique_id=1949308904]
+script = ExtResource("1_manager")
+
+[node name="WorldContainer" type="Node2D" parent="." unique_id=1328906714]
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=671726503]
+
+[node name="MainMenu" parent="CanvasLayer" unique_id=1536651310 instance=ExtResource("2_menu")]
+
+[node name="HUD" parent="CanvasLayer" unique_id=2146381456 instance=ExtResource("3_hud")]
+visible = false
+
+[node name="PauseMenu" parent="CanvasLayer" unique_id=2107324962 instance=ExtResource("4_pause")]
+visible = false
+
+[node name="GameOver" parent="CanvasLayer" unique_id=871417034 instance=ExtResource("5_go")]
+visible = false
+
+[node name="Victory" parent="CanvasLayer" unique_id=366053891 instance=ExtResource("6_vic")]
+visible = false

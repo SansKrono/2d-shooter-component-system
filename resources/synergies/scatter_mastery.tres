@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="ItemSynergy" format=3 uid="uid://scatter_mastery"]
+
+[ext_resource type="Script" path="res://resources/item_synergy.gd" id="1_synergy"]
+[ext_resource type="Resource" uid="uid://fr_1_25" path="res://resources/effects/effects_fire_rate_1_25.tres" id="2_fr"]
+
+[resource]
+script = ExtResource("1_synergy")
+name = "Scatter Mastery"
+description = "Spread chaos everywhere. 3+ spreading items grant +25% bullet spread."
+required_tags = PackedStringArray("spreading")
+min_items_with_tags = 3
+rarity = "common"
+build_identity = ""
+visual_effect = "green_glow"
+synergy_effects = Array[Resource]([ExtResource("2_fr")])

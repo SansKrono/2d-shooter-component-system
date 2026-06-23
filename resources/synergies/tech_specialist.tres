@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="ItemSynergy" format=3 uid="uid://tech_specialist"]
+
+[ext_resource type="Script" path="res://resources/item_synergy.gd" id="1_synergy"]
+[ext_resource type="Resource" uid="uid://fr_1_2" path="res://resources/effects/effects_fire_rate_1_2.tres" id="2_fr"]
+
+[resource]
+script = ExtResource("1_synergy")
+name = "Tech Specialist"
+description = "Master of technology. 3+ tech items grant +20% fire rate."
+required_tags = PackedStringArray("tech")
+min_items_with_tags = 3
+rarity = "uncommon"
+build_identity = "hacker"
+visual_effect = "blue_glow"
+synergy_effects = Array[Resource]([ExtResource("2_fr")])

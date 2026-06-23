@@ -15,4 +15,5 @@ path_modifier = SubResource("Resource_zigzag")
 script = ExtResource("3_relic")
 name = "Sine Wave Modulator"
 description = "Makes projectiles zig-zag left and right."
+rarity = "uncommon"
 effects = Array[Resource]([SubResource("Resource_apply_path")])

@@ -1,8 +1,8 @@
 class_name FamiliarAIProcessingSystem
 extends System
 
-const C_FAMILIAR_OF = preload("res://components/character/c_familiar_of.gd")
-const C_TRANSFORM = preload("res://components/character/c_transform.gd")
+const C_FAMILIAR_OF = preload("res://components/behaviour/c_familiar_of.gd")
+const C_TRANSFORM = preload("res://components/movement/c_transform.gd")
 
 func query() -> QueryBuilder:
 	var dummy_familiar = C_FAMILIAR_OF.new()

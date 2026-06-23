@@ -1,7 +1,7 @@
 class_name ApplyBulletPathEffect
 extends "res://resources/effects/relic_effect.gd"
 
-const C_BulletPath = preload("res://components/character/c_bullet_path.gd")
+const C_BulletPath = preload("res://components/projectile/c_bullet_path.gd")
 const BulletPathModifier = preload("res://resources/effects/bullet_path_modifier.gd")
 
 @export var path_modifier: BulletPathModifier = null

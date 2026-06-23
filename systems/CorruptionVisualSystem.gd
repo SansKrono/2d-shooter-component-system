@@ -1,8 +1,8 @@
 class_name CorruptionVisualSystem
 extends System
 
-const C_VELOCITY = preload("res://components/character/c_velocity.gd")
-const C_INPUT = preload("res://components/character/c_input.gd")
+const C_VELOCITY = preload("res://components/movement/c_velocity.gd")
+const C_INPUT = preload("res://components/player/c_input.gd")
 const CORRUPTION_COLOR: Color = Color(0.7, 0.1, 1.0)
 
 var corruption_system: CorruptionSpreadingSystem = null

@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="ItemSynergy" format=3 uid="uid://surgical_strikes"]
+
+[ext_resource type="Script" path="res://resources/item_synergy.gd" id="1_synergy"]
+[ext_resource type="Resource" uid="uid://dmg_mult_1_5" path="res://resources/effects/effects_damage_multiplier_1_5.tres" id="2_dmg"]
+
+[resource]
+script = ExtResource("1_synergy")
+name = "Surgical Strikes"
+description = "Master precision. Precision shots deal +50% damage."
+required_tags = PackedStringArray("precision")
+min_items_with_tags = 3
+rarity = "uncommon"
+build_identity = "hacker"
+visual_effect = "blue_glow"
+synergy_effects = Array[Resource]([ExtResource("2_dmg")])

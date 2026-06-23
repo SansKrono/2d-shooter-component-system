@@ -1,8 +1,9 @@
+@tool
 class_name CorruptedServerEntity
 extends Entity
 
-const C_HEALTH = preload("res://components/character/c_health.gd")
-const C_TRANSFORM = preload("res://components/character/c_transform.gd")
+const C_HEALTH = preload("res://components/combat/c_health.gd")
+const C_TRANSFORM = preload("res://components/movement/c_transform.gd")
 
 var exploded: bool = false
 

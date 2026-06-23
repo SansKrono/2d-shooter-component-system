@@ -4,7 +4,7 @@ extends "res://resources/effects/relic_effect.gd"
 @export var stat_name: String = ""
 @export var value: float = 0.0
 
-const C_LOCOMOTION = preload("res://components/character/c_locomotion.gd")
+const C_LOCOMOTION = preload("res://components/movement/c_locomotion.gd")
 
 func apply(entity: Entity) -> void:
 	match stat_name:

@@ -2,9 +2,9 @@
 class_name Coin
 extends Entity
 
-const C_COLLECTIBLE_SCRIPT = preload("res://components/character/c_collectible.gd")
-const C_INTERACTABLE_DEBUG_SCRIPT = preload("res://components/character/c_interactable_debug.gd")
-const C_CURRENCY_SCRIPT = preload("res://components/character/c_currency.gd")
+const C_COLLECTIBLE_SCRIPT = preload("res://components/economy/c_collectible.gd")
+const C_INTERACTABLE_DEBUG_SCRIPT = preload("res://components/debug/c_interactable_debug.gd")
+const C_CURRENCY_SCRIPT = preload("res://components/economy/c_currency.gd")
 
 @export var value: int = 5
 

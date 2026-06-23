@@ -2,15 +2,15 @@ class_name ShootingSystem
 extends System
 
 const BULLET_PREFAB = preload("res://entities/projectiles/e_bullet.tscn")
-const C_BulletPath = preload("res://components/character/c_bullet_path.gd")
-const C_LOCOMOTION = preload("res://components/character/c_locomotion.gd")
-const C_ATTACK_MODE = preload("res://components/character/c_attack_mode.gd")
-const C_PIERCING = preload("res://components/character/c_piercing.gd")
-const C_PHYSICS = preload("res://components/character/c_physics.gd")
-const C_MANA = preload("res://components/character/c_mana.gd")
-const C_POWER = preload("res://components/character/c_power.gd")
-const C_FIRE_MODE = preload("res://components/character/c_fire_mode.gd")
-const C_PROJECTILE_STATS = preload("res://components/character/c_projectile_stats.gd")
+const C_BULLET_PATH_COMPONENT = preload("res://components/projectile/c_bullet_path.gd")
+const C_LOCOMOTION = preload("res://components/movement/c_locomotion.gd")
+const C_ATTACK_MODE = preload("res://components/player/c_attack_mode.gd")
+const C_PIERCING = preload("res://components/projectile/c_piercing.gd")
+const C_PHYSICS = preload("res://components/movement/c_physics.gd")
+const C_MANA = preload("res://components/status/c_mana.gd")
+const C_POWER = preload("res://components/status/c_power.gd")
+const C_FIRE_MODE = preload("res://components/player/c_fire_mode.gd")
+const C_PROJECTILE_STATS = preload("res://components/projectile/c_projectile_stats.gd")
 const SPIRAL_MOD = preload("res://resources/effects/spiral_path_modifier.gd")
 const CURSOR_TECH = preload("res://assets/shoot-cursor-tech.png")
 const CURSOR_MAGIC = preload("res://assets/shoot-cursor-magic.png")
@@ -182,9 +182,9 @@ func _fire_tech_straight(shooter: Entity, c_input: C_Input) -> void:
 	var c_vol = shooter.get_component(C_Volatility)
 	if c_vol and randf() < c_vol.crit_chance:
 		vol.is_critical = true
-		var sprite = bullet.get_node_or_null("Sprite2D") as Sprite2D
-		if sprite:
-			sprite.self_modulate = Color.RED
+		var sprite_crit = bullet.get_node_or_null("Sprite2D") as Sprite2D
+		if sprite_crit:
+			sprite_crit.self_modulate = Color.RED
 	bullet.add_component(vol)
 
 	var sprite = bullet.get_node_or_null("Sprite2D") as Sprite2D
@@ -214,9 +214,9 @@ func _fire_tech_fan(shooter: Entity, c_input: C_Input) -> void:
 		var c_vol = shooter.get_component(C_Volatility)
 		if c_vol and randf() < c_vol.crit_chance:
 			vol.is_critical = true
-			var sprite = bullet.get_node_or_null("Sprite2D") as Sprite2D
-			if sprite:
-				sprite.self_modulate = Color.RED
+			var sprite_crit = bullet.get_node_or_null("Sprite2D") as Sprite2D
+			if sprite_crit:
+				sprite_crit.self_modulate = Color.RED
 		bullet.add_component(vol)
 
 		var sprite = bullet.get_node_or_null("Sprite2D") as Sprite2D

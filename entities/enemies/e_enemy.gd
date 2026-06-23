@@ -4,10 +4,10 @@ extends Entity
 
 enum EnemyType { CHASER, SHOOTER }
 
-const C_ENEMY = preload("res://components/character/c_enemy.gd")
-const C_TRANSFORM = preload("res://components/character/c_transform.gd")
-const C_MASS = preload("res://components/character/c_mass.gd")
-const C_LOCOMOTION = preload("res://components/character/c_locomotion.gd")
+const C_ENEMY = preload("res://components/behaviour/c_enemy.gd")
+const C_TRANSFORM = preload("res://components/movement/c_transform.gd")
+const C_MASS = preload("res://components/movement/c_mass.gd")
+const C_LOCOMOTION = preload("res://components/movement/c_locomotion.gd")
 
 @export var type: EnemyType = EnemyType.CHASER
 

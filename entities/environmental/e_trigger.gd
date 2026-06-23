@@ -2,7 +2,7 @@
 class_name TriggerArea
 extends Entity
 
-const C_TRIGGER_SCRIPT = preload("res://components/character/c_trigger.gd")
+const C_TRIGGER_SCRIPT = preload("res://components/world/c_trigger.gd")
 
 @export var channel: int = -1:
 	set(val):

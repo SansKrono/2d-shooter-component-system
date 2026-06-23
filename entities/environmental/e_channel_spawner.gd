@@ -2,7 +2,7 @@
 class_name ChannelSpawnerEntity
 extends Entity
 
-const C_CHANNEL_SPAWNER_SCRIPT = preload("res://components/character/c_channel_spawner.gd")
+const C_CHANNEL_SPAWNER_SCRIPT = preload("res://components/world/c_channel_spawner.gd")
 
 @export var channel: int = -1:
 	set(val):

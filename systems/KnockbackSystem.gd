@@ -1,8 +1,8 @@
 class_name KnockbackSystem
 extends System
 
-const C_PENDING_DAMAGE = preload("res://components/character/c_pending_damage.gd")
-const C_VELOCITY_MODIFIER = preload("res://components/character/c_velocity_modifier.gd")
+const C_PENDING_DAMAGE = preload("res://components/combat/c_pending_damage.gd")
+const C_VELOCITY_MODIFIER = preload("res://components/movement/c_velocity_modifier.gd")
 
 func query() -> QueryBuilder:
 	return q.with_all([C_PENDING_DAMAGE])

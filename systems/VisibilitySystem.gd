@@ -1,8 +1,8 @@
 class_name VisibilitySystem
 extends System
 
-const C_TRANSFORM = preload("res://components/character/c_transform.gd")
-const C_OFFSCREEN = preload("res://components/character/c_offscreen.gd")
+const C_TRANSFORM = preload("res://components/movement/c_transform.gd")
+const C_OFFSCREEN = preload("res://components/status/c_offscreen.gd")
 
 func query() -> QueryBuilder:
 	return q.with_all([C_TRANSFORM])

@@ -1,7 +1,7 @@
 class_name CollectibleSystem
 extends System
 
-const C_COLLECTIBLE_SCRIPT = preload("res://components/character/c_collectible.gd")
+const C_COLLECTIBLE_SCRIPT = preload("res://components/economy/c_collectible.gd")
 const C_AI_STATE_MACHINE_SCRIPT = preload("res://components/behaviour/c_ai_state_machine.gd")
 
 func query() -> QueryBuilder:

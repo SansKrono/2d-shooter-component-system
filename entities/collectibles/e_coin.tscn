@@ -1,16 +1,16 @@
-[gd_scene load_steps=3 format=3]
+[gd_scene format=3 uid="uid://b0wsf8xvjy2lv"]
 
-[ext_resource type="Script" path="res://entities/collectibles/e_coin.gd" id="1_coin"]
-[ext_resource type="Texture2D" path="res://assets/coin.png" id="2_coin_tex"]
+[ext_resource type="Script" uid="uid://cr3nskj4ubuic" path="res://entities/collectibles/e_coin.gd" id="1_coin"]
+[ext_resource type="Texture2D" uid="uid://bqy4skr45mten" path="res://assets/coin.png" id="2_coin_tex"]
 
-[node name="ECoin" type="Node2D"]
+[node name="ECoin" type="Node2D" unique_id=1139110650]
 script = ExtResource("1_coin")
 
-[node name="PointLight2D" type="PointLight2D" parent="."]
+[node name="PointLight2D" type="PointLight2D" parent="." unique_id=1181313433]
 color = Color(1, 0.843137, 0, 1)
 energy = 2.0
 texture = ExtResource("2_coin_tex")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=75673037]
 scale = Vector2(0.5, 0.5)
 texture = ExtResource("2_coin_tex")

@@ -1,8 +1,8 @@
 class_name TrajectorySystem
 extends System
 
-const C_BulletPath = preload("res://components/character/c_bullet_path.gd")
-const C_LOCOMOTION = preload("res://components/character/c_locomotion.gd")
+const C_BULLET_PATH_COMPONENT = preload("res://components/projectile/c_bullet_path.gd")
+const C_LOCOMOTION = preload("res://components/movement/c_locomotion.gd")
 
 func query() -> QueryBuilder:
 	return q.with_all([C_Velocity, C_Trajectory]).with_none([C_Input])

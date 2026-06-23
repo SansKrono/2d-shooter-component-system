@@ -1,0 +1,10 @@
+[gd_scene format=3 uid="uid://cufixodpyqc5x"]
+
+[ext_resource type="Script" uid="uid://c7t5ey7xue2je" path="res://ui/synergy_ui_manager.gd" id="1_manager"]
+
+[node name="SynergyUI" type="CanvasLayer" unique_id=520567099]
+script = ExtResource("1_manager")
+
+[node name="SynergyPanel" type="PanelContainer" parent="." unique_id=1670630246]
+offset_right = 300.0
+offset_bottom = 200.0

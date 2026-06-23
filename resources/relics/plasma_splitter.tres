@@ -16,4 +16,5 @@ script = ExtResource("2_bullet_split_effect")
 script = ExtResource("3_relic")
 name = "Plasma Splitter"
 description = "Gives a chance to split bullets on hit and increases crit chance."
+rarity = "uncommon"
 effects = Array[Resource]([SubResource("Resource_crit"), SubResource("Resource_split")])

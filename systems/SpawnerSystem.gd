@@ -1,7 +1,7 @@
 class_name SpawnerSystem
 extends System
 
-const C_SPAWNER_SCRIPT = preload("res://components/character/c_spawner.gd")
+const C_SPAWNER_SCRIPT = preload("res://components/world/c_spawner.gd")
 
 func query() -> QueryBuilder:
 	return q.with_all([C_SPAWNER_SCRIPT])

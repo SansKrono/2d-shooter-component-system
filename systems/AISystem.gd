@@ -1,7 +1,7 @@
 class_name AISystem
 extends System
 
-const C_OFFSCREEN = preload("res://components/character/c_offscreen.gd")
+const C_OFFSCREEN = preload("res://components/status/c_offscreen.gd")
 
 func query() -> QueryBuilder:
 	return q.with_all([C_AIStateMachine, C_Velocity]).with_none([C_OFFSCREEN])

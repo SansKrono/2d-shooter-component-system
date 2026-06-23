@@ -8,7 +8,7 @@ var base_angle: float = 0.0
 var elapsed_time: float = 0.0
 var original_speed: float = 0.0
 
-const C_LOCOMOTION = preload("res://components/character/c_locomotion.gd")
+const C_LOCOMOTION = preload("res://components/movement/c_locomotion.gd")
 
 func initialize_path(bullet: Entity) -> void:
 	elapsed_time = 0.0

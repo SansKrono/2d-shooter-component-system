@@ -1,0 +1,32 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://entities/rooms/prefabs/boss/boss_large_a.gd" id="1_script"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_bounds"]
+size = Vector2(320, 320)
+
+[node name="RoomPrefab" type="Node2D"]
+script = ExtResource("1_script")
+
+[node name="RoomBounds" type="Area2D" parent="."]
+position = Vector2(160, 160)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RoomBounds"]
+shape = SubResource("RectangleShape2D_bounds")
+
+[node name="SpawnPoints" type="Node2D" parent="."]
+
+[node name="SpawnPoint0" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(32, 32)
+
+[node name="SpawnPoint1" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(32, 272)
+
+[node name="SpawnPoint2" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(272, 32)
+
+[node name="SpawnPoint3" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(160, 160)
+
+[node name="BossSpawn" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(160, 160)

@@ -1,0 +1,10 @@
+[gd_scene format=3 uid="uid://d1asy35elucts"]
+
+[ext_resource type="Script" uid="uid://df0a73wckj82y" path="res://bootstrap/main.gd" id="1_main"]
+[ext_resource type="Script" uid="uid://cdu5tlyk72uu4" path="res://addons/gecs/ecs/world.gd" id="2_world"]
+
+[node name="TestScene" type="Node" unique_id=2100073100]
+script = ExtResource("1_main")
+
+[node name="World" type="Node" parent="." unique_id=1995733656]
+script = ExtResource("2_world")

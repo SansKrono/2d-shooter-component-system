@@ -1,9 +1,10 @@
 class_name StatRecalculationSystem
 extends System
 
-const C_TEAR_STATS = preload("res://components/character/c_tear_stats.gd")
-const C_RELIC_INVENTORY = preload("res://components/character/c_relic_inventory.gd")
-const C_STAT_MODIFIER = preload("res://components/character/c_stat_modifier.gd")
+const C_TEAR_STATS = preload("res://components/projectile/c_tear_stats.gd")
+const C_RELIC_INVENTORY = preload("res://components/economy/c_relic_inventory.gd")
+const C_STAT_MODIFIER = preload("res://components/synergy/c_stat_modifier.gd")
+const C_SYNERGY_STATE = preload("res://components/synergy/c_synergy_state.gd")
 
 func query() -> QueryBuilder:
 	return q.with_all([C_TEAR_STATS, C_RELIC_INVENTORY])
@@ -44,14 +45,22 @@ func process(entities: Array[Entity], _components: Array, _delta: float) -> void
 			if mod.is_soy_milk:
 				has_soy_milk = true
 				
+		# Apply synergy effects
+		var c_synergy_state = entity.get_component(C_SYNERGY_STATE) as C_SYNERGY_STATE
+		if c_synergy_state:
+			for synergy in c_synergy_state.get_active_synergies():
+				for effect in synergy.synergy_effects:
+					if effect:
+						dmg_mult *= effect.get_stat_multiplier("damage")
+
 		# 1. Additive first
 		var final_damage = base_damage + dmg_add
 		var final_delay = base_delay + delay_add
-		
+
 		# 2. Multiplicative next
 		final_damage *= dmg_mult
 		final_delay = int(float(final_delay) * delay_mult)
-		
+
 		# 3. Special overrides/formulas
 		if has_polyphemus:
 			final_delay = int(float(final_delay) * 2.1) + 3

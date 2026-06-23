@@ -17,4 +17,5 @@ value = 0.05
 script = ExtResource("2_relic")
 name = "Seeking Algorithm"
 description = "Gives projectiles homing capabilities and increases fire rate."
+rarity = "uncommon"
 effects = Array[Resource]([SubResource("Resource_homing"), SubResource("Resource_firerate")])

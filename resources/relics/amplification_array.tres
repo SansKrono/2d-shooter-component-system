@@ -17,4 +17,5 @@ value = 0.5
 script = ExtResource("2_relic")
 name = "Amplification Array"
 description = "Increases damage and bullet size."
+rarity = "uncommon"
 effects = Array[Resource]([SubResource("Resource_damage"), SubResource("Resource_size")])

@@ -1,0 +1,950 @@
+.
+├── addons
+│   ├── gecs
+│   │   ├── assets
+│   │   │   ├── component.svg
+│   │   │   ├── component.svg.import
+│   │   │   ├── entity.svg
+│   │   │   ├── entity.svg.import
+│   │   │   ├── gecs-logo.psd
+│   │   │   ├── logo.png
+│   │   │   ├── logo.png.import
+│   │   │   ├── observer.svg
+│   │   │   ├── observer.svg.import
+│   │   │   ├── system_folder.svg
+│   │   │   ├── system_folder.svg.import
+│   │   │   ├── system.svg
+│   │   │   ├── system.svg.import
+│   │   │   ├── world.svg
+│   │   │   └── world.svg.import
+│   │   ├── debug
+│   │   │   ├── gecs_editor_debugger_messages.gd
+│   │   │   ├── gecs_editor_debugger_messages.gd.uid
+│   │   │   ├── gecs_editor_debugger_tab.gd
+│   │   │   ├── gecs_editor_debugger_tab.gd.uid
+│   │   │   ├── gecs_editor_debugger_tab.tscn
+│   │   │   ├── gecs_editor_debugger.gd
+│   │   │   └── gecs_editor_debugger.gd.uid
+│   │   ├── docs
+│   │   │   ├── BEST_PRACTICES.md
+│   │   │   ├── COMPONENT_QUERIES.md
+│   │   │   ├── CORE_CONCEPTS.md
+│   │   │   ├── DEBUG_VIEWER.md
+│   │   │   ├── GETTING_STARTED.md
+│   │   │   ├── OBSERVERS.md
+│   │   │   ├── PERFORMANCE_OPTIMIZATION.md
+│   │   │   ├── PERFORMANCE_TESTING.md
+│   │   │   ├── RELATIONSHIPS.md
+│   │   │   ├── SERIALIZATION.md
+│   │   │   └── TROUBLESHOOTING.md
+│   │   ├── ecs
+│   │   │   ├── archetype.gd
+│   │   │   ├── archetype.gd.uid
+│   │   │   ├── command_buffer.gd
+│   │   │   ├── command_buffer.gd.uid
+│   │   │   ├── component.gd
+│   │   │   ├── component.gd.uid
+│   │   │   ├── ecs.gd
+│   │   │   ├── ecs.gd.uid
+│   │   │   ├── entity.gd
+│   │   │   ├── entity.gd.uid
+│   │   │   ├── observer.gd
+│   │   │   ├── observer.gd.uid
+│   │   │   ├── query_builder.gd
+│   │   │   ├── query_builder.gd.uid
+│   │   │   ├── query_cache_key.gd
+│   │   │   ├── query_cache_key.gd.uid
+│   │   │   ├── relationship.gd
+│   │   │   ├── relationship.gd.uid
+│   │   │   ├── system.gd
+│   │   │   ├── system.gd.uid
+│   │   │   ├── world.gd
+│   │   │   └── world.gd.uid
+│   │   ├── io
+│   │   │   ├── gecs_data.gd
+│   │   │   ├── gecs_data.gd.uid
+│   │   │   ├── gecs_entity_data.gd
+│   │   │   ├── gecs_entity_data.gd.uid
+│   │   │   ├── gecs_relationship_data.gd
+│   │   │   ├── gecs_relationship_data.gd.uid
+│   │   │   ├── io.gd
+│   │   │   ├── io.gd.uid
+│   │   │   ├── serialize_config.gd
+│   │   │   └── serialize_config.gd.uid
+│   │   ├── lib
+│   │   │   ├── array_extensions.gd
+│   │   │   ├── array_extensions.gd.uid
+│   │   │   ├── component_query_matcher.gd
+│   │   │   ├── component_query_matcher.gd.uid
+│   │   │   ├── gecs_settings.gd
+│   │   │   ├── gecs_settings.gd.uid
+│   │   │   ├── logger.gd
+│   │   │   ├── logger.gd.uid
+│   │   │   ├── set.gd
+│   │   │   ├── set.gd.uid
+│   │   │   ├── system_group.gd
+│   │   │   └── system_group.gd.uid
+│   │   ├── LICENSE
+│   │   ├── plugin.cfg
+│   │   ├── plugin.gd
+│   │   ├── plugin.gd.uid
+│   │   └── README.md
+│   ├── godot_ai
+│   │   ├── client_configurator.gd
+│   │   ├── client_configurator.gd.uid
+│   │   ├── clients
+│   │   │   ├── _atomic_write.gd
+│   │   │   ├── _atomic_write.gd.uid
+│   │   │   ├── _base.gd
+│   │   │   ├── _base.gd.uid
+│   │   │   ├── _cli_exec.gd
+│   │   │   ├── _cli_exec.gd.uid
+│   │   │   ├── _cli_finder.gd
+│   │   │   ├── _cli_finder.gd.uid
+│   │   │   ├── _cli_strategy.gd
+│   │   │   ├── _cli_strategy.gd.uid
+│   │   │   ├── _json_strategy.gd
+│   │   │   ├── _json_strategy.gd.uid
+│   │   │   ├── _manual_command.gd
+│   │   │   ├── _manual_command.gd.uid
+│   │   │   ├── _path_template.gd
+│   │   │   ├── _path_template.gd.uid
+│   │   │   ├── _registry.gd
+│   │   │   ├── _registry.gd.uid
+│   │   │   ├── _toml_strategy.gd
+│   │   │   ├── _toml_strategy.gd.uid
+│   │   │   ├── antigravity.gd
+│   │   │   ├── antigravity.gd.uid
+│   │   │   ├── cherry_studio.gd
+│   │   │   ├── cherry_studio.gd.uid
+│   │   │   ├── claude_code.gd
+│   │   │   ├── claude_code.gd.uid
+│   │   │   ├── claude_desktop.gd
+│   │   │   ├── claude_desktop.gd.uid
+│   │   │   ├── cline.gd
+│   │   │   ├── cline.gd.uid
+│   │   │   ├── codex.gd
+│   │   │   ├── codex.gd.uid
+│   │   │   ├── cursor.gd
+│   │   │   ├── cursor.gd.uid
+│   │   │   ├── gemini_cli.gd
+│   │   │   ├── gemini_cli.gd.uid
+│   │   │   ├── kilo_code.gd
+│   │   │   ├── kilo_code.gd.uid
+│   │   │   ├── kimi_code.gd
+│   │   │   ├── kimi_code.gd.uid
+│   │   │   ├── kiro.gd
+│   │   │   ├── kiro.gd.uid
+│   │   │   ├── opencode.gd
+│   │   │   ├── opencode.gd.uid
+│   │   │   ├── qwen_code.gd
+│   │   │   ├── qwen_code.gd.uid
+│   │   │   ├── roo_code.gd
+│   │   │   ├── roo_code.gd.uid
+│   │   │   ├── trae.gd
+│   │   │   ├── trae.gd.uid
+│   │   │   ├── vscode_insiders.gd
+│   │   │   ├── vscode_insiders.gd.uid
+│   │   │   ├── vscode.gd
+│   │   │   ├── vscode.gd.uid
+│   │   │   ├── windsurf.gd
+│   │   │   ├── windsurf.gd.uid
+│   │   │   ├── zed.gd
+│   │   │   └── zed.gd.uid
+│   │   ├── connection.gd
+│   │   ├── connection.gd.uid
+│   │   ├── debugger
+│   │   │   ├── mcp_debugger_plugin.gd
+│   │   │   └── mcp_debugger_plugin.gd.uid
+│   │   ├── dispatcher.gd
+│   │   ├── dispatcher.gd.uid
+│   │   ├── dock_panels
+│   │   │   ├── log_viewer.gd
+│   │   │   ├── log_viewer.gd.uid
+│   │   │   ├── port_picker_panel.gd
+│   │   │   └── port_picker_panel.gd.uid
+│   │   ├── handlers
+│   │   │   ├── _node_validator.gd
+│   │   │   ├── _node_validator.gd.uid
+│   │   │   ├── _param_validators.gd
+│   │   │   ├── _param_validators.gd.uid
+│   │   │   ├── _property_errors.gd
+│   │   │   ├── _property_errors.gd.uid
+│   │   │   ├── animation_handler.gd
+│   │   │   ├── animation_handler.gd.uid
+│   │   │   ├── animation_presets.gd
+│   │   │   ├── animation_presets.gd.uid
+│   │   │   ├── animation_values.gd
+│   │   │   ├── animation_values.gd.uid
+│   │   │   ├── api_handler.gd
+│   │   │   ├── api_handler.gd.uid
+│   │   │   ├── audio_handler.gd
+│   │   │   ├── audio_handler.gd.uid
+│   │   │   ├── autoload_handler.gd
+│   │   │   ├── autoload_handler.gd.uid
+│   │   │   ├── batch_handler.gd
+│   │   │   ├── batch_handler.gd.uid
+│   │   │   ├── camera_handler.gd
+│   │   │   ├── camera_handler.gd.uid
+│   │   │   ├── camera_presets.gd
+│   │   │   ├── camera_presets.gd.uid
+│   │   │   ├── camera_values.gd
+│   │   │   ├── camera_values.gd.uid
+│   │   │   ├── client_handler.gd
+│   │   │   ├── client_handler.gd.uid
+│   │   │   ├── control_draw_recipe_handler.gd
+│   │   │   ├── control_draw_recipe_handler.gd.uid
+│   │   │   ├── curve_handler.gd
+│   │   │   ├── curve_handler.gd.uid
+│   │   │   ├── editor_handler.gd
+│   │   │   ├── editor_handler.gd.uid
+│   │   │   ├── environment_handler.gd
+│   │   │   ├── environment_handler.gd.uid
+│   │   │   ├── filesystem_handler.gd
+│   │   │   ├── filesystem_handler.gd.uid
+│   │   │   ├── input_handler.gd
+│   │   │   ├── input_handler.gd.uid
+│   │   │   ├── material_handler.gd
+│   │   │   ├── material_handler.gd.uid
+│   │   │   ├── material_presets.gd
+│   │   │   ├── material_presets.gd.uid
+│   │   │   ├── material_values.gd
+│   │   │   ├── material_values.gd.uid
+│   │   │   ├── node_handler.gd
+│   │   │   ├── node_handler.gd.uid
+│   │   │   ├── particle_handler.gd
+│   │   │   ├── particle_handler.gd.uid
+│   │   │   ├── particle_presets.gd
+│   │   │   ├── particle_presets.gd.uid
+│   │   │   ├── particle_values.gd
+│   │   │   ├── particle_values.gd.uid
+│   │   │   ├── physics_shape_handler.gd
+│   │   │   ├── physics_shape_handler.gd.uid
+│   │   │   ├── project_handler.gd
+│   │   │   ├── project_handler.gd.uid
+│   │   │   ├── resource_handler.gd
+│   │   │   ├── resource_handler.gd.uid
+│   │   │   ├── scene_handler.gd
+│   │   │   ├── scene_handler.gd.uid
+│   │   │   ├── script_handler.gd
+│   │   │   ├── script_handler.gd.uid
+│   │   │   ├── signal_handler.gd
+│   │   │   ├── signal_handler.gd.uid
+│   │   │   ├── test_handler.gd
+│   │   │   ├── test_handler.gd.uid
+│   │   │   ├── texture_handler.gd
+│   │   │   ├── texture_handler.gd.uid
+│   │   │   ├── theme_handler.gd
+│   │   │   ├── theme_handler.gd.uid
+│   │   │   ├── ui_handler.gd
+│   │   │   └── ui_handler.gd.uid
+│   │   ├── LICENSE
+│   │   ├── mcp_dock.gd
+│   │   ├── mcp_dock.gd.uid
+│   │   ├── plugin.cfg
+│   │   ├── plugin.gd
+│   │   ├── plugin.gd.uid
+│   │   ├── README.md
+│   │   ├── runtime
+│   │   │   ├── draw_recipe.gd
+│   │   │   ├── draw_recipe.gd.uid
+│   │   │   ├── game_helper.gd
+│   │   │   ├── game_helper.gd.uid
+│   │   │   ├── logger_loader.gd
+│   │   │   ├── logger_loader.gd.uid
+│   │   │   └── loggers
+│   │   │       ├── editor_logger.gd
+│   │   │       ├── game_logger.gd
+│   │   │       └── validation_logger.gd
+│   │   ├── telemetry.gd
+│   │   ├── telemetry.gd.uid
+│   │   ├── testing
+│   │   │   ├── loggers
+│   │   │   │   └── script_error_capture.gd
+│   │   │   ├── script_error_capture_loader.gd
+│   │   │   ├── script_error_capture_loader.gd.uid
+│   │   │   ├── stub_backtrace.gd
+│   │   │   ├── stub_backtrace.gd.uid
+│   │   │   ├── test_runner.gd
+│   │   │   ├── test_runner.gd.uid
+│   │   │   ├── test_suite.gd
+│   │   │   └── test_suite.gd.uid
+│   │   ├── tool_catalog.gd
+│   │   ├── tool_catalog.gd.uid
+│   │   ├── update_reload_runner.gd
+│   │   ├── update_reload_runner.gd.uid
+│   │   └── utils
+│   │       ├── class_introspection.gd
+│   │       ├── class_introspection.gd.uid
+│   │       ├── diagnostics_capture.gd
+│   │       ├── diagnostics_capture.gd.uid
+│   │       ├── editor_log_buffer.gd
+│   │       ├── editor_log_buffer.gd.uid
+│   │       ├── error_codes.gd
+│   │       ├── error_codes.gd.uid
+│   │       ├── fuzzy_suggestions.gd
+│   │       ├── fuzzy_suggestions.gd.uid
+│   │       ├── game_log_buffer.gd
+│   │       ├── game_log_buffer.gd.uid
+│   │       ├── log_backtrace.gd
+│   │       ├── log_backtrace.gd.uid
+│   │       ├── log_buffer.gd
+│   │       ├── log_buffer.gd.uid
+│   │       ├── mcp_adoption_label.gd
+│   │       ├── mcp_adoption_label.gd.uid
+│   │       ├── mcp_client_refresh_state.gd
+│   │       ├── mcp_client_refresh_state.gd.uid
+│   │       ├── mcp_server_state.gd
+│   │       ├── mcp_server_state.gd.uid
+│   │       ├── mcp_startup_path.gd
+│   │       ├── mcp_startup_path.gd.uid
+│   │       ├── path_validator.gd
+│   │       ├── path_validator.gd.uid
+│   │       ├── port_resolver.gd
+│   │       ├── port_resolver.gd.uid
+│   │       ├── resource_io.gd
+│   │       ├── resource_io.gd.uid
+│   │       ├── scene_path.gd
+│   │       ├── scene_path.gd.uid
+│   │       ├── server_lifecycle.gd
+│   │       ├── server_lifecycle.gd.uid
+│   │       ├── server_version_check.gd
+│   │       ├── server_version_check.gd.uid
+│   │       ├── settings.gd
+│   │       ├── settings.gd.uid
+│   │       ├── structured_log_ring.gd
+│   │       ├── structured_log_ring.gd.uid
+│   │       ├── update_manager.gd
+│   │       ├── update_manager.gd.uid
+│   │       ├── update_mixed_state.gd
+│   │       ├── update_mixed_state.gd.uid
+│   │       ├── uv_cache_cleanup.gd
+│   │       ├── uv_cache_cleanup.gd.uid
+│   │       ├── variant_serializer.gd
+│   │       ├── variant_serializer.gd.uid
+│   │       ├── windows_port_reservation.gd
+│   │       └── windows_port_reservation.gd.uid
+│   ├── godot_mcp
+│   │   ├── command_router.gd
+│   │   ├── command_router.gd.uid
+│   │   ├── commands
+│   │   │   ├── analysis_commands.gd
+│   │   │   ├── analysis_commands.gd.uid
+│   │   │   ├── android_commands.gd
+│   │   │   ├── android_commands.gd.uid
+│   │   │   ├── animation_commands.gd
+│   │   │   ├── animation_commands.gd.uid
+│   │   │   ├── animation_tree_commands.gd
+│   │   │   ├── animation_tree_commands.gd.uid
+│   │   │   ├── audio_commands.gd
+│   │   │   ├── audio_commands.gd.uid
+│   │   │   ├── base_command.gd
+│   │   │   ├── base_command.gd.uid
+│   │   │   ├── batch_commands.gd
+│   │   │   ├── batch_commands.gd.uid
+│   │   │   ├── editor_commands.gd
+│   │   │   ├── editor_commands.gd.uid
+│   │   │   ├── export_commands.gd
+│   │   │   ├── export_commands.gd.uid
+│   │   │   ├── input_commands.gd
+│   │   │   ├── input_commands.gd.uid
+│   │   │   ├── input_map_commands.gd
+│   │   │   ├── input_map_commands.gd.uid
+│   │   │   ├── navigation_commands.gd
+│   │   │   ├── navigation_commands.gd.uid
+│   │   │   ├── node_commands.gd
+│   │   │   ├── node_commands.gd.uid
+│   │   │   ├── particle_commands.gd
+│   │   │   ├── particle_commands.gd.uid
+│   │   │   ├── physics_commands.gd
+│   │   │   ├── physics_commands.gd.uid
+│   │   │   ├── profiling_commands.gd
+│   │   │   ├── profiling_commands.gd.uid
+│   │   │   ├── project_commands.gd
+│   │   │   ├── project_commands.gd.uid
+│   │   │   ├── resource_commands.gd
+│   │   │   ├── resource_commands.gd.uid
+│   │   │   ├── runtime_commands.gd
+│   │   │   ├── runtime_commands.gd.uid
+│   │   │   ├── scene_3d_commands.gd
+│   │   │   ├── scene_3d_commands.gd.uid
+│   │   │   ├── scene_commands.gd
+│   │   │   ├── scene_commands.gd.uid
+│   │   │   ├── script_commands.gd
+│   │   │   ├── script_commands.gd.uid
+│   │   │   ├── shader_commands.gd
+│   │   │   ├── shader_commands.gd.uid
+│   │   │   ├── test_commands.gd
+│   │   │   ├── test_commands.gd.uid
+│   │   │   ├── theme_commands.gd
+│   │   │   ├── theme_commands.gd.uid
+│   │   │   ├── tilemap_commands.gd
+│   │   │   └── tilemap_commands.gd.uid
+│   │   ├── mcp_game_inspector_service.gd
+│   │   ├── mcp_game_inspector_service.gd.uid
+│   │   ├── mcp_input_service.gd
+│   │   ├── mcp_input_service.gd.uid
+│   │   ├── mcp_screenshot_service.gd
+│   │   ├── mcp_screenshot_service.gd.uid
+│   │   ├── plugin.cfg
+│   │   ├── plugin.gd
+│   │   ├── plugin.gd.uid
+│   │   ├── skills.es.md
+│   │   ├── skills.hi.md
+│   │   ├── skills.ja.md
+│   │   ├── skills.md
+│   │   ├── skills.pt-br.md
+│   │   ├── skills.ru.md
+│   │   ├── skills.zh.md
+│   │   ├── ui
+│   │   │   ├── status_panel.gd
+│   │   │   ├── status_panel.gd.uid
+│   │   │   └── status_panel.tscn
+│   │   ├── utils
+│   │   │   ├── node_utils.gd
+│   │   │   ├── node_utils.gd.uid
+│   │   │   ├── property_parser.gd
+│   │   │   └── property_parser.gd.uid
+│   │   ├── websocket_server.gd
+│   │   └── websocket_server.gd.uid
+│   ├── godot-copy-all-errors-main
+│   │   └── addons
+│   │       └── copy_all_errors
+│   │           ├── plugin.cfg
+│   │           ├── plugin.gd
+│   │           └── plugin.gd.uid
+│   ├── log
+│   │   ├── color_theme_dark.tres
+│   │   ├── color_theme_light.tres
+│   │   ├── LICENSE
+│   │   ├── log_color_theme.gd
+│   │   ├── log_color_theme.gd.uid
+│   │   ├── log.gd
+│   │   ├── log.gd.uid
+│   │   ├── plugin.cfg
+│   │   ├── plugin.gd
+│   │   └── plugin.gd.uid
+│   ├── node_fx
+│   │   ├── fx
+│   │   │   ├── node_fx_change_color.gd
+│   │   │   ├── node_fx_change_color.gd.uid
+│   │   │   ├── node_fx_fade.gd
+│   │   │   ├── node_fx_fade.gd.uid
+│   │   │   ├── node_fx_flip.gd
+│   │   │   ├── node_fx_flip.gd.uid
+│   │   │   ├── node_fx_hover.gd
+│   │   │   ├── node_fx_hover.gd.uid
+│   │   │   ├── node_fx_pop.gd
+│   │   │   ├── node_fx_pop.gd.uid
+│   │   │   ├── node_fx_pulse.gd
+│   │   │   ├── node_fx_pulse.gd.uid
+│   │   │   ├── node_fx_shake.gd
+│   │   │   └── node_fx_shake.gd.uid
+│   │   ├── node_fx.gd
+│   │   ├── node_fx.gd.uid
+│   │   └── utils
+│   │       ├── node_fx_save_original_data.gd
+│   │       ├── node_fx_save_original_data.gd.uid
+│   │       ├── node_fx_stop_and_reset.gd
+│   │       ├── node_fx_stop_and_reset.gd.uid
+│   │       ├── node_fx_tool_3d.gd
+│   │       └── node_fx_tool_3d.gd.uid
+│   └── reload_current_scene
+│       ├── plugin.cfg
+│       ├── plugin.gd
+│       └── plugin.gd.uid
+├── AGENTS.md
+├── assets
+│   ├── black_heart.png
+│   ├── black_heart.png.import
+│   ├── blue_heart.png
+│   ├── blue_heart.png.import
+│   ├── button.png
+│   ├── button.png.import
+│   ├── coin.png
+│   ├── coin.png.import
+│   ├── player.png
+│   ├── player.png.import
+│   ├── portal.png
+│   ├── portal.png.import
+│   ├── pressure-plate.png
+│   ├── pressure-plate.png.import
+│   ├── red_heart.png
+│   ├── red_heart.png.import
+│   ├── seeker-relic.png
+│   ├── seeker-relic.png.import
+│   ├── shoot-cursor-magic.png
+│   ├── shoot-cursor-magic.png.import
+│   ├── shoot-cursor-tech.png
+│   ├── shoot-cursor-tech.png.import
+│   ├── shoot-cursor.png
+│   ├── shoot-cursor.png.import
+│   ├── slime.png
+│   ├── slime.png.import
+│   ├── tear.png
+│   └── tear.png.import
+├── CLAUDE.md
+├── components
+│   ├── behaviour
+│   │   ├── c_ai_state_machine.gd
+│   │   └── c_ai_state_machine.gd.uid
+│   ├── character
+│   │   ├── c_attack_mode.gd
+│   │   ├── c_attack_mode.gd.uid
+│   │   ├── c_boss_armor.gd
+│   │   ├── c_boss_armor.gd.uid
+│   │   ├── c_bullet_path.gd
+│   │   ├── c_bullet_path.gd.uid
+│   │   ├── c_channel_spawner.gd
+│   │   ├── c_channel_spawner.gd.uid
+│   │   ├── c_collectible.gd
+│   │   ├── c_collectible.gd.uid
+│   │   ├── c_currency.gd
+│   │   ├── c_currency.gd.uid
+│   │   ├── c_damage_type.gd
+│   │   ├── c_damage_type.gd.uid
+│   │   ├── c_damage.gd
+│   │   ├── c_damage.gd.uid
+│   │   ├── c_dead.gd
+│   │   ├── c_dead.gd.uid
+│   │   ├── c_door.gd
+│   │   ├── c_door.gd.uid
+│   │   ├── c_dungeon_graph.gd
+│   │   ├── c_dungeon_graph.gd.uid
+│   │   ├── c_enemy.gd
+│   │   ├── c_enemy.gd.uid
+│   │   ├── c_environment_effect.gd
+│   │   ├── c_environment_effect.gd.uid
+│   │   ├── c_familiar_of.gd
+│   │   ├── c_familiar_of.gd.uid
+│   │   ├── c_fire_mode.gd
+│   │   ├── c_fire_mode.gd.uid
+│   │   ├── c_fired_by.gd
+│   │   ├── c_fired_by.gd.uid
+│   │   ├── c_health.gd
+│   │   ├── c_health.gd.uid
+│   │   ├── c_input.gd
+│   │   ├── c_input.gd.uid
+│   │   ├── c_interactable_debug.gd
+│   │   ├── c_interactable_debug.gd.uid
+│   │   ├── c_interactable.gd
+│   │   ├── c_interactable.gd.uid
+│   │   ├── c_lifetime.gd
+│   │   ├── c_lifetime.gd.uid
+│   │   ├── c_locomotion.gd
+│   │   ├── c_locomotion.gd.uid
+│   │   ├── c_luck.gd
+│   │   ├── c_luck.gd.uid
+│   │   ├── c_mana.gd
+│   │   ├── c_mana.gd.uid
+│   │   ├── c_mass.gd
+│   │   ├── c_mass.gd.uid
+│   │   ├── c_offscreen.gd
+│   │   ├── c_offscreen.gd.uid
+│   │   ├── c_payload.gd
+│   │   ├── c_payload.gd.uid
+│   │   ├── c_pending_damage.gd
+│   │   ├── c_pending_damage.gd.uid
+│   │   ├── c_physics.gd
+│   │   ├── c_physics.gd.uid
+│   │   ├── c_piercing.gd
+│   │   ├── c_piercing.gd.uid
+│   │   ├── c_power.gd
+│   │   ├── c_power.gd.uid
+│   │   ├── c_projectile_stats.gd
+│   │   ├── c_projectile_stats.gd.uid
+│   │   ├── c_relic_inventory.gd
+│   │   ├── c_relic_inventory.gd.uid
+│   │   ├── c_resilience.gd
+│   │   ├── c_resilience.gd.uid
+│   │   ├── c_room_data.gd
+│   │   ├── c_room_data.gd.uid
+│   │   ├── c_shooter.gd
+│   │   ├── c_shooter.gd.uid
+│   │   ├── c_spawn_reward.gd
+│   │   ├── c_spawn_reward.gd.uid
+│   │   ├── c_spawner.gd
+│   │   ├── c_spawner.gd.uid
+│   │   ├── c_stat_modifier.gd
+│   │   ├── c_stat_modifier.gd.uid
+│   │   ├── c_synergy_aura.gd
+│   │   ├── c_synergy_aura.gd.uid
+│   │   ├── c_synergy_state.gd
+│   │   ├── c_synergy_state.gd.uid
+│   │   ├── c_tear_modifiers.gd
+│   │   ├── c_tear_modifiers.gd.uid
+│   │   ├── c_tear_stats.gd
+│   │   ├── c_tear_stats.gd.uid
+│   │   ├── c_trajectory.gd
+│   │   ├── c_trajectory.gd.uid
+│   │   ├── c_transform.gd
+│   │   ├── c_transform.gd.uid
+│   │   ├── c_trigger.gd
+│   │   ├── c_trigger.gd.uid
+│   │   ├── c_velocity_modifier.gd
+│   │   ├── c_velocity_modifier.gd.uid
+│   │   ├── c_velocity.gd
+│   │   ├── c_velocity.gd.uid
+│   │   ├── c_volatility.gd
+│   │   └── c_volatility.gd.uid
+│   └── procedural
+│       ├── CorridorGenerator.gd
+│       ├── CorridorGenerator.gd.uid
+│       ├── DungeonBSPGenerator.gd
+│       └── DungeonBSPGenerator.gd.uid
+├── docs
+│   └── CONTRIBUTING.md
+├── DUAL_CURRENCY_ECONOMY_DESIGN.md
+├── dungeon_game_scene.tscn
+├── DUNGEON_GENERATOR_REFACTOR.md
+├── entities
+│   ├── collectibles
+│   │   ├── e_coin.gd
+│   │   ├── e_coin.gd.uid
+│   │   ├── e_coin.tscn
+│   │   └── e_seeking_relic_pickup.tscn
+│   ├── enemies
+│   │   ├── e_enemy.gd
+│   │   ├── e_enemy.gd.uid
+│   │   └── e_enemy.tscn
+│   ├── environmental
+│   │   ├── e_button.gd
+│   │   ├── e_button.gd.uid
+│   │   ├── e_button.tscn
+│   │   ├── e_channel_spawner.gd
+│   │   ├── e_channel_spawner.gd.uid
+│   │   ├── e_channel_spawner.tscn
+│   │   ├── e_continuous_dungeon.gd
+│   │   ├── e_continuous_dungeon.gd.uid
+│   │   ├── e_corrupted_server.gd
+│   │   ├── e_corrupted_server.gd.uid
+│   │   ├── e_relic.gd
+│   │   ├── e_relic.gd.uid
+│   │   ├── e_relic.tscn
+│   │   ├── e_room.gd
+│   │   ├── e_room.gd.uid
+│   │   ├── e_room.tscn
+│   │   ├── e_spawner.gd
+│   │   ├── e_spawner.gd.uid
+│   │   ├── e_spawner.tscn
+│   │   ├── e_trigger.gd
+│   │   ├── e_trigger.gd.uid
+│   │   └── e_trigger.tscn
+│   ├── hazards
+│   │   ├── e_corruption_hazard.gd
+│   │   ├── e_corruption_hazard.gd.uid
+│   │   ├── e_corruption_hazard.tscn
+│   │   ├── e_tech_hazard.gd
+│   │   ├── e_tech_hazard.gd.uid
+│   │   └── e_tech_hazard.tscn
+│   ├── player
+│   │   ├── e_player.gd
+│   │   ├── e_player.gd.uid
+│   │   └── e_player.tscn
+│   ├── projectiles
+│   │   ├── e_bullet.gd
+│   │   ├── e_bullet.gd.uid
+│   │   └── e_bullet.tscn
+│   └── rooms
+│       ├── e_destructible_obstacle.gd
+│       ├── e_destructible_obstacle.gd.uid
+│       ├── e_destructible_obstacle.tscn
+│       ├── e_door.gd
+│       ├── e_door.gd.uid
+│       ├── e_door.tscn
+│       ├── e_room_boss.tscn
+│       ├── e_room_normal.tscn
+│       ├── e_room_shop.tscn
+│       ├── e_room_start.tscn
+│       ├── e_room_treasure.tscn
+│       ├── e_stairs.gd
+│       ├── e_stairs.gd.uid
+│       └── e_stairs.tscn
+├── gui_test_scene.tscn
+├── icon.svg
+├── icon.svg.import
+├── ITEM_AND_MASTERY_DESIGN_PLAN.md
+├── LICENSE
+├── main_game.tscn
+├── manual_test.tscn
+├── media
+│   ├── banner.jpg
+│   └── banner.jpg.import
+├── pixel_ui_theme
+│   ├── 8x8_ui_elements_blood.png
+│   ├── 8x8_ui_elements_blood.png.import
+│   ├── 8x8_ui_elements_dark_fade.png
+│   ├── 8x8_ui_elements_dark_fade.png.import
+│   ├── 8x8_ui_elements_leather.png
+│   ├── 8x8_ui_elements_leather.png.import
+│   ├── 8x8_ui_elements_magic.png
+│   ├── 8x8_ui_elements_magic.png.import
+│   ├── 8x8_ui_elements_nature.png
+│   ├── 8x8_ui_elements_nature.png.import
+│   ├── 8x8_ui_elements_paper.png
+│   ├── 8x8_ui_elements_paper.png.import
+│   ├── 8x8_ui_elements_rose.png
+│   ├── 8x8_ui_elements_rose.png.import
+│   ├── 8x8_ui_elements_sky.png
+│   ├── 8x8_ui_elements_sky.png.import
+│   ├── 8x8_ui_elements.png
+│   ├── 8x8_ui_elements.png.import
+│   ├── 8x8_ui_elements.png~
+│   ├── 8x8_ui_icons.png
+│   ├── 8x8_ui_icons.png.import
+│   ├── m5x7.ttf
+│   ├── m5x7.ttf.import
+│   ├── PixelTheme-Blood.tres
+│   ├── PixelTheme-DarkFade.tres
+│   ├── PixelTheme-Leather.tres
+│   ├── PixelTheme-Magic.tres
+│   ├── PixelTheme-Nature.tres
+│   ├── PixelTheme-Paper.tres
+│   ├── PixelTheme-Rose.tres
+│   ├── PixelTheme-Sky.tres
+│   ├── PixelTheme.tres
+│   └── random_icon.tres
+├── prefabs
+│   └── entities
+│       ├── e_tear.gd
+│       ├── e_tear.gd.uid
+│       └── e_tear.tscn
+├── project.godot
+├── PROMPT.md
+├── README.md
+├── resources
+│   ├── effects
+│   │   ├── accuracy_effect.gd
+│   │   ├── accuracy_effect.gd.uid
+│   │   ├── apply_bullet_path_effect.gd
+│   │   ├── apply_bullet_path_effect.gd.uid
+│   │   ├── bullet_path_modifier.gd
+│   │   ├── bullet_path_modifier.gd.uid
+│   │   ├── bullet_split_effect.gd
+│   │   ├── bullet_split_effect.gd.uid
+│   │   ├── damage_multiplier_effect.gd
+│   │   ├── damage_multiplier_effect.gd.uid
+│   │   ├── damage_reduction_effect.gd
+│   │   ├── damage_reduction_effect.gd.uid
+│   │   ├── effects_accuracy_0_25.tres
+│   │   ├── effects_damage_multiplier_1_15.tres
+│   │   ├── effects_damage_multiplier_1_4.tres
+│   │   ├── effects_damage_multiplier_1_5.tres
+│   │   ├── effects_damage_reduction_0_3.tres
+│   │   ├── effects_fire_rate_1_2.tres
+│   │   ├── effects_fire_rate_1_25.tres
+│   │   ├── fire_rate_effect.gd
+│   │   ├── fire_rate_effect.gd.uid
+│   │   ├── orbit_path_modifier.gd
+│   │   ├── orbit_path_modifier.gd.uid
+│   │   ├── relic_effect.gd
+│   │   ├── relic_effect.gd.uid
+│   │   ├── spiral_path_modifier.gd
+│   │   ├── spiral_path_modifier.gd.uid
+│   │   ├── stat_modifier_effect.gd
+│   │   ├── stat_modifier_effect.gd.uid
+│   │   ├── synergy_effect.gd
+│   │   ├── synergy_effect.gd.uid
+│   │   ├── zigzag_path_modifier.gd
+│   │   └── zigzag_path_modifier.gd.uid
+│   ├── floor_1_basement.tres
+│   ├── floor_2_caves.tres
+│   ├── floor_config.gd
+│   ├── floor_config.gd.uid
+│   ├── item_synergy.gd
+│   ├── item_synergy.gd.uid
+│   ├── relic.gd
+│   ├── relic.gd.uid
+│   ├── relics
+│   │   ├── aetheric_kernel.tres
+│   │   ├── amplification_array.tres
+│   │   ├── biotic_capacitor.tres
+│   │   ├── orbital_attractor.tres
+│   │   ├── plasma_splitter.tres
+│   │   ├── seeking_algorithm.tres
+│   │   ├── sine_wave_modulator.tres
+│   │   └── vortex_accelerator.tres
+│   ├── rooms
+│   │   ├── layouts
+│   │   │   ├── boss
+│   │   │   │   ├── boss_a.tres
+│   │   │   │   └── boss_b.tres
+│   │   │   ├── normal
+│   │   │   │   ├── normal_a.tres
+│   │   │   │   ├── normal_b.tres
+│   │   │   │   └── normal_c.tres
+│   │   │   ├── shop
+│   │   │   │   ├── shop_a.tres
+│   │   │   │   └── shop_b.tres
+│   │   │   ├── start
+│   │   │   │   └── start_a.tres
+│   │   │   └── treasure
+│   │   │       ├── treasure_a.tres
+│   │   │       └── treasure_b.tres
+│   │   ├── room_layout_config.gd
+│   │   └── room_layout_config.gd.uid
+│   ├── run_config.gd
+│   ├── run_config.gd.uid
+│   ├── run_default.tres
+│   └── synergies
+│       ├── chaos_overload.tres
+│       ├── corruption_mastery.tres
+│       ├── fortress.tres
+│       ├── hackers_precision.tres
+│       ├── hybrid_balance.tres
+│       ├── scatter_mastery.tres
+│       ├── surgical_strikes.tres
+│       └── tech_specialist.tres
+├── room_test_scene.tscn
+├── scripts
+│   ├── dungeon_game_runner.gd
+│   ├── dungeon_game_runner.gd.uid
+│   ├── game_manager.gd
+│   ├── game_manager.gd.uid
+│   ├── gui_world_runner.gd
+│   ├── gui_world_runner.gd.uid
+│   ├── main.gd
+│   ├── main.gd.uid
+│   ├── room_test_runner.gd
+│   └── room_test_runner.gd.uid
+├── SYNERGY_BALANCE_GUIDE.md
+├── SYNERGY_IMPLEMENTATION.md
+├── SYNERGY_PHASE2_COMPLETE.md
+├── SYNERGY_PHASE3_COMPLETE.md
+├── SYNERGY_SYSTEM_COMPLETE.md
+├── systems
+│   ├── AISystem.gd
+│   ├── AISystem.gd.uid
+│   ├── ChannelSpawnerSystem.gd
+│   ├── ChannelSpawnerSystem.gd.uid
+│   ├── CollectibleSystem.gd
+│   ├── CollectibleSystem.gd.uid
+│   ├── CombatSystem.gd
+│   ├── CombatSystem.gd.uid
+│   ├── ContinuousCameraSystem.gd
+│   ├── ContinuousCameraSystem.gd.uid
+│   ├── ContinuousEnemySpawnerSystem.gd
+│   ├── ContinuousEnemySpawnerSystem.gd.uid
+│   ├── CorruptionSpreadingSystem.gd
+│   ├── CorruptionSpreadingSystem.gd.uid
+│   ├── CorruptionVisualSystem.gd
+│   ├── CorruptionVisualSystem.gd.uid
+│   ├── DamageResolutionSystem.gd
+│   ├── DamageResolutionSystem.gd.uid
+│   ├── DeathResolutionSystem.gd
+│   ├── DeathResolutionSystem.gd.uid
+│   ├── DungeonDebugDraw.gd
+│   ├── DungeonDebugDraw.gd.uid
+│   ├── DungeonGenerationSystem.gd
+│   ├── DungeonGenerationSystem.gd.uid
+│   ├── DungeonTileMapLayer.gd
+│   ├── DungeonTileMapLayer.gd.uid
+│   ├── EnvironmentEffectSystem.gd
+│   ├── EnvironmentEffectSystem.gd.uid
+│   ├── FamiliarAIProcessingSystem.gd
+│   ├── FamiliarAIProcessingSystem.gd.uid
+│   ├── HealthSystem.gd
+│   ├── HealthSystem.gd.uid
+│   ├── InteractableDebugSystem.gd
+│   ├── InteractableDebugSystem.gd.uid
+│   ├── InteractionSystem.gd
+│   ├── InteractionSystem.gd.uid
+│   ├── InvulnerabilitySystem.gd
+│   ├── InvulnerabilitySystem.gd.uid
+│   ├── KnockbackSystem.gd
+│   ├── KnockbackSystem.gd.uid
+│   ├── LifetimeSystem.gd
+│   ├── LifetimeSystem.gd.uid
+│   ├── ManaSystem.gd
+│   ├── ManaSystem.gd.uid
+│   ├── MovementSystem.gd
+│   ├── MovementSystem.gd.uid
+│   ├── o_room_clear.gd
+│   ├── o_room_clear.gd.uid
+│   ├── PlayerInputSystem.gd
+│   ├── PlayerInputSystem.gd.uid
+│   ├── PlayerShootingSystem.gd
+│   ├── PlayerShootingSystem.gd.uid
+│   ├── PowerSystem.gd
+│   ├── PowerSystem.gd.uid
+│   ├── RewardSpawnSystem.gd
+│   ├── RewardSpawnSystem.gd.uid
+│   ├── RoomGenerationSystem.gd
+│   ├── RoomGenerationSystem.gd.uid
+│   ├── RoomTileMapLayer.gd
+│   ├── RoomTileMapLayer.gd.uid
+│   ├── ScreenShakeSystem.gd
+│   ├── ScreenShakeSystem.gd.uid
+│   ├── ShootingSystem.gd
+│   ├── ShootingSystem.gd.uid
+│   ├── SpawnerSystem.gd
+│   ├── SpawnerSystem.gd.uid
+│   ├── StatRecalculationSystem.gd
+│   ├── StatRecalculationSystem.gd.uid
+│   ├── SynergyAuraSystem.gd
+│   ├── SynergyAuraSystem.gd.uid
+│   ├── SynergyDetectionSystem.gd
+│   ├── SynergyDetectionSystem.gd.uid
+│   ├── SynergyManager.gd
+│   ├── SynergyManager.gd.uid
+│   ├── TrajectorySystem.gd
+│   ├── TrajectorySystem.gd.uid
+│   ├── TriggerSystem.gd
+│   ├── TriggerSystem.gd.uid
+│   ├── VisibilitySystem.gd
+│   └── VisibilitySystem.gd.uid
+├── test_scene.tscn
+├── tests
+│   ├── synergy_test.tscn
+│   ├── test_synergy_phase3.gd
+│   ├── test_synergy_phase3.gd.uid
+│   ├── test_synergy_system.gd
+│   └── test_synergy_system.gd.uid
+└── ui
+    ├── button_atlas.gd
+    ├── button_atlas.gd.uid
+    ├── components
+    │   └── SHADOW Series - Pixel UI
+    │       ├── Button
+    │       │   ├── UI - button.aseprite
+    │       │   ├── UI - button.png
+    │       │   └── UI - button.png.import
+    │       ├── Icons
+    │       │   ├── UI - icons.aseprite
+    │       │   ├── UI - icons.png
+    │       │   ├── UI - icons.png.import
+    │       │   ├── UI - icons2.png
+    │       │   └── UI - icons2.png.import
+    │       └── Things
+    │           ├── UI - bar.png
+    │           ├── UI - bar.png.import
+    │           ├── UI - border.png
+    │           ├── UI - border.png.import
+    │           └── UI - things.aseprite
+    ├── game_over.gd
+    ├── game_over.gd.uid
+    ├── game_over.tscn
+    ├── hud.gd
+    ├── hud.gd.uid
+    ├── hud.tscn
+    ├── icon_atlas.gd
+    ├── icon_atlas.gd.uid
+    ├── main_menu.gd
+    ├── main_menu.gd.uid
+    ├── main_menu.tscn
+    ├── pause_menu.gd
+    ├── pause_menu.gd.uid
+    ├── pause_menu.tscn
+    ├── shadow_assets.tres
+    ├── shadow_border.tres
+    ├── style_glass.tres
+    ├── synergy_panel.gd
+    ├── synergy_panel.gd.uid
+    ├── synergy_popup.gd
+    ├── synergy_popup.gd.uid
+    ├── synergy_ui_manager.gd
+    ├── synergy_ui_manager.gd.uid
+    ├── synergy_ui.tscn
+    ├── victory.gd
+    ├── victory.gd.uid
+    └── victory.tscn

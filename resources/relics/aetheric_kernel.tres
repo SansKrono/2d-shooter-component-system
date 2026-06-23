@@ -17,4 +17,5 @@ value = 1.0
 script = ExtResource("2_relic")
 name = "Aetheric Kernel"
 description = "Increases damage and luck."
+rarity = "rare"
 effects = Array[Resource]([SubResource("Resource_dmg"), SubResource("Resource_luck")])

@@ -1,0 +1,8 @@
+[gd_resource type="Resource" script_class="AccuracyEffect" format=3 uid="uid://acc_0_25"]
+
+[ext_resource type="Script" path="res://resources/effects/accuracy_effect.gd" id="1_effect"]
+
+[resource]
+script = ExtResource("1_effect")
+description = "+25% accuracy"
+accuracy_bonus = 0.25

@@ -1,13 +1,13 @@
 class_name CombatSystem
 extends System
 
-const C_MASS = preload("res://components/character/c_mass.gd")
-const C_PENDING_DAMAGE = preload("res://components/character/c_pending_damage.gd")
-const C_DAMAGE_TYPE = preload("res://components/character/c_damage_type.gd")
-const C_LOCOMOTION = preload("res://components/character/c_locomotion.gd")
-const C_PIERCING = preload("res://components/character/c_piercing.gd")
-const C_ATTACK_MODE = preload("res://components/character/c_attack_mode.gd")
-const C_FIRE_MODE = preload("res://components/character/c_fire_mode.gd")
+const C_MASS = preload("res://components/movement/c_mass.gd")
+const C_PENDING_DAMAGE = preload("res://components/combat/c_pending_damage.gd")
+const C_DAMAGE_TYPE = preload("res://components/combat/c_damage_type.gd")
+const C_LOCOMOTION = preload("res://components/movement/c_locomotion.gd")
+const C_PIERCING = preload("res://components/projectile/c_piercing.gd")
+const C_ATTACK_MODE = preload("res://components/player/c_attack_mode.gd")
+const C_FIRE_MODE = preload("res://components/player/c_fire_mode.gd")
 const TECH_HAZARD_PREFAB = preload("res://entities/hazards/e_tech_hazard.tscn")
 const CORRUPTION_HAZARD_PREFAB = preload("res://entities/hazards/e_corruption_hazard.tscn")
 

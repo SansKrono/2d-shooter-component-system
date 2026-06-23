@@ -15,4 +15,5 @@ path_modifier = SubResource("Resource_spiral")
 script = ExtResource("3_relic")
 name = "Vortex Accelerator"
 description = "Projectiles spiral outward."
+rarity = "uncommon"
 effects = Array[Resource]([SubResource("Resource_apply_path")])

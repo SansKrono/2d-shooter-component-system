@@ -2,7 +2,7 @@
 class_name SpawnerButton
 extends Entity
 
-const C_INTERACTABLE_SCRIPT = preload("res://components/character/c_interactable.gd")
+const C_INTERACTABLE_SCRIPT = preload("res://components/world/c_interactable.gd")
 
 @export var channel: int = -1:
 	set(val):
@@ -14,7 +14,7 @@ const C_INTERACTABLE_SCRIPT = preload("res://components/character/c_interactable
 		interaction_range = val
 		_update_component()
 
-@export var interaction_text: String = "[E] Interact":
+@export var interaction_text: String = "[F] Interact":
 	set(val):
 		interaction_text = val
 		_update_component()

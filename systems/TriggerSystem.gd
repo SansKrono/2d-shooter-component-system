@@ -1,7 +1,7 @@
 class_name TriggerSystem
 extends System
 
-const C_TRIGGER_SCRIPT = preload("res://components/character/c_trigger.gd")
+const C_TRIGGER_SCRIPT = preload("res://components/world/c_trigger.gd")
 const C_AI_STATE_MACHINE_SCRIPT = preload("res://components/behaviour/c_ai_state_machine.gd")
 
 func _init() -> void:

@@ -2,7 +2,7 @@
 class_name RoomEntity
 extends Entity
 
-const C_ROOM_DATA = preload("res://components/character/c_room_data.gd")
+const C_ROOM_DATA = preload("res://components/world/c_room_data.gd")
 const ROOM_TILEMAP_SCRIPT = preload("res://systems/RoomTileMapLayer.gd")
 
 var _tilemap: TileMap = null

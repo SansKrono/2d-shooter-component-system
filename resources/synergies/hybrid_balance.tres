@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="ItemSynergy" format=3 uid="uid://hybrid_balance"]
+
+[ext_resource type="Script" path="res://resources/item_synergy.gd" id="1_synergy"]
+[ext_resource type="Resource" uid="uid://dmg_mult_1_15" path="res://resources/effects/effects_damage_multiplier_1_15.tres" id="2_dmg"]
+
+[resource]
+script = ExtResource("1_synergy")
+name = "Hybrid Balance"
+description = "Tech and magic fusion. +15% all damage when holding 1 tech + 1 magic."
+required_tags = PackedStringArray("tech", "magic")
+min_items_with_tags = 1
+rarity = "rare"
+build_identity = "cyborg"
+visual_effect = "dual_glow"
+synergy_effects = Array[Resource]([ExtResource("2_dmg")])

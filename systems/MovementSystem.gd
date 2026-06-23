@@ -1,8 +1,8 @@
 class_name MovementSystem
 extends System
 
-const C_LOCOMOTION = preload("res://components/character/c_locomotion.gd")
-const C_VELOCITY_MODIFIER = preload("res://components/character/c_velocity_modifier.gd")
+const C_LOCOMOTION = preload("res://components/movement/c_locomotion.gd")
+const C_VELOCITY_MODIFIER = preload("res://components/movement/c_velocity_modifier.gd")
 const C_PROJECTILE = preload("res://entities/projectiles/e_bullet.gd")
 
 func query() -> QueryBuilder:

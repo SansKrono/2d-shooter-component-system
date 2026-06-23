@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="RoomLayoutConfig" load_steps=2 format=3 uid="uid://treasure_b"]
+
+[ext_resource type="Script" path="res://resources/rooms/room_layout_config.gd" id="1_config"]
+
+[resource]
+script = ExtResource("1_config")
+layout_name = "Treasure B - Scattered"
+decoration_positions = [Vector2i(3, 2), Vector2i(11, 2), Vector2i(7, 4), Vector2i(3, 6), Vector2i(11, 6)]
+indestructible_positions = []
+destructible_positions = []
+enemy_spawn_positions = []

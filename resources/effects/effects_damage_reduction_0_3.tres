@@ -1,0 +1,8 @@
+[gd_resource type="Resource" script_class="DamageReductionEffect" format=3 uid="uid://dmg_red_0_3"]
+
+[ext_resource type="Script" path="res://resources/effects/damage_reduction_effect.gd" id="1_effect"]
+
+[resource]
+script = ExtResource("1_effect")
+description = "+30% damage reduction"
+reduction = 0.3

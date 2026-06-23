@@ -28,10 +28,10 @@ func _update_interaction_text() -> void:
 	var c_inter = get_component(C_Interactable) as C_Interactable
 	if c_inter:
 		var r_name = relic_resource.name if relic_resource else "Relic"
-		c_inter.interaction_text = "[E] Pick up " + r_name
+		c_inter.interaction_text = "[F] Pick up " + r_name
 	elif _interactable:
 		var r_name = relic_resource.name if relic_resource else "Relic"
-		_interactable.interaction_text = "[E] Pick up " + r_name
+		_interactable.interaction_text = "[F] Pick up " + r_name
 
 func _on_interacted() -> void:
 	if not relic_resource:

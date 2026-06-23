@@ -1,8 +1,8 @@
 class_name EnvironmentEffectSystem
 extends System
 
-const C_ENVIRONMENT_EFFECT = preload("res://components/character/c_environment_effect.gd")
-const C_HEALTH = preload("res://components/character/c_health.gd")
+const C_ENVIRONMENT_EFFECT = preload("res://components/status/c_environment_effect.gd")
+const C_HEALTH = preload("res://components/combat/c_health.gd")
 
 func query() -> QueryBuilder:
 	return q.with_all([C_ENVIRONMENT_EFFECT])

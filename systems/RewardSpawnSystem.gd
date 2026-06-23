@@ -1,8 +1,8 @@
 class_name RewardSpawnSystem
 extends System
 
-const C_SPAWN_REWARD = preload("res://components/character/c_spawn_reward.gd")
-const C_TRANSFORM = preload("res://components/character/c_transform.gd")
+const C_SPAWN_REWARD = preload("res://components/world/c_spawn_reward.gd")
+const C_TRANSFORM = preload("res://components/movement/c_transform.gd")
 
 const COIN_SCENE = preload("res://entities/collectibles/e_coin.tscn")
 const SEEKING_RELIC_PICKUP_SCENE = preload("res://entities/collectibles/e_seeking_relic_pickup.tscn")

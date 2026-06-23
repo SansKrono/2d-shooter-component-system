@@ -1,11 +1,11 @@
 class_name DamageResolutionSystem
 extends System
 
-const C_HEALTH = preload("res://components/character/c_health.gd")
-const C_PENDING_DAMAGE = preload("res://components/character/c_pending_damage.gd")
-const C_DAMAGE_TYPE = preload("res://components/character/c_damage_type.gd")
-const C_BOSS_ARMOR = preload("res://components/character/c_boss_armor.gd")
-const C_DEAD = preload("res://components/character/c_dead.gd")
+const C_HEALTH = preload("res://components/combat/c_health.gd")
+const C_PENDING_DAMAGE = preload("res://components/combat/c_pending_damage.gd")
+const C_DAMAGE_TYPE = preload("res://components/combat/c_damage_type.gd")
+const C_BOSS_ARMOR = preload("res://components/combat/c_boss_armor.gd")
+const C_DEAD = preload("res://components/combat/c_dead.gd")
 
 func query() -> QueryBuilder:
 	return q.with_all([C_HEALTH, C_PENDING_DAMAGE])

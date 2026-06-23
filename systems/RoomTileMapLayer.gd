@@ -1,3 +1,5 @@
+# DEPRECATED: Superseded by DungeonTileMapLayer.gd
+# Safe to delete once dungeon system is fully stable.
 class_name RoomTileMapLayer
 extends TileMap
 

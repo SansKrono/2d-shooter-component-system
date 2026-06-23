@@ -2,7 +2,7 @@
 class_name DoorEntity
 extends Entity
 
-const C_DOOR = preload("res://components/character/c_door.gd")
+const C_DOOR = preload("res://components/world/c_door.gd")
 
 @export var direction: String = "north"
 @export var target_room_coords: Vector2i = Vector2i.ZERO

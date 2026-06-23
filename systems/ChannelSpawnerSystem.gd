@@ -1,9 +1,9 @@
 class_name ChannelSpawnerSystem
 extends System
 
-const C_CHANNEL_SPAWNER_SCRIPT = preload("res://components/character/c_channel_spawner.gd")
-const C_TRIGGER_SCRIPT = preload("res://components/character/c_trigger.gd")
-const C_INTERACTABLE_SCRIPT = preload("res://components/character/c_interactable.gd")
+const C_CHANNEL_SPAWNER_SCRIPT = preload("res://components/world/c_channel_spawner.gd")
+const C_TRIGGER_SCRIPT = preload("res://components/world/c_trigger.gd")
+const C_INTERACTABLE_SCRIPT = preload("res://components/world/c_interactable.gd")
 
 func query() -> QueryBuilder:
 	return q.with_all([C_CHANNEL_SPAWNER_SCRIPT])
