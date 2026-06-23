@@ -2,13 +2,13 @@
 class_name Player
 extends Entity
 
-const C_TRANSFORM = preload("res://components/character/c_transform.gd")
-const C_LOCOMOTION = preload("res://components/character/c_locomotion.gd")
-const C_MASS = preload("res://components/character/c_mass.gd")
-const C_ATTACK_MODE = preload("res://components/character/c_attack_mode.gd")
-const C_MANA = preload("res://components/character/c_mana.gd")
-const C_POWER = preload("res://components/character/c_power.gd")
-const C_PROJECTILE_STATS = preload("res://components/character/c_projectile_stats.gd")
+const C_TRANSFORM = preload("res://components/movement/c_transform.gd")
+const C_LOCOMOTION = preload("res://components/movement/c_locomotion.gd")
+const C_MASS = preload("res://components/movement/c_mass.gd")
+const C_ATTACK_MODE = preload("res://components/player/c_attack_mode.gd")
+const C_MANA = preload("res://components/status/c_mana.gd")
+const C_POWER = preload("res://components/status/c_power.gd")
+const C_PROJECTILE_STATS = preload("res://components/projectile/c_projectile_stats.gd")
 
 func define_components() -> Array:
 	return [
@@ -37,6 +37,11 @@ func on_ready():
 	var c_phys = get_component(C_Physics)
 	if c_phys:
 		c_phys.body = $PhysicsBody
+
+	# Make player camera active
+	var camera = $DungeonCamera as Camera2D
+	if camera and not Engine.is_editor_hint():
+		camera.make_current()
 
 	if not Engine.is_editor_hint():
 		var trans = get_component(C_TRANSFORM)

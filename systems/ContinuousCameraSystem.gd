@@ -20,14 +20,8 @@ func query() -> QueryBuilder:
 	return q.with_all([C_INPUT])
 
 func process(entities: Array[Entity], _components: Array, delta: float) -> void:
-	if not camera_2d:
-		_find_camera()
-	if not camera_2d or entities.is_empty():
-		return
-
-	var player_entity = entities[0] if entities.size() > 0 else null
-	if player_entity:
-		_update_camera_position(player_entity, delta)
+	# Camera now attached to player entity, no longer needed
+	return
 
 func _find_camera() -> void:
 	camera_2d = get_tree().root.find_child("DungeonCamera", true, false) as Camera2D

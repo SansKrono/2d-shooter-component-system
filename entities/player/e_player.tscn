@@ -11,6 +11,8 @@ height = 24.0
 size = Vector2(80, 80)
 
 [node name="EPlayer" type="Node2D" unique_id=1241081251]
+top_level = true
+z_index = 5
 script = ExtResource("1_vqhmv")
 
 [node name="PhysicsBody" type="CharacterBody2D" parent="." unique_id=1787669686]
@@ -27,3 +29,8 @@ shape = SubResource("CapsuleShape2D_body")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="PhysicsBody/Area2D" unique_id=665268160]
 shape = SubResource("RectangleShape2D_hurt")
+
+[node name="DungeonCamera" type="Camera2D" parent="." unique_id=3389273847]
+zoom = 1.5
+limit_bottom = 8640
+limit_right = 8640
