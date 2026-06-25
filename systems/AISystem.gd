@@ -1,10 +1,8 @@
 class_name AISystem
 extends System
 
-const C_OFFSCREEN = preload("res://components/status/c_offscreen.gd")
-
 func query() -> QueryBuilder:
-	return q.with_all([C_AIStateMachine, C_Velocity]).with_none([C_OFFSCREEN])
+	return q.with_all([C_AIStateMachine])
 
 func process(entities: Array[Entity], _components: Array, _delta: float) -> void:
 	# 1. Locate the player entity
@@ -24,17 +22,17 @@ func process(entities: Array[Entity], _components: Array, _delta: float) -> void
 			if c_input:
 				c_input.movement_vector = Vector2.ZERO
 				c_input.shoot_vector = Vector2.ZERO
-			var c_vel = entity.get_component(C_Velocity) as C_Velocity
-			if c_vel:
-				c_vel.direction = Vector2.ZERO
 		return
 
 	var player_pos = player.global_position if "global_position" in player else Vector2.ZERO
 
 	for entity in entities:
 		var c_ai = entity.get_component(C_AIStateMachine) as C_AIStateMachine
-		var c_vel = entity.get_component(C_Velocity) as C_Velocity
-		if not c_ai or not c_vel:
+		if not c_ai:
+			continue
+
+		# Skip offscreen entities (check script var directly since C_OFFSCREEN removed later)
+		if entity.get("_is_offscreen"):
 			continue
 
 		var entity_pos = entity.global_position if "global_position" in entity else Vector2.ZERO
@@ -42,7 +40,7 @@ func process(entities: Array[Entity], _components: Array, _delta: float) -> void
 		var c_input = entity.get_component(C_Input) as C_Input
 		var c_shooter = entity.get_component(C_Shooter) as C_Shooter
 
-		# 2. State transition transitions
+		# 2. State transitions
 		var old_state = c_ai.current_state
 		if dist <= c_ai.shoot_range and c_shooter:
 			c_ai.current_state = C_AIStateMachine.State.SHOOT
@@ -58,21 +56,18 @@ func process(entities: Array[Entity], _components: Array, _delta: float) -> void
 		# 3. Handle state behaviors
 		match c_ai.current_state:
 			C_AIStateMachine.State.IDLE:
-				c_vel.direction = Vector2.ZERO
 				if c_input:
 					c_input.movement_vector = Vector2.ZERO
 					c_input.shoot_vector = Vector2.ZERO
 
 			C_AIStateMachine.State.CHASE:
 				var dir = (player_pos - entity_pos).normalized()
-				c_vel.direction = dir
 				if c_input:
 					c_input.movement_vector = dir
 					c_input.shoot_vector = Vector2.ZERO
 
 			C_AIStateMachine.State.SHOOT:
 				var dir = (player_pos - entity_pos).normalized()
-				c_vel.direction = Vector2.ZERO
 				if c_input:
 					c_input.movement_vector = Vector2.ZERO
 					c_input.shoot_vector = dir

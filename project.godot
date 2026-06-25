@@ -17,9 +17,12 @@ config/icon="res://icon.svg"
 
 [autoload]
 
-ECS="*uid://dfqwl5njvdnmq"
 _mcp_game_helper="*res://addons/godot_ai/runtime/game_helper.gd"
 SynergyManager="*res://autoloads/SynergyManager.gd"
+ECS="*uid://dfqwl5njvdnmq"
+MCPScreenshot="*res://addons/godot_mcp/mcp_screenshot_service.gd"
+MCPInputService="*res://addons/godot_mcp/mcp_input_service.gd"
+MCPGameInspector="*res://addons/godot_mcp/mcp_game_inspector_service.gd"
 
 [display]
 
@@ -32,7 +35,7 @@ project/assembly_name="rpg-component-system"
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/gecs/plugin.cfg", "res://addons/godot-copy-all-errors-main/addons/copy_all_errors/plugin.cfg", "res://addons/log/plugin.cfg", "res://addons/reload_current_scene/plugin.cfg")
+enabled=PackedStringArray("res://addons/GDQuest_GDScript_formatter/plugin.cfg", "res://addons/gecs/plugin.cfg", "res://addons/godot-copy-all-errors-main/addons/copy_all_errors/plugin.cfg", "res://addons/godot_ai/plugin.cfg", "res://addons/godot_mcp/plugin.cfg", "res://addons/log/plugin.cfg", "res://addons/reload_current_scene/plugin.cfg")
 
 [file_customization]
 
@@ -46,6 +49,11 @@ folder_colors={
 "res://scenes/": "green",
 "res://systems/": "yellow"
 }
+
+[gecs]
+
+settings/log_level=3
+settings/debug_mode=true
 
 [input]
 

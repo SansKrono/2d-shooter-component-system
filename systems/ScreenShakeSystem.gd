@@ -6,7 +6,7 @@ var shake_duration: float = 0.0
 var target_camera: Camera2D = null
 
 func query() -> QueryBuilder:
-	return q.with_all([C_Health]).with_none([C_Dead])
+	return q.with_all([C_Health])
 
 func process(_entities: Array[Entity], _components: Array, delta: float) -> void:
 	if not target_camera:

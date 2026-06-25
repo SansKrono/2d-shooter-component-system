@@ -81,7 +81,9 @@ func _input(event: InputEvent) -> void:
 				toggle_debug_camera()
 
 func toggle_debug_camera() -> void:
-	var gameplay_camera = get_node_or_null("DungeonCamera") as Camera2D
+	var gameplay_camera: Camera2D = null
+	if player:
+		gameplay_camera = player.get_node_or_null("DungeonCamera") as Camera2D
 	var debug_camera = get_node_or_null("DebugCamera") as Camera2D
 
 	if not gameplay_camera or not debug_camera:
@@ -153,22 +155,15 @@ func start_run() -> void:
 	enemies_killed = 0
 	relics_collected.clear()
 
-
-	# Create DungeonCamera (gameplay camera)
-	var gameplay_camera := Camera2D.new()
-	gameplay_camera.name = "DungeonCamera"
-	add_child(gameplay_camera)
-	gameplay_camera.make_current()
-
-	# Create DebugCamera
+	# Create DebugCamera (player's camera will be the main gameplay camera)
 	var debug_camera := Camera2D.new()
 	debug_camera.name = "DebugCamera"
+	debug_camera.zoom = Vector2(1.5, 1.5)
 	add_child(debug_camera)
 
 	# Instantiate gameplay level
 	active_level = GAMEPLAY_SCENE.instantiate() as Node2D
 	world_container.add_child(active_level)
-
 
 	var world_node = active_level.get_node_or_null("World") as World
 	if world_node:
@@ -180,14 +175,11 @@ func start_run() -> void:
 		call_deferred("_setup_player_connections", world_node)
 
 	change_state(GameState.PLAYING)
-	print("[GameManager] Starting new run with cameras initialized.")
+	print("[GameManager] Starting new run with player camera activated.")
 
 
 func unload_level() -> void:
-	# Clean up cameras first
-	var gameplay_camera = get_node_or_null("DungeonCamera")
-	if gameplay_camera:
-		gameplay_camera.queue_free()
+	# Clean up debug camera (gameplay camera is owned by player)
 	var debug_camera = get_node_or_null("DebugCamera")
 	if debug_camera:
 		debug_camera.queue_free()

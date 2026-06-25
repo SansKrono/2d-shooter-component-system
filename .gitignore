@@ -5,6 +5,9 @@
 # Temp folder for storing random stuff locally
 temp/
 
+# Opting to compress the addons folder so it doesn't spam the diff
+addons/
+
 # AI Stuff
 .agents
 

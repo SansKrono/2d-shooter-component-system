@@ -5,9 +5,9 @@
 - **ECS architecture**: Game logic via Entity, Component, System pattern (addon: `addons/gecs`)
 - **Components**: Immutable data containers in `components/{category}/`; no logic. Categories: `combat`, `movement`, `projectile`, `player`, `economy`, `world`, `synergy`, `status`, `behaviour`, `debug`
 - **Systems**: Pure functional transforms in `systems/`; read components, write state
-- **Projectiles**: Use C_Velocity (direction) + C_Locomotion (speed) for movement
+- **Projectiles**: Self-contained `Bullet` entities with `@export` vars (`speed`, `damage`, `direction`, etc.); movement via `_physics_process`, no ECS components for movement
 - **Naming**: `C_*` for components, `*System` for systems, `e_*` for entity scenes
-- **No physics inheritance**: Projectiles & players use C_Physics + MovementSystem, not CharacterBody2D
+- **Actors**: Player and Enemy use `CharacterBody2D` root with Entity script; movement via `_physics_process`; game logic (stats, AI, inventory) via ECS components
 
 ## Authority & Links
 
@@ -34,6 +34,6 @@
 
 ## Stop Conditions
 
-- **Refuse**: Non-ECS architectural changes (e.g., inherit from CharacterBody2D for player)
+- **Refuse**: Breaking the ECS/Godot hybrid boundary (e.g., adding movement components back to actors, using per-frame system polling for spatial detection)
 - **Ask first**: Changes to core system loop, adding new resource types, cross-cutting concerns
 - **Clarify**: If component shape or system responsibility is ambiguous

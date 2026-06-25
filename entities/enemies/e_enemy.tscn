@@ -6,14 +6,23 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_enemy"]
 size = Vector2(64, 64)
 
-[node name="EEnemy" type="Node2D" unique_id=740400709 groups=["enemies"]]
+[sub_resource type="CircleShape2D" id="CircleShape2D_body"]
+radius = 20.0
+
+[node name="EEnemy" type="CharacterBody2D" unique_id=740400709 groups=["enemies"]]
 script = ExtResource("1_enemy")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=2000664280]
 scale = Vector2(2, 2)
 texture = ExtResource("2_7tusk")
 
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=999111222]
+shape = SubResource("CircleShape2D_body")
+
 [node name="Area2D" type="Area2D" parent="." unique_id=849043566]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=1652246437]
 shape = SubResource("RectangleShape2D_enemy")
+
+[node name="VisibilityNotifier" type="VisibleOnScreenNotifier2D" parent="." unique_id=777100001]
+rect = Rect2(-20, -20, 40, 40)

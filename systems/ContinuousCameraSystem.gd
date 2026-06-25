@@ -11,28 +11,12 @@ var player: Entity = null
 var _camera_snapped: bool = false
 var _first_valid_update: bool = true
 
-func _ready() -> void:
-	if Engine.is_editor_hint():
-		return
-	_find_camera()
-
 func query() -> QueryBuilder:
 	return q.with_all([C_INPUT])
 
 func process(entities: Array[Entity], _components: Array, delta: float) -> void:
 	# Camera now attached to player entity, no longer needed
 	return
-
-func _find_camera() -> void:
-	camera_2d = get_tree().root.find_child("DungeonCamera", true, false) as Camera2D
-	if not camera_2d:
-		camera_2d = Camera2D.new()
-		camera_2d.name = "DungeonCamera"
-		# Must attach to 2D scene, not the root Window — Camera2D global_position
-		# only affects the viewport when parented inside the 2D scene tree.
-		get_tree().current_scene.add_child(camera_2d)
-		camera_2d.make_current()
-		print("[ContinuousCameraSystem] Created DungeonCamera")
 
 func _update_camera_position(player_entity: Entity, delta: float) -> void:
 	if not camera_2d:
