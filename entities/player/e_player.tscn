@@ -28,7 +28,6 @@ shape = SubResource("CapsuleShape2D_body")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=665268160]
 shape = SubResource("RectangleShape2D_hurt")
 
-[node name="DungeonCamera" type="Camera2D" parent="." unique_id=3389273847]
-zoom = 1.5
-limit_bottom = 8640
+[node name="DungeonCamera" type="Camera2D" parent="." unique_id=-905693449]
 limit_right = 8640
+limit_bottom = 8640
